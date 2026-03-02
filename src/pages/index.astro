@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title="Jorsby">
+  <section class="mb-16 pt-8">
+    <p class="mb-3 font-mono text-sm text-accent">jorsby.ai</p>
+    <h1 class="mb-4 text-4xl font-bold leading-tight text-neutral-100 sm:text-5xl">
+      Building AI agents<br />that actually work.
+    </h1>
+    <p class="max-w-xl text-lg text-neutral-400">
+      Lessons learned building a multi-agent AI system with
+      <a href="/about" class="text-accent transition-colors hover:text-accent/80">OpenClaw</a>
+      — what went wrong, what worked, and what we'd do differently.
+    </p>
+  </section>
+
+  {posts.length > 0 && (
+    <section>
+      <h2 class="mb-6 font-mono text-sm uppercase tracking-wider text-neutral-500">
+        Latest Posts
+      </h2>
+      <div class="flex flex-col gap-4">
+        {posts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            slug={post.id}
+            tags={post.data.tags}
+          />
+        ))}
+      </div>
+      <a
+        href="/blog"
+        class="mt-6 inline-block font-mono text-sm text-accent transition-colors hover:text-accent/80"
+      >
+        View all posts &rarr;
+      </a>
+    </section>
+  )}
+</BaseLayout>

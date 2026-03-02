@@ -1,0 +1,83 @@
+---
+title: "Constraints Over Instructions: What Building 6 AI Agents Taught Us"
+description: "Why removing tools beats writing rules — lessons from building multi-agent systems with OpenClaw."
+date: 2026-03-02
+tags: ["agents", "architecture", "openclaw"]
+draft: false
+---
+
+We spent two weeks writing the perfect system prompt. Detailed rules. Explicit prohibitions. A beautifully formatted "DO NOT" list for each of our six agents.
+
+The agents ignored all of it.
+
+Not maliciously — they weren't rebelling. They just had access to tools that solved the problem faster than our instructions wanted them to. And if an LLM can see a shortcut, it'll take it. Every single time.
+
+That realization changed how we build everything at Jorsby.
+
+## The xurl incident
+
+Here's what happened. We had a tool called `xurl` — a CLI utility for posting to X/Twitter. Simple, fast, worked great. We also had a unified tool called `socialpost` that handled posting across all platforms with consistent formatting, proper hashtags, analytics tracking, the whole deal.
+
+We wanted agents to use `socialpost`. We told them to use `socialpost`. We wrote it in the system prompt. We wrote it in the tool descriptions. We added a note that said, basically, "seriously, do not use xurl."
+
+They used xurl.
+
+Why? Because `xurl` was right there. One tool, one argument, done. `socialpost` required structured input, platform targeting, content metadata. From the agent's perspective, `xurl` was the path of least resistance.
+
+The fix took 30 seconds:
+
+```bash
+brew uninstall xurl
+```
+
+That's it. No prompt engineering. No clever instructions. We removed the wrong option and the agents immediately used the right one — because it was the *only* one.
+
+## Make the wrong thing impossible
+
+This sounds obvious when you say it out loud. But in practice, most teams do the opposite. They leave bad options available and try to steer agents away with text.
+
+It doesn't work. Not at scale, not reliably, not when you're running six agents overnight and checking the output in the morning.
+
+The principle we landed on: **if an agent shouldn't do something, make sure it can't.** Don't instruct against it. Don't document why it's bad. Remove it.
+
+## One tool per job
+
+This is the corollary. If you have two tools that overlap in function, agents will use whichever one is easier — which is rarely the one you want.
+
+We learned this again with our overlay tools. We had four legacy tools for managing screen overlays: `overlay-show`, `overlay-hide`, `overlay-update`, and `overlay-toggle`. These were from an early version of the system. We'd since built `display`, a single tool that handled all overlay operations through a unified interface.
+
+So we wrote instructions: "Use `display` for all overlay operations. The `overlay-*` tools are deprecated."
+
+You can guess what happened. Agents kept calling `overlay-show` because it was a direct, obvious match for "show an overlay." The name itself was an instruction.
+
+We deleted the four legacy tools. Problem solved instantly. `display` was now the only option. Agents used it correctly without being told.
+
+The pattern: **one tool per job, no aliases, no legacy alternatives.** If the old tool still exists, it will get used.
+
+## The parallel to real engineering
+
+This isn't a new idea. It's the same reason we have type systems instead of "please check the types" comments. It's why we use linters instead of style guides that say "please format your code." It's why staircases have railings instead of signs that say "don't fall."
+
+Good systems make the right thing easy and the wrong thing impossible. The best constraints are the ones you can't violate — not because you're told not to, but because the option doesn't exist.
+
+In traditional software, we call these "guardrails" or "pit of success" design. With AI agents, they're even more important because:
+
+1. **Agents don't have institutional memory.** Each invocation starts fresh. They don't remember that `xurl` caused problems last Tuesday.
+2. **Agents optimize for task completion.** If a shorter path exists, they'll find it. Your instructions are suggestions; your tool inventory is the law.
+3. **Agents can't read intent.** They see a tool called `overlay-show` and a task that says "show an overlay." The connection is irresistible. No amount of system prompt text overrides that signal.
+
+## What we do now
+
+Every time we catch an agent doing something wrong, we ask the same question: **can we remove the option instead of adding a rule?**
+
+Nine times out of ten, the answer is yes. A tool we left in the inventory. A deprecated endpoint we never removed. A file that shouldn't be writable but is.
+
+Our agent configuration reviews now start with the tool list, not the prompt. We treat the prompt as documentation for humans. The real instructions are what's in the toolbox.
+
+## The takeaway
+
+If you're building with AI agents and you're frustrated that they keep doing the wrong thing despite your incredibly clear instructions — stop writing more instructions.
+
+Look at what they have access to. Look at the tools, the files, the APIs. Then remove every path you don't want them to take.
+
+Constraints beat instructions. Every time.

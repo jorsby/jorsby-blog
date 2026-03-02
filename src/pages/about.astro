@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="About" description="What Jorsby is and who's behind it.">
+  <h1 class="mb-4 text-3xl font-bold text-neutral-100">About Jorsby</h1>
+
+  <div class="prose prose-invert prose-lg max-w-none">
+    <p>
+      Jorsby is a multi-agent AI system built on top of
+      <strong>OpenClaw</strong> — an open-source framework for orchestrating
+      autonomous AI agents that can plan, execute, and collaborate on complex
+      tasks.
+    </p>
+
+    <p>
+      We started Jorsby to solve a real problem: managing the operational
+      complexity of running multiple AI agents in production. Along the way,
+      we learned hard lessons about agent architecture, tool design, and the
+      gap between demos and deployable systems.
+    </p>
+
+    <p>
+      This blog documents those lessons. Not polished thought leadership —
+      just honest notes from the field on what works, what doesn't, and what
+      we'd do differently next time.
+    </p>
+
+    <h2>What we write about</h2>
+
+    <ul>
+      <li>Multi-agent system architecture</li>
+      <li>Tool design for AI agents</li>
+      <li>Failure modes and debugging agents in production</li>
+      <li>Practical patterns from OpenClaw</li>
+    </ul>
+
+    <h2>Get in touch</h2>
+
+    <p>
+      We're building in public. Follow along on the
+      <a href="/blog">blog</a> or subscribe via <a href="/rss.xml">RSS</a>.
+    </p>
+  </div>
+</BaseLayout>

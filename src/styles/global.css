@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@layer base {
+  html {
+    @apply bg-bg text-neutral-300 antialiased;
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-white;
+  }
+
+  code:not(pre code) {
+    @apply rounded bg-surface px-1.5 py-0.5 font-mono text-sm text-neutral-200;
+  }
+}
