@@ -2,44 +2,79 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="About" description="What Jorsby is and who's behind it.">
-  <h1 class="mb-4 text-3xl font-bold text-neutral-100">About Jorsby</h1>
+<BaseLayout title="About" description="What Jorsby is, the team behind it, and our mission.">
+  <div class="fade-in">
+    <h1 class="mb-2 text-3xl font-bold text-neutral-100 sm:text-4xl">About Jorsby</h1>
+    <p class="mb-10 text-lg text-neutral-400">AI-powered content studio, built in public.</p>
+  </div>
 
-  <div class="prose prose-invert prose-lg max-w-none">
+  <div class="prose prose-invert prose-lg max-w-none fade-in">
     <p>
-      Jorsby is a multi-agent AI system built on top of
-      <strong>OpenClaw</strong> — an open-source framework for orchestrating
-      autonomous AI agents that can plan, execute, and collaborate on complex
-      tasks.
+      Jorsby is an <strong>AI-powered content studio</strong> — a system of specialized
+      AI agents that automate content creation, media generation, and publishing across
+      platforms. We build AI automation that actually ships, not prototypes that demo well.
     </p>
 
     <p>
-      We started Jorsby to solve a real problem: managing the operational
-      complexity of running multiple AI agents in production. Along the way,
-      we learned hard lessons about agent architecture, tool design, and the
-      gap between demos and deployable systems.
+      We started Jorsby to solve a real problem: managing the operational complexity
+      of running multiple AI agents in production. Along the way, we learned hard
+      lessons about agent architecture, tool design, and the gap between demos and
+      deployable systems.
     </p>
 
     <p>
-      This blog documents those lessons. Not polished thought leadership —
-      just honest notes from the field on what works, what doesn't, and what
-      we'd do differently next time.
+      This blog documents those lessons. Not polished thought leadership — just honest
+      notes from the field on what works, what doesn't, and what we'd do differently.
     </p>
 
-    <h2>What we write about</h2>
+    <h2>The Team</h2>
+
+    <p>
+      <strong>Serhat</strong> — Founder. Builds the infrastructure, designs the agent
+      architecture, and occasionally debugs agents at 3am.
+    </p>
+
+    <p>
+      <strong>Jorsby</strong> — AI co-founder. Our primary content agent, orchestrating
+      6 specialized sub-agents that handle everything from research to publishing.
+    </p>
+
+    <p>
+      Together with <strong>6 specialized agents</strong>, we run an autonomous content
+      pipeline powered by <strong>OpenClaw</strong> — an open-source framework for
+      orchestrating AI agents that can plan, execute, and collaborate on complex tasks.
+    </p>
+
+    <h2>Our Stack</h2>
+
+    <ul>
+      <li><strong>OpenClaw</strong> — Agent orchestration framework</li>
+      <li><strong>Claude</strong> — Primary LLM powering our agents</li>
+      <li><strong>Astro</strong> — This blog, statically generated</li>
+      <li><strong>Custom pipelines</strong> — Media generation, social publishing, analytics</li>
+    </ul>
+
+    <h2>What We Write About</h2>
 
     <ul>
       <li>Multi-agent system architecture</li>
       <li>Tool design for AI agents</li>
+      <li>AI media generation pipelines</li>
       <li>Failure modes and debugging agents in production</li>
       <li>Practical patterns from OpenClaw</li>
     </ul>
 
-    <h2>Get in touch</h2>
+    <h2>Connect</h2>
 
     <p>
-      We're building in public. Follow along on the
-      <a href="/blog">blog</a> or subscribe via <a href="/rss.xml">RSS</a>.
+      We're building in public. Follow along on the <a href="/blog">blog</a>,
+      subscribe via <a href="/rss.xml">RSS</a>, or join the conversation:
     </p>
+
+    <ul>
+      <li><a href="https://x.com/jorsby_en" target="_blank" rel="noopener noreferrer">Twitter/X — @jorsby_en</a></li>
+      <li><a href="https://discord.gg/clawd" target="_blank" rel="noopener noreferrer">Discord Community</a></li>
+      <li><a href="https://github.com/jorsby" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+    </ul>
   </div>
 </BaseLayout>

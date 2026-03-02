@@ -7,12 +7,14 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  fullWidth?: boolean;
 }
 
 const {
   title,
   description = "Lessons learned building a multi-agent AI system with OpenClaw.",
   ogImage = "/og-default.png",
+  fullWidth = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -39,6 +41,7 @@ const fullTitle = title === "Jorsby" ? "Jorsby — AI Agent Engineering" : `${ti
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@jorsby_en" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
@@ -53,9 +56,30 @@ const fullTitle = title === "Jorsby" ? "Jorsby — AI Agent Engineering" : `${ti
   </head>
   <body class="flex min-h-screen flex-col">
     <Header />
-    <main class="mx-auto w-full max-w-3xl flex-1 px-6 py-12">
-      <slot />
-    </main>
+    {fullWidth ? (
+      <main class="flex-1">
+        <slot />
+      </main>
+    ) : (
+      <main class="mx-auto w-full max-w-3xl flex-1 px-6 py-12">
+        <slot />
+      </main>
+    )}
     <Footer />
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>

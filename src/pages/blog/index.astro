@@ -2,19 +2,22 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostCard from "../../components/PostCard.astro";
 import { getCollection } from "astro:content";
+import { getReadingTime } from "../../utils/reading-time";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <BaseLayout title="Blog" description="All posts from the Jorsby blog on AI agent engineering.">
-  <h1 class="mb-2 text-3xl font-bold text-neutral-100">Blog</h1>
-  <p class="mb-10 text-neutral-400">
-    Writing about what we learn building multi-agent systems.
-  </p>
+  <div class="fade-in">
+    <h1 class="mb-2 text-3xl font-bold text-neutral-100 sm:text-4xl">Blog</h1>
+    <p class="mb-10 text-neutral-400">
+      Real lessons from building multi-agent AI systems in production.
+    </p>
+  </div>
 
   {posts.length > 0 ? (
-    <div class="flex flex-col gap-4">
+    <div class="fade-in flex flex-col gap-4">
       {posts.map((post) => (
         <PostCard
           title={post.data.title}
@@ -22,6 +25,7 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
           date={post.data.date}
           slug={post.id}
           tags={post.data.tags}
+          readingTime={post.body ? getReadingTime(post.body) : undefined}
         />
       ))}
     </div>

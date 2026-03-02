@@ -1,0 +1,33 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<form
+  action="https://buttondown.com/api/emails/embed-subscribe/jorsby"
+  method="post"
+  class:list={[
+    "flex",
+    compact ? "gap-2" : "flex-col gap-3 sm:flex-row sm:gap-2",
+  ]}
+>
+  <input
+    type="email"
+    name="email"
+    placeholder="you@example.com"
+    required
+    class:list={[
+      "rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-neutral-200 placeholder:text-neutral-500 outline-none transition-colors focus:border-accent/50",
+      compact ? "flex-1" : "flex-1 sm:max-w-xs",
+    ]}
+  />
+  <button
+    type="submit"
+    class="whitespace-nowrap rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+  >
+    Subscribe
+  </button>
+</form>

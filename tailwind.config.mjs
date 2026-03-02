@@ -6,12 +6,19 @@ export default {
       colors: {
         bg: "#0a0a0a",
         surface: "#141414",
+        "surface-light": "#1a1a1a",
         border: "#1f1f1f",
         accent: "#3b82f6",
+        "accent-purple": "#8b5cf6",
+        discord: "#5865F2",
       },
       fontFamily: {
         mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
         sans: ['"Inter"', "system-ui", "sans-serif"],
+      },
+      boxShadow: {
+        glow: "0 0 20px rgba(59, 130, 246, 0.08)",
+        "glow-md": "0 0 40px rgba(59, 130, 246, 0.12)",
       },
       typography: {
         invert: {
