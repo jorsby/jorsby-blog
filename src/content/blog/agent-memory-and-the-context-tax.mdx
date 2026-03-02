@@ -1,0 +1,187 @@
+---
+title: "Agent Memory, Config Sprawl, and the Context Window Tax"
+description: "How we collapsed 15 config files to 4, built a two-tier memory system, and designed review workflows that don't drown in noise."
+date: 2026-03-02
+tags: ["agents", "memory", "configuration", "openclaw"]
+draft: false
+---
+
+Every token you load into an agent's context at startup is a tax. It costs money, it costs latency, and — worst of all — it costs attention. The more context you front-load, the less likely the agent is to use any of it well.
+
+We learned this the hard way when our agents started each session loading 15 files and burning through context before doing a single useful thing.
+
+## Configuration sprawl is real
+
+It started innocently. Each agent got a preference file:
+
+```
+preferences/
+└── content-agent-en.md
+```
+
+One file. Clean. Then we needed platform-specific rules — Instagram has different requirements than X/Twitter. So we split:
+
+```
+preferences/
+├── content-agent-en.md
+├── instagram-prefs.md
+├── facebook-prefs.md
+├── tiktok-prefs.md
+└── x-prefs.md
+```
+
+Then language-specific nuances. Our Arabic content has different cultural considerations than English. Turkish has its own engagement patterns:
+
+```
+preferences/
+├── content-agent-en.md
+├── content-agent-tr.md
+├── content-agent-ar.md
+├── instagram-prefs.md
+├── facebook-prefs.md
+├── tiktok-prefs.md
+├── x-prefs.md
+├── youtube-prefs.md
+├── en-voice.md
+├── tr-voice.md
+├── ar-voice.md
+├── feedback-log.md
+├── lessons-learned.md
+├── audience-profiles.md
+└── brand-guidelines.md
+```
+
+Fifteen files. Loaded at every agent startup. We calculated the token cost: roughly 12,000 tokens before the agent even read its task. That's not just expensive — it actively degrades performance. LLMs get worse at following instructions as context grows. We were paying more for worse output.
+
+## The collapse
+
+We audited every file and found massive overlap. The Instagram prefs and Facebook prefs were 60% identical. The language voice files repeated the same brand principles with minor variations. The feedback log had entries from three months ago that no longer applied.
+
+We collapsed everything to two files:
+
+**`platforms.md`** — Static rules that rarely change. Platform character limits, image dimensions, posting best practices, hashtag strategies. Factual, not opinionated. Updated maybe once a month.
+
+**`brand.md`** — One living document. Voice guidelines, audience profiles, lessons learned, cultural considerations per language. This is the "personality" file. Updated frequently but kept concise through active curation.
+
+```
+config/
+├── platforms.md    # Static platform rules (~2,000 tokens)
+└── brand.md        # Voice + audience + lessons (~1,500 tokens)
+```
+
+Fifteen files became two core files, loaded per agent. Total startup context dropped from ~12,000 tokens to ~3,500. Agents started performing noticeably better because they could actually attend to the instructions that mattered.
+
+The additional two files that remain are the agent's own memory files (covered below), bringing the total to four files at startup.
+
+## Two-tier memory: journals and lessons
+
+Agents wake up with zero context every session. They don't remember yesterday's successes or last week's failures. Files are their only memory.
+
+We built a two-tier system:
+
+**Tier 1: Daily journals.** Raw, append-only logs of what happened each day.
+
+```
+memory/
+├── 2026-02-28.md
+├── 2026-03-01.md
+└── 2026-03-02.md
+```
+
+Each journal entry captures: what tasks were executed, what went well, what went wrong, any unexpected behavior. These are verbose by design. They're the raw data.
+
+**Tier 2: Curated long-term memory.** A single `MEMORY.md` file that captures patterns and principles — the lessons actually internalized.
+
+```
+memory/
+├── MEMORY.md          # Curated lessons and patterns
+├── 2026-02-28.md      # Raw daily journal
+├── 2026-03-01.md
+└── 2026-03-02.md
+```
+
+The daily journals are like writing in a diary. `MEMORY.md` is like the wisdom you actually carry forward.
+
+Here's what a `MEMORY.md` entry looks like:
+
+```markdown
+## Image Generation
+- Always request text-free images. AI models cannot render typography.
+- Use image-overlay tool for all text compositing.
+- Arabic text requires Cairo font for headings, Amiri for body.
+
+## Publishing
+- Instagram carousels outperform single images 3:1 in engagement.
+- Post TR content between 19:00-21:00 UTC+3 for best reach.
+- Never schedule AR and EN posts within 30 minutes of each other.
+
+## Mistakes to Avoid
+- Don't use xurl. Use socialpost for all platforms.
+- Don't edit drafts after human approval without re-approval.
+```
+
+Periodically, the agent reviews recent daily journals and updates `MEMORY.md` — promoting recurring patterns, removing outdated entries, keeping it concise. The daily files can grow without bound; `MEMORY.md` stays tight.
+
+This mirrors how human expertise works. You learn through experience (journals), but you don't re-read every experience every day. You internalize the patterns (MEMORY.md) and reference the raw data only when you need to debug something specific.
+
+## Thread-per-draft for review
+
+The memory and config problems were about what agents know. The review workflow problem was about what humans can manage.
+
+Our content agents produce drafts in three languages. Each draft includes an image and captions for multiple platforms. Initially, we dumped everything into a single Discord channel:
+
+```
+#content-review
+├── [EN] Instagram carousel - Travel tips (image)
+├── [EN] Instagram carousel - Travel tips (caption)
+├── [TR] Instagram carousel - Seyahat ipuçları (image)
+├── [TR] Instagram carousel - Seyahat ipuçları (caption)
+├── [AR] Instagram carousel - نصائح السفر (image)
+├── [AR] Instagram carousel - نصائح السفر (caption)
+├── [EN] X post - Travel tips (image)
+├── ... (repeat for every platform)
+```
+
+Five to ten messages per draft. Three drafts per day. The channel was unmanageable within a week. Finding a specific draft to review meant scrolling through dozens of messages. Threaded discussions about one draft got tangled with messages about another.
+
+The fix: **one parent message per draft, auto-thread for variants.**
+
+```
+#content-review
+├── 📋 Travel Tips Series — Draft #47
+│   └── [Thread]
+│       ├── 🇺🇸 EN — Instagram (image + caption)
+│       ├── 🇺🇸 EN — X/Twitter (image + caption)
+│       ├── 🇹🇷 TR — Instagram (image + caption)
+│       ├── 🇹🇷 TR — X/Twitter (image + caption)
+│       ├── 🇸🇦 AR — Instagram (image + caption)
+│       └── 🇸🇦 AR — X/Twitter (image + caption)
+│
+├── 📋 AI Agents Deep Dive — Draft #48
+│   └── [Thread]
+│       └── ...
+```
+
+The parent message in the channel is clean — just the draft title and status. All the content lives in the thread. Reviewers click into the thread they want, review all language variants together, leave comments in context.
+
+Approvals happen per-draft (react to the parent message), not per-variant. One approval triggers publishing across all languages and platforms.
+
+This reduced review time from "I'll get to it later" (which meant never) to under two minutes per draft.
+
+## The common thread
+
+Configuration, memory, and review workflows are all the same problem: **managing the ratio of signal to noise.**
+
+For agents, noise is irrelevant context that dilutes attention. Fifteen config files when two will do. Three months of journals when the lessons are already captured.
+
+For humans reviewing agent output, noise is unstructured information that requires effort to parse. A flat channel of mixed messages when a threaded structure gives you everything in context.
+
+The fix in every case is the same: curate aggressively, structure deliberately, and never load more context than you need.
+
+## The takeaway
+
+If your agents are performing poorly, check what they're loading at startup. Count the tokens. Ask whether each file earns its place.
+
+If your human review bottleneck is "too much to look at," restructure the output. Make the happy path (review, approve, ship) require the fewest possible clicks.
+
+Context is expensive. Treat it like a budget.
