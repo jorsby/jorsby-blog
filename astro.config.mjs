@@ -6,5 +6,24 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   site: "https://jorsby.ai",
   output: "static",
-  integrations: [mdx(), sitemap(), tailwind()],
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "tr"],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+  integrations: [
+    mdx(),
+    sitemap({
+      i18n: {
+        defaultLocale: "en",
+        locales: {
+          en: "en",
+          tr: "tr",
+        },
+      },
+    }),
+    tailwind(),
+  ],
 });

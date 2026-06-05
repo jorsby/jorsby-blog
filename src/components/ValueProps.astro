@@ -1,0 +1,56 @@
+---
+import { t, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+
+const values = [
+  {
+    title: t(lang, "value.speed.title"),
+    desc: t(lang, "value.speed.desc"),
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>`,
+  },
+  {
+    title: t(lang, "value.cost.title"),
+    desc: t(lang, "value.cost.desc"),
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V5a2 2 0 0 1 2-2h8l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>`,
+  },
+  {
+    title: t(lang, "value.scale.title"),
+    desc: t(lang, "value.scale.desc"),
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg>`,
+  },
+  {
+    title: t(lang, "value.reach.title"),
+    desc: t(lang, "value.reach.desc"),
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9S14.5 18.5 12 21c-2.5-2.5-3.5-6-3.5-9S9.5 5.5 12 3Z"/></svg>`,
+  },
+];
+---
+
+<section class="fade-in border-t border-border/50 px-6 py-16 sm:py-24">
+  <div class="mx-auto max-w-6xl">
+    <h2 class="font-display text-3xl font-extrabold text-ink sm:text-4xl">
+      {t(lang, "value.title")}
+    </h2>
+    <p class="mt-3 max-w-2xl text-neutral-400">{t(lang, "value.subtitle")}</p>
+
+    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        values.map((v) => (
+          <div class="rounded-xl border border-border p-6 transition-all duration-300 hover:border-accent/30 hover:bg-surface/50">
+            <span
+              class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-accent/20 bg-accent/5 text-accent [&>svg]:h-5 [&>svg]:w-5"
+              set:html={v.icon}
+            />
+            <h3 class="mb-2 text-lg font-semibold text-neutral-100">{v.title}</h3>
+            <p class="text-sm leading-relaxed text-neutral-400">{v.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

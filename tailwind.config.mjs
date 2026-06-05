@@ -8,30 +8,42 @@ export default {
         surface: "#141414",
         "surface-light": "#1a1a1a",
         border: "#1f1f1f",
-        accent: "#3b82f6",
-        "accent-purple": "#8b5cf6",
-        discord: "#5865F2",
+        // Cinematic gold accent system
+        accent: "#e8b14c",
+        "accent-warm": "#f0c674",
+        "accent-deep": "#b8860b",
+        "accent-blue": "#3b82f6",
+        ink: "#f5f0e6",
       },
       fontFamily: {
         mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
         sans: ['"Inter"', "system-ui", "sans-serif"],
+        display: ['"Bricolage Grotesque"', '"Inter"', "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 20px rgba(59, 130, 246, 0.08)",
-        "glow-md": "0 0 40px rgba(59, 130, 246, 0.12)",
+        glow: "0 0 24px rgba(232, 177, 76, 0.10)",
+        "glow-md": "0 0 48px rgba(232, 177, 76, 0.16)",
+        "glow-poster": "0 8px 40px rgba(0, 0, 0, 0.55)",
+      },
+      backgroundImage: {
+        cinematic:
+          "radial-gradient(120% 80% at 50% 0%, rgba(232, 177, 76, 0.10), transparent 60%)",
+        vignette:
+          "linear-gradient(to top, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0) 55%)",
+        "gold-text": "linear-gradient(90deg, #f0c674, #e8b14c 50%, #b8860b)",
       },
       typography: {
         invert: {
           css: {
             "--tw-prose-body": "#d4d4d4",
-            "--tw-prose-headings": "#f5f5f5",
-            "--tw-prose-links": "#3b82f6",
-            "--tw-prose-bold": "#f5f5f5",
+            "--tw-prose-headings": "#f5f0e6",
+            "--tw-prose-links": "#e8b14c",
+            "--tw-prose-bold": "#f5f0e6",
             "--tw-prose-code": "#e5e5e5",
             "--tw-prose-pre-bg": "#141414",
             "--tw-prose-pre-code": "#d4d4d4",
             "--tw-prose-quotes": "#a3a3a3",
-            "--tw-prose-quote-borders": "#3b82f6",
+            "--tw-prose-quote-borders": "#e8b14c",
             "--tw-prose-counters": "#737373",
             "--tw-prose-bullets": "#525252",
             "--tw-prose-hr": "#1f1f1f",

@@ -1,25 +1,46 @@
 ---
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import { t, localizedPath, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/blog", label: "Blog" },
-  { href: "/about", label: "About" },
+  { href: localizedPath("/work", lang), label: t(lang, "nav.work") },
+  { href: `${localizedPath("/", lang)}#services`, label: t(lang, "nav.services") },
+  { href: localizedPath("/about", lang), label: t(lang, "nav.about") },
+  { href: localizedPath("/contact", lang), label: t(lang, "nav.contact") },
 ];
 ---
 
-<header class="border-b border-border/50">
-  <nav class="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-    <a href="/" class="font-mono text-lg font-semibold text-neutral-100 transition-colors hover:text-accent">
+<header class="sticky top-0 z-40 border-b border-border/50 bg-bg/80 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a
+      href={localizedPath("/", lang)}
+      class="font-mono text-lg font-semibold text-neutral-100 transition-colors hover:text-accent"
+    >
       jorsby<span class="text-accent">.</span>ai
     </a>
-    <div class="flex items-center gap-6">
-      {navLinks.map(({ href, label }) => (
-        <a
-          href={href}
-          class="text-sm text-neutral-400 transition-colors hover:text-neutral-100"
-        >
-          {label}
-        </a>
-      ))}
+    <div class="flex items-center gap-4 sm:gap-6">
+      <div class="hidden items-center gap-6 sm:flex">
+        {
+          navLinks.map(({ href, label }) => (
+            <a href={href} class="text-sm text-neutral-400 transition-colors hover:text-neutral-100">
+              {label}
+            </a>
+          ))
+        }
+      </div>
+      <LanguageSwitcher lang={lang} />
+      <a
+        href={localizedPath("/contact", lang)}
+        class="inline-flex items-center rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-bg transition-all hover:bg-accent-warm hover:shadow-glow"
+      >
+        {t(lang, "nav.cta")}
+      </a>
     </div>
   </nav>
 </header>

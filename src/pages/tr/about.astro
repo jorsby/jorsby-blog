@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { t, localizedPath } from "../../i18n/utils";
+
+const lang = "tr" as const;
+---
+
+<BaseLayout title={t(lang, "about.title")} description={t(lang, "about.subtitle")} lang={lang}>
+  <div class="fade-in">
+    <h1 class="font-display text-3xl font-extrabold text-ink sm:text-4xl">{t(lang, "about.title")}</h1>
+    <p class="mb-10 mt-3 text-lg text-neutral-400">{t(lang, "about.subtitle")}</p>
+  </div>
+
+  <div class="prose prose-invert prose-lg max-w-none fade-in">
+    <p>
+      Jorsby bir <strong>dikey yapay zeka dizi stüdyosudur</strong>. Markalar için
+      bağımlılık yapan, insanların gerçekten sonuna kadar izlediği kısa form dizi
+      serileri üretiyoruz — başka bir banner reklamla satın alınamayacak türden bir
+      dikkat.
+    </p>
+
+    <p>
+      Drama, var olan en eski büyüme taktiğidir. İnsanlar önemsedikleri bir hikâyenin on
+      beş bölümünü izler ama on beş saniyelik bir reklamı düşünmeden geçer. Bu yüzden
+      reklam yapmıyoruz. <strong>Diziler</strong> yapıyoruz: karakterler, gerilim,
+      merak uyandıran finaller, yarın geri dönmek için bir neden — kitlenizin zaten
+      yaşadığı dikey akış için tasarlanmış.
+    </p>
+
+    <h2>Nasıl çalışıyoruz</h2>
+
+    <p>
+      Bölümlü serilerin tamamını yapay zeka ile yazıyor, üretiyor, seslendiriyor ve
+      kurguluyoruz. Bu, eskiden bir ekip, oyuncu kadrosu ve takvim gerektiren işi,
+      bir briefi günler içinde lansmana hazır bölümlere dönüştüren bir sürece indirir —
+      ve aynı hikâyeyi sattığınız her dilde, altyazıyla değil yerel seslerle yayınlamamızı
+      sağlar.
+    </p>
+
+    <h2>Lansman serisi</h2>
+
+    <p>
+      <em>Cam Kule</em> ilk serimiz — formatın neler yapabileceğini göstermek için uçtan
+      uca üretilmiş on beş bölümlük bir kurumsal gerilim. <a href={localizedPath("/work", lang)}
+        >İşler sayfasından</a
+      > izleyin.
+    </p>
+
+    <h2>Arkasındaki ekip</h2>
+
+    <p>
+      <strong>Serhat</strong> — kurucu. Üretim sürecini kuruyor, hikâyeleri yönetiyor ve
+      her bölümün ilk üç saniyesine takıntıyla yaklaşıyor.
+    </p>
+
+    <h2>Bizimle çalışın</h2>
+
+    <p>
+      Markanız için satan bir seri istiyorsanız, <a href={localizedPath("/contact", lang)}
+        >neyi lanse ettiğinizi anlatın</a
+      > — hiçbir şeye bağlanmadan önce size bir konsept ve teklifle döneriz.
+    </p>
+  </div>
+</BaseLayout>

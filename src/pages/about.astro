@@ -1,80 +1,61 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { t, localizedPath } from "../i18n/utils";
+
+const lang = "en" as const;
 ---
 
-<BaseLayout title="About" description="What Jorsby is, the team behind it, and our mission.">
+<BaseLayout title={t(lang, "about.title")} description={t(lang, "about.subtitle")} lang={lang}>
   <div class="fade-in">
-    <h1 class="mb-2 text-3xl font-bold text-neutral-100 sm:text-4xl">About Jorsby</h1>
-    <p class="mb-10 text-lg text-neutral-400">AI-powered content studio, built in public.</p>
+    <h1 class="font-display text-3xl font-extrabold text-ink sm:text-4xl">{t(lang, "about.title")}</h1>
+    <p class="mb-10 mt-3 text-lg text-neutral-400">{t(lang, "about.subtitle")}</p>
   </div>
 
   <div class="prose prose-invert prose-lg max-w-none fade-in">
     <p>
-      Jorsby is an <strong>AI-powered content studio</strong> — a system of specialized
-      AI agents that automate content creation, media generation, and publishing across
-      platforms. We build AI automation that actually ships, not prototypes that demo well.
+      Jorsby is a <strong>vertical AI drama studio</strong>. We produce binge-worthy,
+      short-form drama series — the kind people actually finish — for brands that want
+      attention they can't buy with another banner ad.
     </p>
 
     <p>
-      We started Jorsby to solve a real problem: managing the operational complexity
-      of running multiple AI agents in production. Along the way, we learned hard
-      lessons about agent architecture, tool design, and the gap between demos and
-      deployable systems.
+      Drama is the oldest growth hack there is. People will sit through fifteen episodes
+      of a story they care about and skip a fifteen-second ad without a thought. So we
+      don't make ads. We make <strong>series</strong>: characters, tension, cliffhangers,
+      a reason to come back tomorrow — built for the vertical feed where your audience
+      already lives.
     </p>
+
+    <h2>How we work</h2>
 
     <p>
-      This blog documents those lessons. Not polished thought leadership — just honest
-      notes from the field on what works, what doesn't, and what we'd do differently.
+      We write, produce, voice and edit entire episodic series with AI. That collapses
+      what used to take a crew, a cast and a calendar into a pipeline that turns a brief
+      into launch-ready episodes in days — and lets us ship the same story in every
+      language you sell in, with localized voices instead of subtitles.
     </p>
 
-    <h2>The Team</h2>
+    <h2>The launch series</h2>
 
     <p>
-      <strong>Serhat</strong> — Founder. Builds the infrastructure, designs the agent
-      architecture, and occasionally debugs agents at 3am.
+      <em>The Glass Tower</em> is our first series — a fifteen-episode corporate thriller,
+      produced end to end to show what the format can do. Watch it on the{" "}
+      <a href={localizedPath("/work", lang)}>work page</a>.
     </p>
+
+    <h2>Who's behind it</h2>
 
     <p>
-      <strong>Jorsby</strong> — AI co-founder. Our primary content agent, orchestrating
-      6 specialized sub-agents that handle everything from research to publishing.
+      <strong>Serhat</strong> — founder. Builds the production pipeline, directs the
+      stories and obsesses over the first three seconds of every episode.
     </p>
+
+    <h2>Work with us</h2>
 
     <p>
-      Together with <strong>6 specialized agents</strong>, we run an autonomous content
-      pipeline powered by <strong>OpenClaw</strong> — an open-source framework for
-      orchestrating AI agents that can plan, execute, and collaborate on complex tasks.
+      If you want a series that sells for your brand, <a href={localizedPath("/contact", lang)}
+        >tell us what you're launching</a
+      > — we'll come back with a concept and a quote before you commit to anything.
     </p>
-
-    <h2>Our Stack</h2>
-
-    <ul>
-      <li><strong>OpenClaw</strong> — Agent orchestration framework</li>
-      <li><strong>Claude</strong> — Primary LLM powering our agents</li>
-      <li><strong>Astro</strong> — This blog, statically generated</li>
-      <li><strong>Custom pipelines</strong> — Media generation, social publishing, analytics</li>
-    </ul>
-
-    <h2>What We Write About</h2>
-
-    <ul>
-      <li>Multi-agent system architecture</li>
-      <li>Tool design for AI agents</li>
-      <li>AI media generation pipelines</li>
-      <li>Failure modes and debugging agents in production</li>
-      <li>Practical patterns from OpenClaw</li>
-    </ul>
-
-    <h2>Connect</h2>
-
-    <p>
-      We're building in public. Follow along on the <a href="/blog">blog</a>,
-      subscribe via <a href="/rss.xml">RSS</a>, or join the conversation:
-    </p>
-
-    <ul>
-      <li><a href="https://x.com/jorsby_en" target="_blank" rel="noopener noreferrer">Twitter/X — @jorsby_en</a></li>
-      <li><a href="https://discord.gg/clawd" target="_blank" rel="noopener noreferrer">Discord Community</a></li>
-      <li><a href="https://github.com/jorsby" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-    </ul>
   </div>
 </BaseLayout>

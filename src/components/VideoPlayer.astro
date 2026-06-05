@@ -1,0 +1,44 @@
+---
+interface Props {
+  src: string;
+  poster: string;
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  controls?: boolean;
+  label?: string;
+  class?: string;
+}
+
+const {
+  src,
+  poster,
+  autoplay = false,
+  loop = false,
+  muted = false,
+  controls = true,
+  label,
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "letterbox relative mx-auto aspect-[9/16] w-full max-h-[80vh] overflow-hidden rounded-2xl border border-border bg-black shadow-glow-poster",
+    className,
+  ]}
+>
+  <video
+    class="h-full w-full object-cover"
+    poster={poster}
+    preload="none"
+    playsinline
+    autoplay={autoplay || undefined}
+    loop={loop || undefined}
+    muted={muted || undefined}
+    controls={controls || undefined}
+    aria-label={label}
+  >
+    <source src={src} type="video/mp4" />
+  </video>
+</div>

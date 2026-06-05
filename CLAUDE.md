@@ -1,60 +1,64 @@
-# Jorsby Blog — jorsby.ai
+# Jorsby — jorsby.ai
 
 ## What This Is
-A minimal dark modern blog for Jorsby — documenting lessons learned building a multi-agent AI system with OpenClaw.
+A cinematic marketing + lead-gen site for **Jorsby**, an AI agency that produces
+**vertical AI drama series** (9:16 short-form) for brands, in multiple languages.
+The site showcases a launch series, explains the offering, and converts via a
+contact form. (It replaced the previous dev-blog.)
 
 ## Tech Stack
-- **Astro** with MDX support
-- **Tailwind CSS** for styling
-- **Deployed to Vercel** (static output)
-- **Content as Markdown/MDX files** in `src/content/blog/`
-
-## Design Requirements
-- **Dark theme** — deep dark background (#0a0a0a or similar), light text
-- **Minimal and modern** — lots of whitespace, clean typography
-- **Monospace accents** — code-like feel for a tech blog
-- **Accent color**: Electric blue (#3b82f6) or similar
-- **Mobile-first responsive**
-- **No JavaScript frameworks in the client** — Astro islands only if needed
+- **Astro** (static output, `output: "static"`) — deployed to Vercel
+- **Tailwind CSS** with a dark + **gold/amber** cinematic theme
+- **i18n**: English at `/`, Turkish at `/tr/` (see `src/i18n/`)
+- Videos: self-hosted MP4s expected on **Cloudflare R2 / CDN**, played via a
+  configurable URL per episode
 
 ## Pages
-1. **Home** (`/`) — Hero with tagline + latest 3 blog posts
-2. **Blog** (`/blog`) — All posts, newest first, with date and reading time
-3. **Blog Post** (`/blog/[slug]`) — Individual post with proper typography, code highlighting, TOC
-4. **About** (`/about`) — What Jorsby is, who's behind it
+1. **Home** (`/`) — Hero (autoplay teaser) → Featured drama → Services → Value props → Process → CTA
+2. **Work** (`/work`) — The series: featured player + 15-episode grid with a click-to-play lightbox
+3. **About** (`/about`) — The studio story
+4. **Contact** (`/contact`) — Web3Forms contact form + direct email
+Each has a Turkish mirror under `src/pages/tr/`.
 
-## Blog Post Schema
-```
----
-title: "Post Title"
-description: "Short description for SEO/cards"
-date: 2026-03-02
-tags: ["agents", "architecture", "openclaw"]
-draft: false
----
-```
+## Design tokens
+`tailwind.config.mjs`: dark base `#0a0a0a`; gold accent `#e8b14c` (`accent-warm`,
+`accent-deep`); warm heading `ink #f5f0e6`; fonts Inter (sans), JetBrains Mono
+(mono), Bricolage Grotesque (display). Cinematic utilities (`bg-cinematic`,
+`poster-vignette`, `film-grain`, `gold-text`) live in `src/styles/global.css`.
 
-## Content
-Create 1 sample blog post:
-**Title**: "Constraints Over Instructions: What Building 6 AI Agents Taught Us"
-**Content**: Write a compelling ~800 word blog post about the lesson that removing tools is more effective than writing rules. Use our real example: we had a tool called xurl for posting to X/Twitter, but agents kept using it instead of our unified socialpost tool — despite explicit instructions not to. The fix wasn't better instructions, it was `brew uninstall xurl`. Make the wrong thing impossible, not just discouraged. Include other examples from our architecture:
-- One tool per job principle
-- Why we killed 4 legacy overlay tools instead of writing "don't use these"
-- The parallel to real engineering (removing footguns > documentation)
+## Swapping in real assets (the two files that matter)
+1. **Episodes / videos / drama copy → `src/data/episodes.ts`**
+   - Replace `SAMPLE_VIDEO` and each episode `videoUrl` with your R2/CDN MP4 URLs
+     (e.g. `https://media.jorsby.ai/the-glass-tower/ep-01.mp4`).
+   - Edit `drama.en` / `drama.tr` (title, tagline, synopsis, genre, episode
+     titles + synopses, `teaserVideoUrl`).
+2. **Posters → `public/posters/`**
+   - Placeholders are gradient SVGs `ep-01.svg`…`ep-15.svg` + `teaser.svg`
+     (vertical 1080×1920). Drop in real images (e.g. `ep-01.jpg`) and update the
+     matching `posterUrl` in `episodes.ts`.
+3. **Contact form key → Web3Forms**
+   - Set `PUBLIC_WEB3FORMS_KEY` in Vercel env (key is tied to your email and is
+     public-safe), or replace the fallback constant in
+     `src/components/ContactForm.astro`. Until set, the form shows a graceful error.
+4. **OG image → `public/og-default.svg`**
+   - Replace with a real **1200×630 PNG/JPG** for best social-scraper support
+     (most scrapers don't render SVG), then update the `ogImage` default in
+     `src/layouts/BaseLayout.astro`.
+5. **Translations** — refine Turkish copy in `src/i18n/translations.ts` (placeholder
+   translations are in place; `t()` falls back EN → key).
 
-Tone: Direct, practical, slightly opinionated. Not corporate. Like explaining to a smart friend over coffee.
+## Video notes (R2)
+- Encode H.264 + faststart (moov atom at front), ~1080×1920.
+- Set long `Cache-Control` on R2 objects; R2 supports HTTP Range so seeking works.
+- A custom domain (`media.jorsby.ai`) is recommended for clean URLs.
+- `<video>` playback needs no CORS; only set a bucket CORS policy if you add
+  captions (`<track>`) or `crossorigin`.
 
 ## SEO
-- Proper meta tags, Open Graph, Twitter cards
-- RSS feed at `/rss.xml`
-- Sitemap at `/sitemap.xml`
-
-## Vercel Config
-- `output: "static"` in astro.config
-- Include `vercel.json` if needed
+Meta/OG/Twitter + hreflang + Organization JSON-LD in `BaseLayout`; `/work` adds
+`CreativeWorkSeries` JSON-LD. Sitemap auto-generated (`@astrojs/sitemap`).
 
 ## Do NOT
-- Add a CMS or admin panel
-- Add analytics (we'll add later)
-- Add comments (we'll add later)
-- Over-engineer — ship minimal, iterate later
+- Add a CMS/admin, analytics, or comments (later)
+- Re-introduce the blog (removed in the pivot; recoverable from git history)
+- Put large video files in the repo — they belong on R2/CDN

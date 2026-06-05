@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import VideoPlayer from "../components/VideoPlayer.astro";
+import ShowcaseGrid from "../components/ShowcaseGrid.astro";
+import LanguageBadges from "../components/LanguageBadges.astro";
+import CTABanner from "../components/CTABanner.astro";
+import { t } from "../i18n/utils";
+import { drama } from "../data/episodes";
+
+const lang = "en" as const;
+const d = drama[lang];
+const featured = d.episodes[0];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWorkSeries",
+  name: d.title,
+  description: d.synopsis,
+  genre: d.genre,
+  inLanguage: ["en", "tr"],
+  numberOfEpisodes: d.episodes.length,
+  image: new URL(d.teaserPosterUrl, Astro.site).toString(),
+};
+---
+
+<BaseLayout title={d.title} description={d.synopsis} fullWidth lang={lang} jsonLd={jsonLd}>
+  <!-- Featured -->
+  <section class="border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl">
+      <p class="mb-3 font-mono text-xs uppercase tracking-wider text-accent">{t(lang, "work.eyebrow")}</p>
+      <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+        <div>
+          <h1 class="font-display text-4xl font-extrabold leading-tight text-ink sm:text-6xl">{d.title}</h1>
+          <p class="mt-5 max-w-xl text-lg leading-relaxed text-neutral-400">{d.synopsis}</p>
+          <dl class="mt-8 flex flex-wrap gap-x-10 gap-y-4">
+            <div>
+              <dt class="font-mono text-xs uppercase tracking-wider text-neutral-500">{t(lang, "work.genreLabel")}</dt>
+              <dd class="mt-1 text-sm text-neutral-200">{d.genre}</dd>
+            </div>
+            <div>
+              <dt class="font-mono text-xs uppercase tracking-wider text-neutral-500">{t(lang, "work.languagesLabel")}</dt>
+              <dd class="mt-1.5"><LanguageBadges languages={d.languages} /></dd>
+            </div>
+          </dl>
+        </div>
+        <div class="mx-auto w-full max-w-[320px]">
+          <p class="mb-3 text-center font-mono text-xs text-neutral-500">
+            {t(lang, "work.featuredLabel")} · {t(lang, "work.episodeLabel")} {featured.number}
+          </p>
+          <VideoPlayer
+            src={featured.videoUrl}
+            poster={featured.posterUrl}
+            controls
+            label={`${d.title} — ${featured.title}`}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- All episodes -->
+  <section class="fade-in px-6 py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="mb-8 font-mono text-sm uppercase tracking-wider text-neutral-500">
+        {t(lang, "work.allEpisodes")}
+      </h2>
+      <ShowcaseGrid episodes={d.episodes} lang={lang} />
+    </div>
+  </section>
+
+  <CTABanner lang={lang} />
+</BaseLayout>

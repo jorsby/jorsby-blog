@@ -1,15 +1,3 @@
-import { defineCollection, z } from "astro:content";
-import { glob } from "astro/loaders";
-
-const blog = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.coerce.date(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-  }),
-});
-
-export const collections = { blog };
+// No content collections in use — episodes live in src/data/episodes.ts as a
+// typed data file (see CLAUDE.md). Kept so astro:content stays satisfied.
+export const collections = {};

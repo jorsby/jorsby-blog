@@ -1,0 +1,83 @@
+---
+import VideoPlayer from "./VideoPlayer.astro";
+import { t, localizedPath, type Lang } from "../i18n/utils";
+import { drama } from "../data/episodes";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+const d = drama[lang];
+
+const stats = [
+  { value: t(lang, "hero.stat1"), label: t(lang, "hero.stat1Label") },
+  { value: t(lang, "hero.stat2"), label: t(lang, "hero.stat2Label") },
+  { value: t(lang, "hero.stat3"), label: t(lang, "hero.stat3Label") },
+];
+---
+
+<section class="film-grain relative overflow-hidden bg-cinematic">
+  <div
+    class="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-16 pt-16 sm:pb-24 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr]"
+  >
+    <div>
+      <div
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/5 px-4 py-1.5 font-mono text-xs text-accent"
+      >
+        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+        {t(lang, "hero.eyebrow")}
+      </div>
+
+      <h1
+        class="font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl lg:text-7xl"
+      >
+        {t(lang, "hero.title1")}<br />
+        <span class="gold-text">{t(lang, "hero.title2")}</span>
+      </h1>
+
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-neutral-400">
+        {t(lang, "hero.subtitle")}
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          href={localizedPath("/contact", lang)}
+          class="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg transition-all hover:bg-accent-warm hover:shadow-glow-md"
+        >
+          {t(lang, "hero.ctaPrimary")}
+        </a>
+        <a
+          href={localizedPath("/work", lang)}
+          class="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold text-neutral-200 transition-colors hover:border-accent/50 hover:text-accent"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+          {t(lang, "hero.ctaSecondary")}
+        </a>
+      </div>
+
+      <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-border/60 pt-8">
+        {
+          stats.map((s) => (
+            <div>
+              <dt class="font-display text-xl font-bold text-ink sm:text-2xl">{s.value}</dt>
+              <dd class="mt-1 text-xs leading-snug text-neutral-500">{s.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div class="relative mx-auto w-full max-w-[300px] lg:max-w-[340px]">
+      <VideoPlayer
+        src={d.teaserVideoUrl}
+        poster={d.teaserPosterUrl}
+        autoplay
+        loop
+        muted
+        controls={false}
+        label={d.title}
+      />
+    </div>
+  </div>
+</section>

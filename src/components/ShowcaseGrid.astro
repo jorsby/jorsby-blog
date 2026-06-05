@@ -1,0 +1,19 @@
+---
+import EpisodeCard from "./EpisodeCard.astro";
+import VideoLightbox from "./VideoLightbox.astro";
+import type { Episode } from "../data/episodes";
+import type { Lang } from "../i18n/utils";
+
+interface Props {
+  episodes: Episode[];
+  lang?: Lang;
+}
+
+const { episodes, lang = "en" } = Astro.props;
+---
+
+<div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
+  {episodes.map((ep, i) => <EpisodeCard episode={ep} lang={lang} index={i} />)}
+</div>
+
+<VideoLightbox lang={lang} />

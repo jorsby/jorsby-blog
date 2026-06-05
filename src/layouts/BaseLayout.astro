@@ -2,72 +2,101 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
+import { t, getAlternateLangPath, type Lang } from "../i18n/utils";
 
 interface Props {
   title: string;
   description?: string;
   ogImage?: string;
   fullWidth?: boolean;
+  lang?: Lang;
+  jsonLd?: Record<string, unknown>;
 }
 
 const {
   title,
-  description = "Lessons learned building a multi-agent AI system with OpenClaw.",
-  ogImage = "/og-default.png",
+  description,
+  ogImage = "/og-default.svg",
   fullWidth = false,
+  lang = "en",
+  jsonLd,
 } = Astro.props;
 
+const defaultDescription = t(lang, "meta.defaultDescription");
+const resolvedDescription = description || defaultDescription;
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = title === "Jorsby" ? "Jorsby — AI Agent Engineering" : `${title} | Jorsby`;
+const siteTitle = t(lang, "meta.siteTitle");
+const fullTitle = title === "Jorsby" ? siteTitle : `${title} | Jorsby`;
+
+const enPath = getAlternateLangPath(Astro.url.pathname, "en");
+const trPath = getAlternateLangPath(Astro.url.pathname, "tr");
+const enURL = new URL(enPath, Astro.site);
+const trURL = new URL(trPath, Astro.site);
+
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Jorsby",
+  url: Astro.site?.toString() ?? "https://jorsby.ai",
+  logo: new URL("/og-default.svg", Astro.site).toString(),
+  description: t(lang, "meta.defaultDescription"),
+  sameAs: ["https://x.com/jorsby_en"],
+};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
 
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="en" href={enURL} />
+    <link rel="alternate" hreflang="tr" href={trURL} />
+    <link rel="alternate" hreflang="x-default" href={enURL} />
+
     <title>{fullTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={resolvedDescription} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={resolvedDescription} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:locale" content={lang === "tr" ? "tr_TR" : "en_US"} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@jorsby_en" />
     <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={resolvedDescription} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
-    <!-- RSS -->
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Jorsby Blog"
-      href="/rss.xml"
-    />
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body class="flex min-h-screen flex-col">
-    <Header />
-    {fullWidth ? (
-      <main class="flex-1">
-        <slot />
-      </main>
-    ) : (
-      <main class="mx-auto w-full max-w-3xl flex-1 px-6 py-12">
-        <slot />
-      </main>
-    )}
-    <Footer />
+    <Header lang={lang} />
+    {
+      fullWidth ? (
+        <main class="flex-1">
+          <slot />
+        </main>
+      ) : (
+        <main class="mx-auto w-full max-w-3xl flex-1 px-6 py-12">
+          <slot />
+        </main>
+      )
+    }
+    <Footer lang={lang} />
 
     <script>
+      // Scroll fade-in
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -80,6 +109,18 @@ const fullTitle = title === "Jorsby" ? "Jorsby — AI Agent Engineering" : `${ti
         { threshold: 0.1 },
       );
       document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+
+      // Autoplay hero videos reliably (muted), and respect reduced-motion
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.querySelectorAll<HTMLVideoElement>("video[autoplay]").forEach((v) => {
+        v.muted = true;
+        if (reduce) {
+          v.removeAttribute("autoplay");
+          v.pause();
+        } else {
+          v.play().catch(() => {});
+        }
+      });
     </script>
   </body>
 </html>

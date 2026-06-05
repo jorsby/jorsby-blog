@@ -1,0 +1,73 @@
+---
+import { t, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+---
+
+<dialog
+  id="video-lightbox"
+  class="m-auto w-full max-w-[400px] bg-transparent p-0 backdrop:bg-black/85 backdrop:backdrop-blur-sm"
+>
+  <div class="relative">
+    <button
+      id="lightbox-close"
+      type="button"
+      aria-label={t(lang, "work.closeLabel")}
+      class="absolute -top-12 right-0 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-neutral-300 transition-colors hover:border-accent/50 hover:text-accent"
+    >
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6 6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+    <div class="aspect-[9/16] w-full overflow-hidden rounded-2xl border border-border bg-black shadow-glow-poster">
+      <video
+        id="lightbox-video"
+        class="h-full w-full object-contain"
+        controls
+        playsinline
+        preload="auto"></video>
+    </div>
+    <p id="lightbox-title" class="mt-3 text-center font-mono text-xs text-neutral-400"></p>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById("video-lightbox") as HTMLDialogElement | null;
+  const video = document.getElementById("lightbox-video") as HTMLVideoElement | null;
+  const titleEl = document.getElementById("lightbox-title");
+  const closeBtn = document.getElementById("lightbox-close");
+
+  if (dialog && video) {
+    const reset = () => {
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+    };
+
+    const open = (src: string, poster: string, title: string) => {
+      video.src = src;
+      if (poster) video.poster = poster;
+      if (titleEl) titleEl.textContent = title || "";
+      dialog.showModal();
+      video.play().catch(() => {});
+    };
+
+    document.querySelectorAll<HTMLElement>("[data-video]").forEach((el) => {
+      el.addEventListener("click", () =>
+        open(el.dataset.video || "", el.dataset.poster || "", el.dataset.title || ""),
+      );
+    });
+
+    closeBtn?.addEventListener("click", () => dialog.close());
+    // Esc + close() both fire the native close event
+    dialog.addEventListener("close", reset);
+    // Click on the backdrop (target is the dialog element itself)
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  }
+</script>
