@@ -9,6 +9,14 @@ export interface Episode {
   posterUrl: string;
 }
 
+export interface Social {
+  youtube?: string;
+  instagram?: string;
+  facebook?: string;
+  tiktok?: string;
+  x?: string;
+}
+
 export interface Drama {
   title: string;
   tagline: string;
@@ -17,6 +25,8 @@ export interface Drama {
   languages: string[];
   teaserVideoUrl: string;
   teaserPosterUrl: string;
+  /** The SHOW's own channels (per language) — not Jorsby's corporate accounts. */
+  social?: Social;
   episodes: Episode[];
 }
 
@@ -113,6 +123,13 @@ export const drama: Record<Lang, Drama> = {
     languages: ["EN", "TR"],
     teaserVideoUrl: `${R2_BASE}/${SERIES}/sizzle.mp4`,
     teaserPosterUrl: "/posters/teaser.jpg",
+    social: {
+      youtube: "https://www.youtube.com/@alpharuinedme",
+      instagram: "https://www.instagram.com/alpharuinedme",
+      facebook: "https://www.facebook.com/1135959962931609",
+      tiktok: "https://www.tiktok.com/@alpharuinedme",
+      x: "https://x.com/AlphaRuinedMe",
+    },
     episodes: buildEpisodes(EN_EPISODES, "en"),
   },
   tr: {
@@ -125,6 +142,13 @@ export const drama: Record<Lang, Drama> = {
     languages: ["EN", "TR"],
     teaserVideoUrl: `${R2_BASE}/${SERIES}/sizzle.tr.mp4`,
     teaserPosterUrl: "/posters/teaser.tr.jpg",
+    social: {
+      youtube: "https://www.youtube.com/@mahvedenalfa",
+      instagram: "https://www.instagram.com/mahvedenalfa",
+      facebook: "https://www.facebook.com/1110443765489628",
+      tiktok: "https://www.tiktok.com/@mahvedenalfa",
+      x: "https://x.com/MahvedenAlfa",
+    },
     episodes: buildEpisodes(TR_EPISODES, "tr"),
   },
 };

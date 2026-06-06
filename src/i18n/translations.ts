@@ -97,6 +97,7 @@ export const ui = {
     "work.allEpisodes": "All episodes",
     "work.playLabel": "Play",
     "work.closeLabel": "Close",
+    "work.watchSeries": "Watch the full series on",
 
     // Contact
     "contact.title": "Start a project",
@@ -227,6 +228,7 @@ export const ui = {
     "work.allEpisodes": "Tüm bölümler",
     "work.playLabel": "Oynat",
     "work.closeLabel": "Kapat",
+    "work.watchSeries": "Diziyi şuradan izleyin",
 
     // Contact
     "contact.title": "Projeye başla",

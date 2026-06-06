@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import VideoPlayer from "../../components/VideoPlayer.astro";
 import ShowcaseGrid from "../../components/ShowcaseGrid.astro";
 import LanguageBadges from "../../components/LanguageBadges.astro";
+import SeriesSocial from "../../components/SeriesSocial.astro";
 import CTABanner from "../../components/CTABanner.astro";
 import { t } from "../../i18n/utils";
 import { drama } from "../../data/episodes";
@@ -20,6 +21,7 @@ const jsonLd = {
   inLanguage: ["en", "tr"],
   numberOfEpisodes: d.episodes.length,
   image: new URL(d.teaserPosterUrl, Astro.site).toString(),
+  ...(d.social ? { sameAs: Object.values(d.social).filter(Boolean) } : {}),
 };
 ---
 
@@ -42,6 +44,7 @@ const jsonLd = {
               <dd class="mt-1.5"><LanguageBadges languages={d.languages} /></dd>
             </div>
           </dl>
+          <SeriesSocial social={d.social} label={t(lang, "work.watchSeries")} />
         </div>
         <div class="mx-auto w-full max-w-[320px]">
           <p class="mb-3 text-center font-mono text-xs text-neutral-500">

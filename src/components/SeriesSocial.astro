@@ -1,0 +1,52 @@
+---
+import type { Social } from "../data/episodes";
+
+interface Props {
+  social?: Social;
+  label: string;
+}
+
+const { social, label } = Astro.props;
+
+const ICONS: Record<keyof Social, string> = {
+  youtube: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.5 15.5v-7l6.3 3.5-6.3 3.5Z"/></svg>`,
+  instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5.2"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>`,
+  tiktok: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3c.3 2.3 1.6 3.7 3.8 3.8v2.6c-1.3.1-2.5-.3-3.8-1v6.9c0 5-3.8 7.4-7.4 5.9-2.3-1-3.2-3.8-2.4-6.2.7-2 2.6-3.3 5-3.1v2.7c-.4-.1-.8-.1-1.2 0-1.2.3-1.9 1.1-1.7 2.3.2 1.4 1.7 2.1 2.9 1.5.9-.5 1.1-1.3 1.1-2.3V3h3.7Z"/></svg>`,
+  facebook: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.6 4.5-4.6 1.3 0 2.6.2 2.6.2v2.9h-1.5c-1.5 0-1.9.9-1.9 1.8V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12Z"/></svg>`,
+  x: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2h3.3l-7.2 8.3L23 22h-6.6l-5.2-6.8L5.2 22H1.9l7.7-8.8L1 2h6.8l4.7 6.2L18.2 2Zm-1.2 18h1.8L7.1 3.9H5.2L17 20Z"/></svg>`,
+};
+
+const NAMES: Record<keyof Social, string> = {
+  youtube: "YouTube",
+  instagram: "Instagram",
+  tiktok: "TikTok",
+  facebook: "Facebook",
+  x: "X",
+};
+
+const order: (keyof Social)[] = ["youtube", "instagram", "tiktok", "facebook", "x"];
+const links = order
+  .filter((k) => social?.[k])
+  .map((k) => ({ href: social![k]!, icon: ICONS[k], name: NAMES[k] }));
+---
+
+{
+  links.length > 0 && (
+    <div class="mt-8">
+      <p class="mb-2.5 font-mono text-xs uppercase tracking-wider text-neutral-500">{label}</p>
+      <div class="flex flex-wrap gap-2.5">
+        {links.map((l) => (
+          <a
+            href={l.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={l.name}
+            title={l.name}
+            class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-neutral-300 transition-all hover:border-accent/40 hover:text-accent [&>svg]:h-[18px] [&>svg]:w-[18px]"
+            set:html={l.icon}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
