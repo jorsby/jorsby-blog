@@ -18,11 +18,11 @@ export const ui = {
     "nav.cta": "Start a project",
 
     // Hero
-    "hero.eyebrow": "Vertical AI Drama Studio",
+    "hero.eyebrow": "AI Story Studio",
     "hero.title1": "Vertical dramas",
     "hero.title2": "your audience can't scroll past.",
     "hero.subtitle":
-      "Jorsby produces binge-worthy vertical drama series for brands — written, filmed and voiced with AI, delivered in any language.",
+      "Jorsby makes binge-worthy story series that businesses run on their own channels — vertical or long-form, written and voiced with AI, in any language.",
     "hero.ctaPrimary": "Start a project",
     "hero.ctaSecondary": "Watch the series",
     "hero.stat1": "15 episodes",
@@ -39,21 +39,21 @@ export const ui = {
     "featured.genreLabel": "Genre",
 
     // Services
-    "services.title": "What we make for brands",
+    "services.title": "What we make for your channels",
     "services.subtitle":
-      "Drama that sells, not ads that interrupt. Pick a format — we handle the rest.",
-    "services.brand.title": "Brand stories",
-    "services.brand.desc":
-      "Episodic series that build your world and keep viewers coming back for the next drop.",
-    "services.launch.title": "Product launches",
-    "services.launch.desc":
-      "Turn a release into a storyline — tension, reveal, payoff — engineered for the feed.",
-    "services.recruit.title": "Employer brand",
-    "services.recruit.desc":
-      "Recruitment dramas that make people want to work for you, not just apply.",
-    "services.education.title": "Explainer dramas",
-    "services.education.desc":
-      "Teach a concept or a product through characters and conflict instead of a talking head.",
+      "Not ads that interrupt — story series your audience chooses to watch. Pick a lane; we produce the rest.",
+    "services.educational.title": "Educational storytelling",
+    "services.educational.desc":
+      "Turn complex topics — law, finance, health — into story-driven episodes people watch to the end instead of scrolling past.",
+    "services.series.title": "Vertical drama series",
+    "services.series.desc":
+      "Ongoing 9:16 shows for your Instagram and TikTok — recurring characters, cliffhangers, a reason to come back for the next drop.",
+    "services.history.title": "History & documentary",
+    "services.history.desc":
+      "Long-form visualized history and explainers for YouTube — a consistent cast and world across a whole channel.",
+    "services.character.title": "Consistent characters",
+    "services.character.desc":
+      "Recurring characters and worlds your brand owns — the same faces, voices and style across every episode and language.",
 
     // Value props
     "value.title": "Why vertical AI drama",
@@ -124,19 +124,19 @@ export const ui = {
     "cta.button": "Start a project",
 
     // Footer
-    "footer.brand": "Vertical AI drama studio.\nSeries for brands, in any language.",
+    "footer.brand": "AI story studio.\nSeries businesses run on their own channels, in any language.",
     "footer.studio": "Studio",
     "footer.connect": "Connect",
     "footer.copyright": "Jorsby. All rights reserved.",
 
     // About
     "about.title": "About Jorsby",
-    "about.subtitle": "A vertical AI drama studio for brands.",
+    "about.subtitle": "An AI story studio — series your audience chooses to watch.",
 
     // Meta
     "meta.defaultDescription":
-      "Jorsby is a vertical AI drama studio — we produce binge-worthy short-form drama series for brands, in any language.",
-    "meta.siteTitle": "Jorsby — Vertical AI Drama Studio",
+      "Jorsby is an AI story studio — we produce binge-worthy vertical dramas and long-form series that businesses run on their own channels, in any language.",
+    "meta.siteTitle": "Jorsby — AI Story Studio",
   },
   tr: {
     // Navigation
@@ -148,11 +148,11 @@ export const ui = {
     "nav.cta": "Projeye başla",
 
     // Hero
-    "hero.eyebrow": "Dikey Yapay Zeka Dizi Stüdyosu",
+    "hero.eyebrow": "Yapay Zeka Hikâye Stüdyosu",
     "hero.title1": "İzleyicinin geçemeyeceği",
     "hero.title2": "dikey diziler.",
     "hero.subtitle":
-      "Jorsby, markalar için bağımlılık yapan dikey dizi serileri üretir — yapay zeka ile yazılır, çekilir ve seslendirilir, her dilde teslim edilir.",
+      "Jorsby, işletmelerin kendi kanallarında yayınladığı bağımlılık yapan hikâye serileri üretir — dikey ya da uzun form, yapay zeka ile yazılır ve seslendirilir, her dilde.",
     "hero.ctaPrimary": "Projeye başla",
     "hero.ctaSecondary": "Diziyi izle",
     "hero.stat1": "15 bölüm",
@@ -169,21 +169,21 @@ export const ui = {
     "featured.genreLabel": "Tür",
 
     // Services
-    "services.title": "Markalar için ne üretiyoruz",
+    "services.title": "Kanallarınız için ne üretiyoruz",
     "services.subtitle":
-      "Bölmeyen reklamlar değil, satan diziler. Bir format seçin — gerisini biz hallederiz.",
-    "services.brand.title": "Marka hikâyeleri",
-    "services.brand.desc":
-      "Dünyanızı kuran ve izleyiciyi bir sonraki bölüm için geri getiren bölümlü seriler.",
-    "services.launch.title": "Ürün lansmanları",
-    "services.launch.desc":
-      "Bir lansmanı kurguya dönüştürün — gerilim, açılış, ödül — akış için tasarlanmış.",
-    "services.recruit.title": "İşveren markası",
-    "services.recruit.desc":
-      "İnsanların sadece başvurmak değil, sizin için çalışmak istemesini sağlayan işe alım dizileri.",
-    "services.education.title": "Anlatım dizileri",
-    "services.education.desc":
-      "Bir kavramı ya da ürünü, konuşan kafa yerine karakterler ve çatışmayla anlatın.",
+      "Bölmeyen reklamlar değil — izleyicinin izlemeyi seçtiği hikâye serileri. Bir alan seçin, gerisini biz üretelim.",
+    "services.educational.title": "Eğitici hikâye anlatımı",
+    "services.educational.desc":
+      "Karmaşık konuları — hukuk, finans, sağlık — izleyicinin geçip gitmek yerine sonuna kadar izlediği hikâye odaklı bölümlere dönüştürün.",
+    "services.series.title": "Dikey dizi serileri",
+    "services.series.desc":
+      "Instagram ve TikTok için sürekli 9:16 diziler — tekrar eden karakterler, merak uyandıran finaller, bir sonraki bölüm için geri dönme nedeni.",
+    "services.history.title": "Tarih ve belgesel",
+    "services.history.desc":
+      "YouTube için uzun form görselleştirilmiş tarih ve anlatımlar — tüm bir kanal boyunca tutarlı bir oyuncu kadrosu ve dünya.",
+    "services.character.title": "Tutarlı karakterler",
+    "services.character.desc":
+      "Markanızın sahip olduğu tekrar eden karakterler ve dünyalar — her bölümde ve her dilde aynı yüzler, sesler ve stil.",
 
     // Value props
     "value.title": "Neden dikey yapay zeka dizisi",
@@ -254,18 +254,18 @@ export const ui = {
     "cta.button": "Projeye başla",
 
     // Footer
-    "footer.brand": "Dikey yapay zeka dizi stüdyosu.\nMarkalar için diziler, her dilde.",
+    "footer.brand": "Yapay zeka hikâye stüdyosu.\nİşletmelerin kendi kanallarında yayınladığı seriler, her dilde.",
     "footer.studio": "Stüdyo",
     "footer.connect": "Bağlantı",
     "footer.copyright": "Jorsby. Tüm hakları saklıdır.",
 
     // About
     "about.title": "Jorsby Hakkında",
-    "about.subtitle": "Markalar için dikey yapay zeka dizi stüdyosu.",
+    "about.subtitle": "Bir yapay zeka hikâye stüdyosu — izleyicinin izlemeyi seçtiği seriler.",
 
     // Meta
     "meta.defaultDescription":
-      "Jorsby, dikey yapay zeka dizi stüdyosudur — markalar için bağımlılık yapan kısa form dizi serileri üretiyoruz, her dilde.",
-    "meta.siteTitle": "Jorsby — Dikey Yapay Zeka Dizi Stüdyosu",
+      "Jorsby bir yapay zeka hikâye stüdyosudur — işletmelerin kendi kanallarında yayınladığı bağımlılık yapan dikey dramalar ve uzun form seriler üretiyoruz, her dilde.",
+    "meta.siteTitle": "Jorsby — Yapay Zeka Hikâye Stüdyosu",
   },
 } as const;
