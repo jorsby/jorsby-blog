@@ -113,7 +113,7 @@ export const ui = {
     "contact.submit": "Send inquiry",
     "contact.sending": "Sending…",
     "contact.success": "Thanks — we'll be in touch shortly.",
-    "contact.error": "Something went wrong. Email us at hello@jorsby.ai.",
+    "contact.error": "Something went wrong. Email us at serhat@jorsby.ai.",
     "contact.directLabel": "Prefer email?",
     "contact.directText": "Reach us directly at",
 
@@ -243,7 +243,7 @@ export const ui = {
     "contact.submit": "Gönder",
     "contact.sending": "Gönderiliyor…",
     "contact.success": "Teşekkürler — kısa süre içinde dönüş yapacağız.",
-    "contact.error": "Bir şeyler ters gitti. Bize hello@jorsby.ai adresinden yazın.",
+    "contact.error": "Bir şeyler ters gitti. Bize serhat@jorsby.ai adresinden yazın.",
     "contact.directLabel": "E-postayı mı tercih edersiniz?",
     "contact.directText": "Bize doğrudan ulaşın:",
 
