@@ -52,10 +52,14 @@ export interface Drama {
 const R2_BASE = "https://pub-acd1440124614ccb9c0b6dcdfd9cd4af.r2.dev";
 const SERIES = "married-to-the-alpha";
 const TR_AUDIO_THROUGH = 10; // eps 11–15 have no TR audio yet → fall back to EN
+// Cache-bust token — bump when a video is re-uploaded at the same R2 key
+// (objects are served `immutable`, so a new ?v= forces clients past the cache).
+// v2 = watermarked (jorsby.ai + show handle).
+const CACHE_V = "2";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const vid = (n: number, lang: "en" | "tr") =>
-  `${R2_BASE}/${SERIES}/ep-${pad(n)}.${lang}.mp4`;
+  `${R2_BASE}/${SERIES}/ep-${pad(n)}.${lang}.mp4?v=${CACHE_V}`;
 const poster = (n: number) => `/posters/ep-${pad(n)}.jpg`;
 
 type Entry = { title: string; synopsis: string; duration: string };
@@ -121,7 +125,7 @@ export const drama: Record<Lang, Drama> = {
       "After the billionaire who destroyed her father offers to save her dying mother, Lena Ashford marries the man she hates — and learns on her wedding night that he isn't human, that an ancient bloodline runs in her veins, and that she is the one thing his pack has hunted for a hundred years. A supernatural romance in fifteen vertical episodes.",
     genre: "Werewolf romance · Fated mates",
     languages: ["EN", "TR"],
-    teaserVideoUrl: `${R2_BASE}/${SERIES}/sizzle.mp4`,
+    teaserVideoUrl: `${R2_BASE}/${SERIES}/sizzle.mp4?v=${CACHE_V}`,
     teaserPosterUrl: "/posters/teaser.jpg",
     social: {
       youtube: "https://www.youtube.com/@alpharuinedme",
@@ -140,7 +144,7 @@ export const drama: Record<Lang, Drama> = {
       "Babasını mahveden milyarder, ölmek üzere olan annesini kurtarmayı teklif edince Lena Ashford nefret ettiği adamla evlenir — ve düğün gecesi onun insan olmadığını, damarlarında kadim bir kan hattının dolaştığını ve sürüsünün yüz yıldır avladığı tek şeyin kendisi olduğunu öğrenir. On beş dikey bölümde doğaüstü bir aşk.",
     genre: "Kurt adam aşkı · Kader eşi",
     languages: ["EN", "TR"],
-    teaserVideoUrl: `${R2_BASE}/${SERIES}/sizzle.tr.mp4`,
+    teaserVideoUrl: `${R2_BASE}/${SERIES}/sizzle.tr.mp4?v=${CACHE_V}`,
     teaserPosterUrl: "/posters/teaser.tr.jpg",
     social: {
       youtube: "https://www.youtube.com/@mahvedenalfa",
