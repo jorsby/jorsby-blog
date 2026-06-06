@@ -41,7 +41,7 @@ const orgSchema = {
   url: Astro.site?.toString() ?? "https://jorsby.ai",
   logo: new URL("/og-default.svg", Astro.site).toString(),
   description: t(lang, "meta.defaultDescription"),
-  sameAs: ["https://x.com/jorsby_en"],
+  sameAs: [],
 };
 ---
 
@@ -71,7 +71,6 @@ const orgSchema = {
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@jorsby_en" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={resolvedDescription} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
