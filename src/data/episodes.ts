@@ -111,8 +111,8 @@ export const drama: Record<Lang, Drama> = {
       "After the billionaire who destroyed her father offers to save her dying mother, Lena Ashford marries the man she hates — and learns on her wedding night that he isn't human, that an ancient bloodline runs in her veins, and that she is the one thing his pack has hunted for a hundred years. A supernatural romance in fifteen vertical episodes.",
     genre: "Werewolf romance · Fated mates",
     languages: ["EN", "TR"],
-    teaserVideoUrl: vid(1, "en"),
-    teaserPosterUrl: poster(1),
+    teaserVideoUrl: `${R2_BASE}/${SERIES}/sizzle.mp4`,
+    teaserPosterUrl: "/posters/teaser.jpg",
     episodes: buildEpisodes(EN_EPISODES, "en"),
   },
   tr: {
@@ -123,8 +123,8 @@ export const drama: Record<Lang, Drama> = {
       "Babasını mahveden milyarder, ölmek üzere olan annesini kurtarmayı teklif edince Lena Ashford nefret ettiği adamla evlenir — ve düğün gecesi onun insan olmadığını, damarlarında kadim bir kan hattının dolaştığını ve sürüsünün yüz yıldır avladığı tek şeyin kendisi olduğunu öğrenir. On beş dikey bölümde doğaüstü bir aşk.",
     genre: "Kurt adam aşkı · Kader eşi",
     languages: ["EN", "TR"],
-    teaserVideoUrl: vid(1, "tr"),
-    teaserPosterUrl: poster(1),
+    teaserVideoUrl: `${R2_BASE}/${SERIES}/sizzle.tr.mp4`,
+    teaserPosterUrl: "/posters/teaser.tr.jpg",
     episodes: buildEpisodes(TR_EPISODES, "tr"),
   },
 };
