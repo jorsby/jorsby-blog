@@ -91,11 +91,11 @@ const EN_EPISODES: Entry[] = [
   { title: "The Bloodline", duration: "1:29", synopsis: "An ancient codex names what Lena is: the last Luna of the Crescent Pack, a bloodline that doesn't dilute — it waits." },
   { title: "The Mark", duration: "1:30", synopsis: "Kael confesses he never married her to save her mother — he claimed her to keep every other Alpha away — as enemies surround the house." },
   { title: "The Brother", duration: "1:24", synopsis: "Cornered by Seraphine's blade, Lena meets the one person she never knew existed — and learns the Crescent Pack never fell." },
-  { title: "The Claim", duration: "1:36", synopsis: "The Crescent Pack's claim turns a private marriage into open war. (Placeholder — confirm.)" },
-  { title: "The Cost", duration: "1:21", synopsis: "Loyalties fracture as Lena learns what being a Luna will cost her. (Placeholder — confirm.)" },
-  { title: "The Blade", duration: "1:50", synopsis: "An old promise and a silver blade force an impossible choice. (Placeholder — confirm.)" },
-  { title: "The Truth", duration: "1:21", synopsis: "The truth about her father's death rewrites everything Lena thought she knew. (Placeholder — confirm.)" },
-  { title: "The Reckoning", duration: "1:29", synopsis: "Two packs, one Luna, and a reckoning a hundred years in the making. (Placeholder — confirm.)" },
+  { title: "The Claim", duration: "1:36", synopsis: "The Crescent Pack's claim turns a private marriage into open war." },
+  { title: "The Cost", duration: "1:21", synopsis: "Loyalties fracture as Lena learns what being a Luna will cost her." },
+  { title: "The Blade", duration: "1:50", synopsis: "An old promise and a silver blade force an impossible choice." },
+  { title: "The Truth", duration: "1:21", synopsis: "The truth about her father's death rewrites everything Lena thought she knew." },
+  { title: "The Reckoning", duration: "1:29", synopsis: "Two packs, one Luna, and a reckoning a hundred years in the making." },
 ];
 
 const TR_EPISODES: Entry[] = [
@@ -109,11 +109,11 @@ const TR_EPISODES: Entry[] = [
   { title: "Kan Hattı", duration: "1:29", synopsis: "Kadim bir kodeks Lena'nın ne olduğunu söyler: Hilal Sürüsü'nün son Luna'sı, seyrelmeyen bir kan hattı — sadece bekler." },
   { title: "Mühür", duration: "1:30", synopsis: "Kael, annesini kurtarmak için onunla evlenmediğini itiraf eder — onu her Alfa'dan uzak tutmak için sahiplendi — düşmanlar evi sararken." },
   { title: "Ağabey", duration: "1:24", synopsis: "Seraphine'in hançeriyle köşeye sıkışan Lena, var olduğunu hiç bilmediği biriyle tanışır — ve Hilal Sürüsü'nün hiç yok olmadığını öğrenir." },
-  { title: "Sahiplenme", duration: "1:36", synopsis: "Hilal Sürüsü'nün talebi, özel bir evliliği açık bir savaşa çevirir. (Geçici — onaylanacak.)" },
-  { title: "Bedel", duration: "1:21", synopsis: "Luna olmanın bedelini öğrendikçe sadakatler çatlar. (Geçici — onaylanacak.)" },
-  { title: "Hançer", duration: "1:50", synopsis: "Eski bir söz ve gümüş bir hançer imkânsız bir seçime zorlar. (Geçici — onaylanacak.)" },
-  { title: "Gerçek", duration: "1:21", synopsis: "Babasının ölümüyle ilgili gerçek, Lena'nın bildiği her şeyi yeniden yazar. (Geçici — onaylanacak.)" },
-  { title: "Hesaplaşma", duration: "1:29", synopsis: "İki sürü, tek bir Luna ve yüz yıllık bir hesaplaşma. (Geçici — onaylanacak.)" },
+  { title: "Sahiplenme", duration: "1:36", synopsis: "Hilal Sürüsü'nün talebi, özel bir evliliği açık bir savaşa çevirir." },
+  { title: "Bedel", duration: "1:21", synopsis: "Luna olmanın bedelini öğrendikçe sadakatler çatlar." },
+  { title: "Hançer", duration: "1:50", synopsis: "Eski bir söz ve gümüş bir hançer imkânsız bir seçime zorlar." },
+  { title: "Gerçek", duration: "1:21", synopsis: "Babasının ölümüyle ilgili gerçek, Lena'nın bildiği her şeyi yeniden yazar." },
+  { title: "Hesaplaşma", duration: "1:29", synopsis: "İki sürü, tek bir Luna ve yüz yıllık bir hesaplaşma." },
 ];
 
 export const drama: Record<Lang, Drama> = {
