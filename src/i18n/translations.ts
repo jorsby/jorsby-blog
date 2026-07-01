@@ -135,6 +135,23 @@ export const ui = {
     "stats.languagesLabel": "languages",
     "stats.episodesLabel": "episodes shipped",
 
+    // Traction / data-viz
+    "traction.eyebrow": "By the numbers",
+    "traction.title": "Real traction, not just reels",
+    "traction.subtitle":
+      "What the machine has produced — and the audience it has earned — measured across every channel we run.",
+    "traction.viewsLabel": "views",
+    "traction.likesLabel": "likes",
+    "traction.postsLabel": "posts published",
+    "traction.episodesLabel": "episodes",
+    "traction.reachTitle": "Reach by show",
+    "traction.reachUnit": "views",
+    "traction.platformsTitle": "Every platform",
+    "traction.platformsCenter": "posts",
+    "traction.outputTitle": "Output",
+    "traction.outputSubtitle": "Posts published per month",
+    "traction.outputHighlight": "47 episodes shipped in a single month.",
+
     // Contact
     "contact.title": "Start a project",
     "contact.subtitle":
@@ -301,6 +318,23 @@ export const ui = {
     "stats.genresLabel": "tür",
     "stats.languagesLabel": "dil",
     "stats.episodesLabel": "yayınlanan bölüm",
+
+    // Traction / data-viz
+    "traction.eyebrow": "Rakamlarla",
+    "traction.title": "Sadece video değil, gerçek etkileşim",
+    "traction.subtitle":
+      "Makinenin ürettikleri — ve kazandığı izleyici — yönettiğimiz her kanalda ölçüldü.",
+    "traction.viewsLabel": "görüntülenme",
+    "traction.likesLabel": "beğeni",
+    "traction.postsLabel": "paylaşım",
+    "traction.episodesLabel": "bölüm",
+    "traction.reachTitle": "Şova göre erişim",
+    "traction.reachUnit": "görüntülenme",
+    "traction.platformsTitle": "Her platform",
+    "traction.platformsCenter": "paylaşım",
+    "traction.outputTitle": "Üretim",
+    "traction.outputSubtitle": "Aylık paylaşım sayısı",
+    "traction.outputHighlight": "Tek ayda 47 bölüm yayınlandı.",
 
     // Contact
     "contact.title": "Projeye başla",

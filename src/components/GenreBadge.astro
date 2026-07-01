@@ -5,26 +5,37 @@ import type { Genre } from "../data/shows";
 interface Props {
   genre: Genre;
   lang?: Lang;
+  onDark?: boolean; // true when placed over a dark poster (ShowCard)
   class?: string;
 }
 
-const { genre, lang = "en", class: extra = "" } = Astro.props;
+const { genre, lang = "en", onDark = false, class: extra = "" } = Astro.props;
 
-// A subtle per-genre tint so the wall reads as a range of shows, not one look.
-const TINT: Record<Genre, string> = {
-  drama: "border-rose-400/30 bg-rose-400/10 text-rose-200",
-  moral: "border-emerald-400/30 bg-emerald-400/10 text-emerald-200",
-  science: "border-sky-400/30 bg-sky-400/10 text-sky-200",
-  history: "border-amber-400/30 bg-amber-400/10 text-amber-200",
-  "dark-history": "border-neutral-400/30 bg-neutral-400/10 text-neutral-200",
-  finance: "border-teal-400/30 bg-teal-400/10 text-teal-200",
+// Light-background tints (default) — readable dark text on a soft color wash.
+const LIGHT: Record<Genre, string> = {
+  drama: "border-rose-300 bg-rose-50 text-rose-800",
+  moral: "border-emerald-300 bg-emerald-50 text-emerald-800",
+  science: "border-sky-300 bg-sky-50 text-sky-800",
+  history: "border-amber-300 bg-amber-50 text-amber-800",
+  "dark-history": "border-neutral-300 bg-neutral-100 text-neutral-800",
+  finance: "border-teal-300 bg-teal-50 text-teal-800",
 };
+// Over a dark poster image — bright text on a translucent color chip.
+const DARK: Record<Genre, string> = {
+  drama: "border-rose-300/40 bg-rose-500/25 text-rose-100",
+  moral: "border-emerald-300/40 bg-emerald-500/25 text-emerald-100",
+  science: "border-sky-300/40 bg-sky-500/25 text-sky-100",
+  history: "border-amber-300/40 bg-amber-500/30 text-amber-100",
+  "dark-history": "border-white/30 bg-white/15 text-neutral-100",
+  finance: "border-teal-300/40 bg-teal-500/25 text-teal-100",
+};
+const tint = (onDark ? DARK : LIGHT)[genre];
 ---
 
 <span
   class:list={[
     "inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-[11px] uppercase tracking-wide",
-    TINT[genre],
+    tint,
     extra,
   ]}
 >

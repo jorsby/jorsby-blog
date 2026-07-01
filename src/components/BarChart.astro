@@ -1,0 +1,38 @@
+---
+interface Row {
+  label: string;
+  value: number;
+}
+interface Props {
+  rows: Row[]; // pre-sorted desc
+  unit?: string; // e.g. "views"
+}
+const { rows, unit = "" } = Astro.props;
+
+const max = Math.max(...rows.map((r) => r.value), 1);
+const fmt = (n: number) =>
+  new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n);
+const width = (v: number) => Math.max(3, Math.round((v / max) * 100)); // min 3% so tiny bars read
+---
+
+<div class="space-y-3.5">
+  {
+    rows.map((r, i) => (
+      <div>
+        <div class="mb-1 flex items-baseline justify-between gap-3">
+          <span class="truncate text-sm font-medium text-neutral-800">{r.label}</span>
+          <span class="shrink-0 font-mono text-xs text-neutral-500">
+            {fmt(r.value)}
+            {unit && ` ${unit}`}
+          </span>
+        </div>
+        <div class="h-2.5 w-full overflow-hidden rounded-full bg-black/5">
+          <div
+            class:list={["bar-grow h-full rounded-full", `grow-bar-${Math.min(i + 1, 6)}`]}
+            style={`width:${width(r.value)}%;background:linear-gradient(90deg,#f0c674,#e8b14c 60%,#b8860b)`}
+          />
+        </div>
+      </div>
+    ))
+  }
+</div>

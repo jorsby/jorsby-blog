@@ -19,7 +19,7 @@ const stats = [
 
 <section class="fade-in border-y border-border/50 bg-cinematic px-6 py-12 sm:py-14">
   <div class="mx-auto max-w-6xl">
-    <p class="mb-6 text-center font-mono text-xs uppercase tracking-wider text-accent">
+    <p class="mb-6 text-center font-mono text-xs uppercase tracking-wider text-accent-ink">
       {t(lang, "stats.eyebrow")}
     </p>
     <dl class="grid grid-cols-2 gap-8 sm:grid-cols-4">
@@ -27,7 +27,7 @@ const stats = [
         stats.map((st) => (
           <div class="text-center">
             <dt class="font-display text-4xl font-extrabold text-ink sm:text-5xl">{st.value}</dt>
-            <dd class="mt-1.5 font-mono text-xs uppercase tracking-wider text-neutral-400">{st.label}</dd>
+            <dd class="mt-1.5 font-mono text-xs uppercase tracking-wider text-neutral-600">{st.label}</dd>
           </div>
         ))
       }

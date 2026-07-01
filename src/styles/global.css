@@ -6,16 +6,16 @@
 
 @layer base {
   html {
-    @apply bg-bg text-neutral-300 antialiased;
+    @apply bg-bg text-[#4a4038] antialiased;
     scroll-behavior: smooth;
   }
 
   ::selection {
-    @apply bg-accent/30 text-white;
+    @apply bg-accent/30 text-ink;
   }
 
   code:not(pre code) {
-    @apply rounded bg-surface px-1.5 py-0.5 font-mono text-sm text-neutral-200;
+    @apply rounded bg-surface px-1.5 py-0.5 font-mono text-sm text-neutral-800;
   }
 }
 
@@ -25,12 +25,57 @@
     @apply bg-gold-text bg-clip-text text-transparent;
   }
 
-  /* Bottom-up vignette overlay for posters/cards */
+  /* Frosted glass surface (light theme) */
+  .glass {
+    background: rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 8px 30px rgba(40, 28, 12, 0.08);
+  }
+  /* Warm gold-tinted glass — for the CTA */
+  .glass-gold {
+    background: linear-gradient(135deg, rgba(240, 198, 116, 0.24), rgba(255, 255, 255, 0.5));
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid rgba(232, 177, 76, 0.35);
+    box-shadow: 0 10px 36px rgba(184, 134, 11, 0.16);
+  }
+
+  /* Soft warm "aurora" glows — give glass something to frost over.
+     Drop <div class="aurora"></div> as the first child of a relative section. */
+  .aurora {
+    @apply pointer-events-none absolute inset-0 overflow-hidden;
+    z-index: 0;
+  }
+  .aurora::before,
+  .aurora::after {
+    content: "";
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.55;
+  }
+  .aurora::before {
+    width: 460px;
+    height: 460px;
+    top: -160px;
+    left: -100px;
+    background: radial-gradient(circle, rgba(232, 177, 76, 0.5), transparent 70%);
+  }
+  .aurora::after {
+    width: 420px;
+    height: 420px;
+    top: -80px;
+    right: -80px;
+    background: radial-gradient(circle, rgba(240, 198, 116, 0.4), transparent 70%);
+  }
+
+  /* Bottom-up DARK vignette overlay — ONLY over dark poster images */
   .poster-vignette {
     @apply pointer-events-none absolute inset-0 bg-vignette;
   }
 
-  /* Thin letterbox bars — film motif (apply to a relatively-positioned block) */
   .letterbox::before,
   .letterbox::after {
     content: "";
@@ -44,34 +89,81 @@
   }
 }
 
-/* Subtle film-grain noise overlay (hero only). No asset — inline SVG noise. */
+/* Very subtle paper grain (hero) — barely-there on light */
 .film-grain::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.04;
-  mix-blend-mode: overlay;
+  opacity: 0.03;
+  mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Scroll fade-in animations */
+/* Scroll fade-in */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
-
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
 }
-
 .fade-in-delay-1 { transition-delay: 0.1s; }
 .fade-in-delay-2 { transition-delay: 0.2s; }
 .fade-in-delay-3 { transition-delay: 0.3s; }
 
-/* Respect reduced-motion: kill fade translate + autoplay-driven motion */
+/* ── Chart draw-in animations (trigger when the .fade-in wrapper is .visible) ── */
+/* line/area/donut paths use pathLength="1" so dash math is length-independent */
+.draw-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.visible .draw-line {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.5s ease-out 0.1s;
+}
+.area-fill {
+  opacity: 0;
+}
+.visible .area-fill {
+  opacity: 1;
+  transition: opacity 0.9s ease-out 0.5s;
+}
+.grow-bar {
+  transform: scaleX(0);
+  transform-box: fill-box;
+  transform-origin: left center;
+}
+.visible .grow-bar {
+  transform: scaleX(1);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.grow-bar-2 { transition-delay: 0.08s; }
+.grow-bar-3 { transition-delay: 0.16s; }
+.grow-bar-4 { transition-delay: 0.24s; }
+.grow-bar-5 { transition-delay: 0.32s; }
+.grow-bar-6 { transition-delay: 0.4s; }
+/* HTML (div) horizontal bar grow */
+.bar-grow {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.visible .bar-grow {
+  transform: scaleX(1);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pop-in {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.visible .pop-in {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -81,7 +173,12 @@
     transform: none;
     transition: none;
   }
-  .film-grain::after {
+  .film-grain::after,
+  .aurora {
     display: none;
   }
+  .draw-line { stroke-dashoffset: 0; }
+  .area-fill { opacity: 1; }
+  .grow-bar { transform: scaleX(1); }
+  .pop-in { opacity: 1; transform: none; }
 }

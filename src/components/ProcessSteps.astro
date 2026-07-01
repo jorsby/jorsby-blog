@@ -20,17 +20,17 @@ const steps = [
     <h2 class="font-display text-3xl font-extrabold text-ink sm:text-4xl">
       {t(lang, "process.title")}
     </h2>
-    <p class="mt-3 max-w-2xl text-neutral-400">{t(lang, "process.subtitle")}</p>
+    <p class="mt-3 max-w-2xl text-neutral-600">{t(lang, "process.subtitle")}</p>
 
     <ol class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {
         steps.map((s, i) => (
-          <li class="rounded-xl border border-border p-6">
-            <span class="font-display text-4xl font-extrabold text-accent/30">
+          <li class="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+            <span class="font-display text-4xl font-extrabold text-accent-deep/40">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <h3 class="mt-3 text-lg font-semibold text-neutral-100">{s.title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-neutral-400">{s.desc}</p>
+            <h3 class="mt-3 text-lg font-semibold text-neutral-900">{s.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-neutral-600">{s.desc}</p>
           </li>
         ))
       }

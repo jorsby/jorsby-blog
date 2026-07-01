@@ -17,8 +17,8 @@ const currentPath = Astro.url.pathname;
       class:list={[
         "rounded-md px-2 py-1 font-mono text-xs transition-colors",
         code === lang
-          ? "bg-accent/15 text-accent"
-          : "text-neutral-500 hover:text-neutral-300",
+          ? "bg-accent/15 text-accent-ink"
+          : "text-neutral-500 hover:text-neutral-700",
       ]}
       aria-label={`Switch to ${label}`}
       aria-current={code === lang ? "true" : undefined}

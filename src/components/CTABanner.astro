@@ -10,20 +10,23 @@ const { lang = "en" } = Astro.props;
 
 <section class="fade-in px-6 py-16 sm:py-24">
   <div
-    class="mx-auto max-w-5xl overflow-hidden rounded-2xl border border-accent/20 bg-cinematic px-8 py-12 text-center sm:px-16 sm:py-16"
+    class="glass-gold relative mx-auto max-w-5xl overflow-hidden rounded-3xl px-8 py-12 text-center sm:px-16 sm:py-16"
   >
+    <div class="aurora"></div>
+    <div class="relative">
     <h2 class="font-display text-3xl font-extrabold text-ink sm:text-4xl">
       {t(lang, "cta.title")}
     </h2>
-    <p class="mx-auto mt-4 max-w-xl text-neutral-400">{t(lang, "cta.subtitle")}</p>
+    <p class="mx-auto mt-4 max-w-xl text-neutral-600">{t(lang, "cta.subtitle")}</p>
     <a
       href={localizedPath("/contact", lang)}
-      class="mt-8 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg transition-all hover:bg-accent-warm hover:shadow-glow-md"
+      class="mt-8 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-ink transition-all hover:bg-accent-warm hover:shadow-glow-md"
     >
       {t(lang, "cta.button")}
       <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M5 12h14M12 5l7 7-7 7"></path>
       </svg>
     </a>
+    </div>
   </div>
 </section>

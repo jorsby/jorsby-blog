@@ -23,12 +23,13 @@ const stats = [
 ---
 
 <section class="film-grain relative overflow-hidden bg-cinematic">
+  <div class="aurora"></div>
   <div
-    class="mx-auto grid max-w-6xl items-center gap-12 px-6 pb-16 pt-16 sm:pb-24 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr]"
+    class="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 pb-16 pt-16 sm:pb-24 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr]"
   >
     <div>
       <div
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/5 px-4 py-1.5 font-mono text-xs text-accent"
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/5 px-4 py-1.5 font-mono text-xs text-accent-ink"
       >
         <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
         {t(lang, "hero.eyebrow")}
@@ -41,20 +42,20 @@ const stats = [
         <span class="gold-text">{t(lang, "hero.title2")}</span>
       </h1>
 
-      <p class="mt-6 max-w-xl text-lg leading-relaxed text-neutral-400">
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-neutral-600">
         {t(lang, "hero.subtitle")}
       </p>
 
       <div class="mt-8 flex flex-wrap gap-3">
         <a
           href={localizedPath("/contact", lang)}
-          class="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg transition-all hover:bg-accent-warm hover:shadow-glow-md"
+          class="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-ink transition-all hover:bg-accent-warm hover:shadow-glow-md"
         >
           {t(lang, "hero.ctaPrimary")}
         </a>
         <a
           href={localizedPath("/work", lang)}
-          class="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold text-neutral-200 transition-colors hover:border-accent/50 hover:text-accent"
+          class="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold text-neutral-800 transition-colors hover:border-accent/50 hover:text-accent-ink"
         >
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
           {t(lang, "hero.ctaSecondary")}

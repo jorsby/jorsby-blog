@@ -1,0 +1,49 @@
+---
+interface Point {
+  label: string;
+  value: number;
+}
+interface Props {
+  points: Point[];
+  unit?: string;
+}
+const { points, unit = "" } = Astro.props;
+
+const W = 320;
+const H = 130;
+const padX = 16;
+const padTop = 24;
+const padBottom = 22;
+const max = Math.max(...points.map((p) => p.value), 1);
+const n = points.length;
+const x = (i: number) => (n === 1 ? W / 2 : padX + (i * (W - padX * 2)) / (n - 1));
+const y = (v: number) => padTop + (1 - v / max) * (H - padTop - padBottom);
+
+const linePath = points.map((p, i) => `${i === 0 ? "M" : "L"} ${x(i).toFixed(1)} ${y(p.value).toFixed(1)}`).join(" ");
+const areaPath = `${linePath} L ${x(n - 1).toFixed(1)} ${H - padBottom} L ${x(0).toFixed(1)} ${H - padBottom} Z`;
+const fmt = (v: number) => new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(v);
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} class="h-auto w-full" role="img">
+  <defs>
+    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8b14c" stop-opacity="0.35"></stop>
+      <stop offset="100%" stop-color="#e8b14c" stop-opacity="0"></stop>
+    </linearGradient>
+  </defs>
+  <path d={areaPath} fill="url(#areaGrad)" class="area-fill"></path>
+  <path d={linePath} fill="none" stroke="#b8860b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="draw-line"></path>
+  {
+    points.map((p, i) => (
+      <g class="pop-in">
+        <circle cx={x(i)} cy={y(p.value)} r="3.5" fill="#ffffff" stroke="#b8860b" stroke-width="2" />
+        <text x={x(i)} y={y(p.value) - 9} text-anchor="middle" class="fill-neutral-800 font-mono" style="font-size:10px;font-weight:600">
+          {fmt(p.value)}
+        </text>
+        <text x={x(i)} y={H - 6} text-anchor="middle" class="fill-neutral-500 font-mono" style="font-size:10px">
+          {p.label}
+        </text>
+      </g>
+    ))
+  }
+</svg>

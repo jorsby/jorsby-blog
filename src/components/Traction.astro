@@ -1,0 +1,84 @@
+---
+import CounterStat from "./CounterStat.astro";
+import BarChart from "./BarChart.astro";
+import DonutChart from "./DonutChart.astro";
+import AreaChart from "./AreaChart.astro";
+import { stats } from "../data/stats";
+import { getShow, L } from "../data/shows";
+import { t, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = "en" } = Astro.props;
+
+const reachRows = stats.reach.map((r) => ({
+  label: getShow(r.slug) ? L(getShow(r.slug)!.title, lang) : r.slug,
+  value: r.views,
+}));
+
+const platformColors: Record<string, string> = {
+  youtube: "#b8860b",
+  instagram: "#e8b14c",
+  facebook: "#f0c674",
+  twitter: "#cdbfa4",
+};
+const platformSegments = stats.platforms.map((p) => ({
+  label: p.label,
+  value: p.posts,
+  color: platformColors[p.platform] ?? "#cdbfa4",
+}));
+const totalPosts = stats.platforms.reduce((s, p) => s + p.posts, 0);
+
+const velocityPoints = stats.velocity.map((v) => ({ label: v.label, value: v.posts }));
+
+const cardCls = "glass rounded-2xl p-6";
+const cardTitle = "font-display text-lg font-bold text-ink";
+---
+
+<section class="relative overflow-hidden border-y border-border/60 bg-cinematic px-6 py-20 sm:py-24">
+  <div class="aurora"></div>
+  <div class="relative mx-auto max-w-6xl">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="mb-3 font-mono text-xs uppercase tracking-wider text-accent-ink">{t(lang, "traction.eyebrow")}</p>
+      <h2 class="font-display text-3xl font-extrabold text-ink sm:text-5xl">{t(lang, "traction.title")}</h2>
+      <p class="mt-4 text-neutral-600">{t(lang, "traction.subtitle")}</p>
+    </div>
+
+    <!-- Counter band -->
+    <div class="fade-in glass mt-12 rounded-2xl p-8">
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
+        <CounterStat to={stats.totals.views} compact label={t(lang, "traction.viewsLabel")} />
+        <CounterStat to={stats.totals.likes} compact label={t(lang, "traction.likesLabel")} />
+        <CounterStat to={stats.totals.posts} suffix="+" label={t(lang, "traction.postsLabel")} />
+        <CounterStat to={stats.totals.episodes} label={t(lang, "traction.episodesLabel")} />
+      </div>
+    </div>
+
+    <!-- Chart cards -->
+    <div class="mt-6 grid gap-6 lg:grid-cols-3">
+      <div class={`fade-in ${cardCls}`}>
+        <h3 class={cardTitle}>{t(lang, "traction.reachTitle")}</h3>
+        <div class="mt-5">
+          <BarChart rows={reachRows} unit={t(lang, "traction.reachUnit")} />
+        </div>
+      </div>
+
+      <div class={`fade-in fade-in-delay-1 ${cardCls}`}>
+        <h3 class={cardTitle}>{t(lang, "traction.platformsTitle")}</h3>
+        <div class="mt-6">
+          <DonutChart segments={platformSegments} centerValue={String(totalPosts)} centerLabel={t(lang, "traction.platformsCenter")} />
+        </div>
+      </div>
+
+      <div class={`fade-in fade-in-delay-2 ${cardCls} flex flex-col`}>
+        <h3 class={cardTitle}>{t(lang, "traction.outputTitle")}</h3>
+        <p class="mt-1 font-mono text-xs uppercase tracking-wider text-neutral-500">{t(lang, "traction.outputSubtitle")}</p>
+        <div class="mt-4 flex-1">
+          <AreaChart points={velocityPoints} />
+        </div>
+        <p class="mt-3 text-sm font-medium text-neutral-700">{t(lang, "traction.outputHighlight")}</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -63,6 +63,14 @@ original Supabase/Remotion URLs (unwatermarked). Run `--mirror` to move them ont
 the blog's own branded R2 bucket. Alpha is already hosted + watermarked and is
 never re-mirrored.
 
+## Traction stats (the homepage charts)
+
+The `/` traction section (views, likes, reach-by-show, platform mix, output
+velocity) reads `src/data/stats.generated.ts`. To refresh it, run the queries in
+`scripts/refresh-stats.sql` against the jorsby-media Supabase and transcribe the
+results into `stats.generated.ts`, then rebuild. Engagement is deduplicated to
+the latest snapshot per post via `social_auth.post_engagement`.
+
 ## Notes
 
 - **Watermark**: a lightweight ffmpeg `drawbox` + `drawtext` post-pass (bottom

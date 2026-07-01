@@ -111,8 +111,45 @@ const orgSchema = {
       );
       document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 
+      // Animated count-up for stat numbers (data-to raw number; data-suffix; data-compact)
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const fmt = (n: number, compact: boolean) =>
+        compact
+          ? new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n)
+          : new Intl.NumberFormat("en").format(Math.round(n));
+      const runCount = (el: HTMLElement) => {
+        const to = Number(el.dataset.to || "0");
+        const compact = el.dataset.compact === "1";
+        const suffix = el.dataset.suffix || "";
+        if (reduceMotion) {
+          el.textContent = fmt(to, compact) + suffix;
+          return;
+        }
+        const dur = 1400;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = fmt(to * eased, compact) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      const countObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              runCount(entry.target as HTMLElement);
+              countObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.4 },
+      );
+      document.querySelectorAll<HTMLElement>(".count-up").forEach((el) => countObserver.observe(el));
+
       // Autoplay hero videos reliably (muted), and respect reduced-motion
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reduce = reduceMotion;
       document.querySelectorAll<HTMLVideoElement>("video[autoplay]").forEach((v) => {
         v.muted = true;
         if (reduce) {

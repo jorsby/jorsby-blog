@@ -14,7 +14,7 @@ const WEB3FORMS_KEY =
   import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "608dbc03-36d4-42e0-be4d-0a1233590916";
 
 const inputClass =
-  "rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-neutral-200 placeholder:text-neutral-600 outline-none transition-colors focus:border-accent/60";
+  "rounded-lg border border-border bg-white/60 backdrop-blur-sm px-4 py-2.5 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-accent/60 focus:bg-white";
 ---
 
 <form
@@ -42,22 +42,22 @@ const inputClass =
 
   <div class="grid gap-5 sm:grid-cols-2">
     <label class="flex flex-col gap-2">
-      <span class="text-sm text-neutral-300">{t(lang, "contact.name")}</span>
+      <span class="text-sm text-neutral-700">{t(lang, "contact.name")}</span>
       <input type="text" name="name" required placeholder={t(lang, "contact.namePh")} class={inputClass} />
     </label>
     <label class="flex flex-col gap-2">
-      <span class="text-sm text-neutral-300">{t(lang, "contact.company")}</span>
+      <span class="text-sm text-neutral-700">{t(lang, "contact.company")}</span>
       <input type="text" name="company" placeholder={t(lang, "contact.companyPh")} class={inputClass} />
     </label>
   </div>
 
   <label class="flex flex-col gap-2">
-    <span class="text-sm text-neutral-300">{t(lang, "contact.email")}</span>
+    <span class="text-sm text-neutral-700">{t(lang, "contact.email")}</span>
     <input type="email" name="email" required placeholder={t(lang, "contact.emailPh")} class={inputClass} />
   </label>
 
   <label class="flex flex-col gap-2">
-    <span class="text-sm text-neutral-300">{t(lang, "contact.message")}</span>
+    <span class="text-sm text-neutral-700">{t(lang, "contact.message")}</span>
     <textarea
       name="message"
       required
@@ -68,7 +68,7 @@ const inputClass =
 
   <button
     type="submit"
-    class="inline-flex items-center justify-center gap-2 self-start rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg transition-all hover:bg-accent-warm hover:shadow-glow-md disabled:opacity-60"
+    class="inline-flex items-center justify-center gap-2 self-start rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-ink transition-all hover:bg-accent-warm hover:shadow-glow-md disabled:opacity-60"
   >
     {t(lang, "contact.submit")}
   </button>
@@ -86,7 +86,7 @@ const inputClass =
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      status.className = "text-sm text-neutral-400";
+      status.className = "text-sm text-neutral-600";
       status.textContent = form.dataset.sending ?? "";
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -101,14 +101,14 @@ const inputClass =
         });
         const data = await res.json();
         if (res.ok && data.success) {
-          status.className = "text-sm text-accent";
+          status.className = "text-sm text-accent-ink";
           status.textContent = form.dataset.success ?? "";
           form.reset();
         } else {
           throw new Error(data.message || "error");
         }
       } catch {
-        status.className = "text-sm text-red-400";
+        status.className = "text-sm text-red-600";
         status.textContent = form.dataset.error ?? "";
       } finally {
         if (submitBtn) {

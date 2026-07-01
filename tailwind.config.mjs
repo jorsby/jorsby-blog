@@ -4,16 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: "#0a0a0a",
-        surface: "#141414",
-        "surface-light": "#1a1a1a",
-        border: "#1f1f1f",
-        // Cinematic gold accent system
-        accent: "#e8b14c",
+        // Porcelain light theme
+        bg: "#faf7f2", // warm porcelain page background
+        surface: "#ffffff", // cards
+        "surface-light": "#fffdf9",
+        border: "#ece6dc", // warm hairline
+        ink: "#1a1613", // near-black warm — headings
+        // Cinematic gold accent system (kept as brand)
+        accent: "#e8b14c", // fills, borders, icons
         "accent-warm": "#f0c674",
         "accent-deep": "#b8860b",
+        "accent-ink": "#8a6410", // darker gold for small TEXT/links on white (contrast)
         "accent-blue": "#3b82f6",
-        ink: "#f5f0e6",
+        // Text that sits over dark poster images (must stay light)
+        "media-ink": "#f5f0e6",
       },
       fontFamily: {
         mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
@@ -21,36 +25,21 @@ export default {
         display: ['"Bricolage Grotesque"', '"Inter"', "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 24px rgba(232, 177, 76, 0.10)",
-        "glow-md": "0 0 48px rgba(232, 177, 76, 0.16)",
-        "glow-poster": "0 8px 40px rgba(0, 0, 0, 0.55)",
+        glow: "0 0 24px rgba(232, 177, 76, 0.18)",
+        "glow-md": "0 6px 40px rgba(232, 177, 76, 0.24)",
+        "glow-poster": "0 18px 50px rgba(30, 20, 8, 0.28)",
+        soft: "0 8px 30px rgba(40, 28, 12, 0.08)",
+        lift: "0 18px 48px rgba(40, 28, 12, 0.14)",
       },
       backgroundImage: {
+        // soft warm gold glow at the top of a section, on porcelain
         cinematic:
-          "radial-gradient(120% 80% at 50% 0%, rgba(232, 177, 76, 0.10), transparent 60%)",
+          "radial-gradient(120% 80% at 50% 0%, rgba(232, 177, 76, 0.16), transparent 62%)",
+        // dark bottom vignette — used ONLY over dark poster images
         vignette:
           "linear-gradient(to top, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0) 55%)",
-        "gold-text": "linear-gradient(90deg, #f0c674, #e8b14c 50%, #b8860b)",
-      },
-      typography: {
-        invert: {
-          css: {
-            "--tw-prose-body": "#d4d4d4",
-            "--tw-prose-headings": "#f5f0e6",
-            "--tw-prose-links": "#e8b14c",
-            "--tw-prose-bold": "#f5f0e6",
-            "--tw-prose-code": "#e5e5e5",
-            "--tw-prose-pre-bg": "#141414",
-            "--tw-prose-pre-code": "#d4d4d4",
-            "--tw-prose-quotes": "#a3a3a3",
-            "--tw-prose-quote-borders": "#e8b14c",
-            "--tw-prose-counters": "#737373",
-            "--tw-prose-bullets": "#525252",
-            "--tw-prose-hr": "#1f1f1f",
-            "--tw-prose-th-borders": "#1f1f1f",
-            "--tw-prose-td-borders": "#141414",
-          },
-        },
+        // gold headline gradient, darkened so it reads on white
+        "gold-text": "linear-gradient(92deg, #d99b2b, #b8860b 55%, #8a6410)",
       },
     },
   },
