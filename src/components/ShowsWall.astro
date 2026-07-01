@@ -1,0 +1,93 @@
+---
+import ShowCard from "./ShowCard.astro";
+import { shows as allShows, allGenres, type Show } from "../data/shows";
+import { t, genreLabel, formatLabel, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang?: Lang;
+  shows?: Show[];
+  filter?: boolean; // show the filter chips
+}
+
+const { lang = "en", shows = allShows, filter = false } = Astro.props;
+const ordered = [...shows].sort((a, b) => a.order - b.order);
+
+const genres = allGenres();
+const chip =
+  "filter-chip rounded-full border border-border px-3 py-1 font-mono text-xs text-neutral-400 transition-colors hover:border-accent/40 hover:text-neutral-200 data-[active]:border-accent/60 data-[active]:bg-accent/10 data-[active]:text-accent";
+---
+
+{
+  filter && (
+    <div id="show-filters" class="mb-8 flex flex-col gap-3" data-genre="all" data-format="all" data-langs="all">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="mr-1 font-mono text-[11px] uppercase tracking-wider text-neutral-500">{t(lang, "filter.genre")}</span>
+        <button class={chip} data-set="genre" data-val="all" data-active>{t(lang, "filter.all")}</button>
+        {genres.map((g) => (
+          <button class={chip} data-set="genre" data-val={g}>{genreLabel(lang, g)}</button>
+        ))}
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="mr-1 font-mono text-[11px] uppercase tracking-wider text-neutral-500">{t(lang, "filter.format")}</span>
+        <button class={chip} data-set="format" data-val="all" data-active>{t(lang, "filter.all")}</button>
+        <button class={chip} data-set="format" data-val="series">{formatLabel(lang, "series")}</button>
+        <button class={chip} data-set="format" data-val="shorts">{formatLabel(lang, "shorts")}</button>
+        <span class="ml-3 mr-1 font-mono text-[11px] uppercase tracking-wider text-neutral-500">{t(lang, "filter.language")}</span>
+        <button class={chip} data-set="langs" data-val="all" data-active>{t(lang, "filter.all")}</button>
+        <button class={chip} data-set="langs" data-val="EN">EN</button>
+        <button class={chip} data-set="langs" data-val="TR">TR</button>
+      </div>
+    </div>
+  )
+}
+
+<div id="shows-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+  {ordered.map((show, i) => <ShowCard show={show} lang={lang} index={i} />)}
+</div>
+
+{
+  filter && (
+    <p id="shows-empty" class="mt-8 hidden text-center font-mono text-sm text-neutral-500">
+      {t(lang, "shows.empty")}
+    </p>
+  )
+}
+
+{
+  filter && (
+    <script>
+      const root = document.getElementById("show-filters");
+      const grid = document.getElementById("shows-grid");
+      const empty = document.getElementById("shows-empty");
+      if (root && grid) {
+        const cards = Array.from(grid.children) as HTMLElement[];
+        const apply = () => {
+          const g = root.dataset.genre;
+          const f = root.dataset.format;
+          const l = root.dataset.langs;
+          let shown = 0;
+          cards.forEach((c) => {
+            const ok =
+              (g === "all" || c.dataset.genre === g) &&
+              (f === "all" || c.dataset.format === f) &&
+              (l === "all" || (c.dataset.langs || "").split(" ").includes(l!));
+            c.classList.toggle("hidden", !ok);
+            if (ok) shown++;
+          });
+          empty?.classList.toggle("hidden", shown !== 0);
+        };
+        root.querySelectorAll<HTMLButtonElement>("button[data-set]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const set = btn.dataset.set!;
+            root
+              .querySelectorAll<HTMLButtonElement>(`button[data-set="${set}"]`)
+              .forEach((b) => delete b.dataset.active);
+            btn.dataset.active = "";
+            root.dataset[set] = btn.dataset.val!;
+            apply();
+          });
+        });
+      }
+    </script>
+  )
+}

@@ -1,9 +1,9 @@
 ---
-import type { Episode } from "../data/episodes";
+import { L, type ShowEpisode } from "../data/shows";
 import { t, type Lang } from "../i18n/utils";
 
 interface Props {
-  episode: Episode;
+  episode: ShowEpisode;
   lang?: Lang;
   index?: number;
   href?: string; // when set, the card links here instead of opening the lightbox
@@ -14,15 +14,17 @@ const { episode, lang = "en", index = 0, href } = Astro.props;
 const nn = String(episode.number).padStart(2, "0");
 const delay = ["", "fade-in-delay-1", "fade-in-delay-2", "fade-in-delay-3"][index % 4];
 const epLabel = t(lang, "work.episodeLabel");
+const title = L(episode.title, lang);
+const videoUrl = episode.video[lang] ?? episode.video.en ?? episode.video.tr ?? "";
 
 const Tag = href ? "a" : "button";
 const interactiveProps = href
   ? { href }
   : {
       type: "button",
-      "data-video": episode.videoUrl,
-      "data-poster": episode.posterUrl,
-      "data-title": `${epLabel} ${nn} — ${episode.title}`,
+      "data-video": videoUrl,
+      "data-poster": episode.poster,
+      "data-title": `${epLabel} ${nn} — ${title}`,
     };
 ---
 
@@ -32,10 +34,10 @@ const interactiveProps = href
     "group fade-in relative block aspect-[9/16] w-full overflow-hidden rounded-xl border border-border bg-surface text-left transition-all duration-300 hover:border-accent/40 hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
     delay,
   ]}
-  aria-label={`${t(lang, "work.playLabel")}: ${epLabel} ${episode.number}, ${episode.title}`}
+  aria-label={`${t(lang, "work.playLabel")}: ${epLabel} ${episode.number}, ${title}`}
 >
   <img
-    src={episode.posterUrl}
+    src={episode.poster}
     alt=""
     loading="lazy"
     class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -55,7 +57,7 @@ const interactiveProps = href
   </span>
 
   <div class="absolute inset-x-0 bottom-0 p-3">
-    <h3 class="font-display text-sm font-bold leading-tight text-ink">{episode.title}</h3>
+    <h3 class="font-display text-sm font-bold leading-tight text-ink">{title}</h3>
     <p class="mt-1 font-mono text-[11px] text-neutral-400">
       {epLabel} {episode.number} &middot; {episode.duration}
     </p>

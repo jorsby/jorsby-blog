@@ -1,11 +1,11 @@
 ---
 import EpisodeCard from "./EpisodeCard.astro";
 import VideoLightbox from "./VideoLightbox.astro";
-import type { Episode } from "../data/episodes";
+import type { ShowEpisode } from "../data/shows";
 import type { Lang } from "../i18n/utils";
 
 interface Props {
-  episodes: Episode[];
+  episodes: ShowEpisode[];
   lang?: Lang;
 }
 
