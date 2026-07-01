@@ -1,0 +1,56 @@
+---
+import GenreBadge from "./GenreBadge.astro";
+import { L, type Show } from "../data/shows";
+import { t, localizedPath, formatLabel, type Lang } from "../i18n/utils";
+
+interface Props {
+  show: Show;
+  lang?: Lang;
+  index?: number;
+}
+
+const { show, lang = "en", index = 0 } = Astro.props;
+
+const href = localizedPath(`/shows/${show.slug}`, lang);
+const title = L(show.title, lang);
+const tagline = L(show.tagline, lang);
+const delay = ["", "fade-in-delay-1", "fade-in-delay-2", "fade-in-delay-3"][index % 4];
+const turkishAudio = lang === "en" && show.primaryLang === "tr";
+const langTag = show.languages.join(" · ");
+---
+
+<a
+  href={href}
+  data-genre={show.genre}
+  data-format={show.format}
+  data-langs={show.languages.join(" ")}
+  class:list={[
+    "group fade-in relative block aspect-[9/16] w-full overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:border-accent/40 hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+    delay,
+  ]}
+  aria-label={`${t(lang, "shows.viewShow")}: ${title}`}
+>
+  <img
+    src={show.poster}
+    alt=""
+    loading="lazy"
+    class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+  />
+  <div class="poster-vignette"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent"></div>
+
+  <div class="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
+    <GenreBadge genre={show.genre} lang={lang} />
+    <span class="rounded-full border border-accent/30 bg-bg/70 px-2 py-0.5 font-mono text-[11px] text-accent backdrop-blur">
+      {turkishAudio ? t(lang, "shows.turkishAudio") : langTag}
+    </span>
+  </div>
+
+  <div class="absolute inset-x-0 bottom-0 p-4">
+    <h3 class="font-display text-lg font-extrabold leading-tight text-ink sm:text-xl">{title}</h3>
+    <p class="mt-1.5 line-clamp-2 text-sm leading-snug text-neutral-300">{tagline}</p>
+    <p class="mt-2.5 font-mono text-[11px] uppercase tracking-wider text-neutral-400">
+      {formatLabel(lang, show.format)} · {show.episodeCount} {t(lang, "shows.episodesLabel")}
+    </p>
+  </div>
+</a>

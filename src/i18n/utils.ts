@@ -1,4 +1,5 @@
 import { ui, defaultLang, type Lang } from "./translations";
+import type { Genre, Format } from "../data/shows";
 
 export { defaultLang, type Lang } from "./translations";
 export { languages } from "./translations";
@@ -8,6 +9,21 @@ type TranslationKey = keyof (typeof ui)[typeof defaultLang];
 export function t(lang: Lang, key: TranslationKey): string {
   return ui[lang][key] || ui[defaultLang][key] || key;
 }
+
+const GENRE_KEY: Record<Genre, TranslationKey> = {
+  drama: "genre.drama",
+  moral: "genre.moral",
+  science: "genre.science",
+  history: "genre.history",
+  "dark-history": "genre.darkHistory",
+  finance: "genre.finance",
+};
+
+export const genreLabel = (lang: Lang, genre: Genre): string =>
+  t(lang, GENRE_KEY[genre]);
+
+export const formatLabel = (lang: Lang, format: Format): string =>
+  t(lang, format === "series" ? "format.series" : "format.shorts");
 
 export function getLangFromUrl(url: URL): Lang {
   const [, lang] = url.pathname.split("/");

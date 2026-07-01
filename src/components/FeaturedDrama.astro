@@ -1,16 +1,17 @@
 ---
 import EpisodeCard from "./EpisodeCard.astro";
+import GenreBadge from "./GenreBadge.astro";
 import LanguageBadges from "./LanguageBadges.astro";
+import { flagship, L } from "../data/shows";
 import { t, localizedPath, type Lang } from "../i18n/utils";
-import { drama } from "../data/episodes";
 
 interface Props {
   lang?: Lang;
 }
 
 const { lang = "en" } = Astro.props;
-const d = drama[lang];
-const workPath = localizedPath("/work", lang);
+const d = flagship();
+const showPath = localizedPath(`/shows/${d.slug}`, lang);
 const preview = d.episodes.slice(0, 5);
 ---
 
@@ -22,13 +23,14 @@ const preview = d.episodes.slice(0, 5);
 
     <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h2 class="font-display text-3xl font-extrabold text-ink sm:text-5xl">{d.title}</h2>
-        <p class="mt-3 max-w-xl text-neutral-400">{d.tagline}</p>
+        <h2 class="font-display text-3xl font-extrabold text-ink sm:text-5xl">{L(d.title, lang)}</h2>
+        <p class="mt-3 max-w-xl text-neutral-400">{L(d.tagline, lang)}</p>
       </div>
       <div class="flex flex-col gap-2 sm:items-end">
-        <span class="font-mono text-xs text-neutral-500">
-          {t(lang, "featured.genreLabel")}: {d.genre}
-        </span>
+        <div class="flex items-center gap-2">
+          <span class="font-mono text-xs text-neutral-500">{t(lang, "featured.genreLabel")}:</span>
+          <GenreBadge genre={d.genre} lang={lang} />
+        </div>
         <div class="flex items-center gap-2">
           <span class="font-mono text-xs text-neutral-500">{t(lang, "featured.langLabel")}</span>
           <LanguageBadges languages={d.languages} />
@@ -37,11 +39,11 @@ const preview = d.episodes.slice(0, 5);
     </div>
 
     <div class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
-      {preview.map((ep, i) => <EpisodeCard episode={ep} lang={lang} index={i} href={workPath} />)}
+      {preview.map((ep, i) => <EpisodeCard episode={ep} lang={lang} index={i} href={showPath} />)}
     </div>
 
     <a
-      href={workPath}
+      href={showPath}
       class="mt-8 inline-flex items-center gap-1 font-mono text-sm text-accent transition-colors hover:text-accent-warm"
     >
       {t(lang, "featured.viewAll")}

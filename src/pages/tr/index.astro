@@ -1,10 +1,12 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Hero from "../../components/Hero.astro";
+import ShowsSection from "../../components/ShowsSection.astro";
+import StatsBar from "../../components/StatsBar.astro";
 import FeaturedDrama from "../../components/FeaturedDrama.astro";
 import ServicesSection from "../../components/ServicesSection.astro";
-import ValueProps from "../../components/ValueProps.astro";
 import ProcessSteps from "../../components/ProcessSteps.astro";
+import ValueProps from "../../components/ValueProps.astro";
 import CTABanner from "../../components/CTABanner.astro";
 
 const lang = "tr" as const;
@@ -12,9 +14,11 @@ const lang = "tr" as const;
 
 <BaseLayout title="Jorsby" fullWidth lang={lang}>
   <Hero lang={lang} />
+  <ShowsSection lang={lang} />
+  <StatsBar lang={lang} />
   <FeaturedDrama lang={lang} />
   <ServicesSection lang={lang} />
-  <ValueProps lang={lang} />
   <ProcessSteps lang={lang} />
+  <ValueProps lang={lang} />
   <CTABanner lang={lang} />
 </BaseLayout>

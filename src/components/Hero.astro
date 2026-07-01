@@ -1,19 +1,24 @@
 ---
 import VideoPlayer from "./VideoPlayer.astro";
 import { t, localizedPath, type Lang } from "../i18n/utils";
-import { drama } from "../data/episodes";
+import { portfolioStats } from "../data/shows";
 
 interface Props {
   lang?: Lang;
 }
 
 const { lang = "en" } = Astro.props;
-const d = drama[lang];
+const ps = portfolioStats();
+
+// Studio sizzle reel (bilingual) — stable committed assets on the blog's R2.
+const REEL = "https://pub-acd1440124614ccb9c0b6dcdfd9cd4af.r2.dev/married-to-the-alpha";
+const reelSrc = `${REEL}/sizzle${lang === "tr" ? ".tr" : ""}.mp4?v=2`;
+const reelPoster = lang === "tr" ? "/posters/teaser.tr.jpg" : "/posters/teaser.jpg";
 
 const stats = [
-  { value: t(lang, "hero.stat1"), label: t(lang, "hero.stat1Label") },
-  { value: t(lang, "hero.stat2"), label: t(lang, "hero.stat2Label") },
-  { value: t(lang, "hero.stat3"), label: t(lang, "hero.stat3Label") },
+  { value: String(ps.shows), label: t(lang, "hero.stat1Label") },
+  { value: `${ps.episodes}+`, label: t(lang, "hero.stat2Label") },
+  { value: String(ps.languages), label: t(lang, "hero.stat3Label") },
 ];
 ---
 
@@ -70,13 +75,13 @@ const stats = [
 
     <div class="relative mx-auto w-full max-w-[300px] lg:max-w-[340px]">
       <VideoPlayer
-        src={d.teaserVideoUrl}
-        poster={d.teaserPosterUrl}
+        src={reelSrc}
+        poster={reelPoster}
         autoplay
         loop
         muted
         controls={false}
-        label={d.title}
+        label={t(lang, "meta.siteTitle")}
       />
     </div>
   </div>

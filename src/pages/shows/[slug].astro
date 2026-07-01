@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ShowHero from "../../components/ShowHero.astro";
+import ShowcaseGrid from "../../components/ShowcaseGrid.astro";
+import CTABanner from "../../components/CTABanner.astro";
+import { shows, L, showSocial } from "../../data/shows";
+import { t } from "../../i18n/utils";
+
+export function getStaticPaths() {
+  return shows.map((show) => ({ params: { slug: show.slug }, props: { show } }));
+}
+
+const { show } = Astro.props;
+const lang = "en" as const;
+const social = showSocial(show, lang);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWorkSeries",
+  name: L(show.title, lang),
+  description: L(show.synopsis, lang),
+  genre: show.genre,
+  inLanguage: show.languages.map((l) => l.toLowerCase()),
+  numberOfEpisodes: show.episodeCount,
+  image: new URL(show.poster, Astro.site).toString(),
+  ...(social ? { sameAs: Object.values(social).filter(Boolean) } : {}),
+};
+---
+
+<BaseLayout
+  title={L(show.title, lang)}
+  description={L(show.synopsis, lang)}
+  fullWidth
+  lang={lang}
+  jsonLd={jsonLd}
+>
+  <ShowHero show={show} lang={lang} />
+
+  <section class="fade-in px-6 py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="mb-8 font-mono text-sm uppercase tracking-wider text-neutral-500">
+        {t(lang, "work.allEpisodes")}
+      </h2>
+      <ShowcaseGrid episodes={show.episodes} lang={lang} />
+    </div>
+  </section>
+
+  <CTABanner lang={lang} />
+</BaseLayout>

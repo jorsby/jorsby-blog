@@ -1,73 +1,44 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import VideoPlayer from "../../components/VideoPlayer.astro";
-import ShowcaseGrid from "../../components/ShowcaseGrid.astro";
-import LanguageBadges from "../../components/LanguageBadges.astro";
-import SeriesSocial from "../../components/SeriesSocial.astro";
+import ShowsWall from "../../components/ShowsWall.astro";
+import StatsBar from "../../components/StatsBar.astro";
 import CTABanner from "../../components/CTABanner.astro";
-import { t } from "../../i18n/utils";
-import { drama } from "../../data/episodes";
+import { shows, L } from "../../data/shows";
+import { t, localizedPath } from "../../i18n/utils";
 
 const lang = "tr" as const;
-const d = drama[lang];
-const featured = d.episodes[0];
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "CreativeWorkSeries",
-  name: d.title,
-  description: d.synopsis,
-  genre: d.genre,
-  inLanguage: ["en", "tr"],
-  numberOfEpisodes: d.episodes.length,
-  image: new URL(d.teaserPosterUrl, Astro.site).toString(),
-  ...(d.social ? { sameAs: Object.values(d.social).filter(Boolean) } : {}),
+  "@type": "ItemList",
+  name: t(lang, "work.indexTitle"),
+  itemListElement: [...shows]
+    .sort((a, b) => a.order - b.order)
+    .map((s, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: L(s.title, lang),
+      url: new URL(localizedPath(`/shows/${s.slug}`, lang), Astro.site).toString(),
+    })),
 };
 ---
 
-<BaseLayout title={d.title} description={d.synopsis} fullWidth lang={lang} jsonLd={jsonLd}>
-  <!-- Featured -->
+<BaseLayout title={t(lang, "work.indexTitle")} description={t(lang, "work.indexSubtitle")} fullWidth lang={lang} jsonLd={jsonLd}>
   <section class="border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
     <div class="mx-auto max-w-6xl">
-      <p class="mb-3 font-mono text-xs uppercase tracking-wider text-accent">{t(lang, "work.eyebrow")}</p>
-      <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-        <div>
-          <h1 class="font-display text-4xl font-extrabold leading-tight text-ink sm:text-6xl">{d.title}</h1>
-          <p class="mt-5 max-w-xl text-lg leading-relaxed text-neutral-400">{d.synopsis}</p>
-          <dl class="mt-8 flex flex-wrap gap-x-10 gap-y-4">
-            <div>
-              <dt class="font-mono text-xs uppercase tracking-wider text-neutral-500">{t(lang, "work.genreLabel")}</dt>
-              <dd class="mt-1 text-sm text-neutral-200">{d.genre}</dd>
-            </div>
-            <div>
-              <dt class="font-mono text-xs uppercase tracking-wider text-neutral-500">{t(lang, "work.languagesLabel")}</dt>
-              <dd class="mt-1.5"><LanguageBadges languages={d.languages} /></dd>
-            </div>
-          </dl>
-          <SeriesSocial social={d.social} label={t(lang, "work.watchSeries")} />
-        </div>
-        <div class="mx-auto w-full max-w-[320px]">
-          <p class="mb-3 text-center font-mono text-xs text-neutral-500">
-            {t(lang, "work.featuredLabel")} · {t(lang, "work.episodeLabel")} {featured.number}
-          </p>
-          <VideoPlayer
-            src={featured.videoUrl}
-            poster={featured.posterUrl}
-            controls
-            label={`${d.title} — ${featured.title}`}
-          />
-        </div>
-      </div>
+      <p class="mb-3 font-mono text-xs uppercase tracking-wider text-accent">{t(lang, "work.indexEyebrow")}</p>
+      <h1 class="max-w-3xl font-display text-4xl font-extrabold leading-tight text-ink sm:text-6xl">
+        {t(lang, "work.indexTitle")}
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-400">{t(lang, "work.indexSubtitle")}</p>
     </div>
   </section>
 
-  <!-- All episodes -->
+  <StatsBar lang={lang} />
+
   <section class="fade-in px-6 py-16 sm:py-20">
     <div class="mx-auto max-w-6xl">
-      <h2 class="mb-8 font-mono text-sm uppercase tracking-wider text-neutral-500">
-        {t(lang, "work.allEpisodes")}
-      </h2>
-      <ShowcaseGrid episodes={d.episodes} lang={lang} />
+      <ShowsWall lang={lang} filter />
     </div>
   </section>
 

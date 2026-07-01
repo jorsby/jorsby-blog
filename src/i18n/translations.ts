@@ -18,47 +18,47 @@ export const ui = {
     "nav.cta": "Start a project",
 
     // Hero
-    "hero.eyebrow": "AI Story Studio",
-    "hero.title1": "Vertical dramas",
-    "hero.title2": "your audience can't scroll past.",
+    "hero.eyebrow": "AI Video Production Studio",
+    "hero.title1": "A studio that ships",
+    "hero.title2": "shows your audience can't scroll past.",
     "hero.subtitle":
-      "Jorsby makes binge-worthy story series that businesses run on their own channels — vertical or long-form, written and voiced with AI, in any language.",
+      "Jorsby is a mass video-production studio. We write, voice, generate, score and edit original series and short-form channels across genres — in Turkish and English — and run them at scale.",
     "hero.ctaPrimary": "Start a project",
-    "hero.ctaSecondary": "Watch the series",
-    "hero.stat1": "15 episodes",
-    "hero.stat1Label": "produced for the launch series",
-    "hero.stat2": "Any language",
-    "hero.stat2Label": "same story, localized",
-    "hero.stat3": "Days, not months",
-    "hero.stat3Label": "from brief to delivery",
+    "hero.ctaSecondary": "See our shows",
+    "hero.stat1": "shows",
+    "hero.stat1Label": "shows across genres",
+    "hero.stat2": "episodes",
+    "hero.stat2Label": "episodes shipped",
+    "hero.stat3": "languages",
+    "hero.stat3Label": "languages, produced natively",
 
     // Featured drama (home teaser)
-    "featured.eyebrow": "Now showing",
-    "featured.viewAll": "View all 15 episodes",
+    "featured.eyebrow": "Flagship series",
+    "featured.viewAll": "Watch the full series",
     "featured.langLabel": "Available in",
     "featured.genreLabel": "Genre",
 
     // Services
-    "services.title": "What we make for your channels",
+    "services.title": "A full-service video studio",
     "services.subtitle":
-      "Not ads that interrupt — story series your audience chooses to watch. Pick a lane; we produce the rest.",
-    "services.educational.title": "Educational storytelling",
-    "services.educational.desc":
-      "Turn complex topics — law, finance, health — into story-driven episodes people watch to the end instead of scrolling past.",
+      "From a single viral short to a whole channel — we handle script, voice, visuals, music, captions and publishing. Pick a lane; we run the rest, in Turkish and English.",
     "services.series.title": "Vertical drama series",
     "services.series.desc":
-      "Ongoing 9:16 shows for your Instagram and TikTok — recurring characters, cliffhangers, a reason to come back for the next drop.",
-    "services.history.title": "History & documentary",
+      "Bingeable 9:16 shows with recurring characters and cliffhangers — the format that built our flagship, ready for your brand.",
+    "services.history.title": "High-volume short-form",
     "services.history.desc":
-      "Long-form visualized history and explainers for YouTube — a consistent cast and world across a whole channel.",
-    "services.character.title": "Consistent characters",
+      "Daily Reels, TikToks and Shorts at channel scale — a steady drip of scroll-stopping videos, not one-off posts.",
+    "services.educational.title": "Faceless documentary channels",
+    "services.educational.desc":
+      "Science, history and money told as cinematic docs — a consistent voice and world across an entire channel, no on-camera talent.",
+    "services.character.title": "End-to-end & localized",
     "services.character.desc":
-      "Recurring characters and worlds your brand owns — the same faces, voices and style across every episode and language.",
+      "We own the whole pipeline — script → voice → video → music → captions → publish — and version every piece across languages for global reach.",
 
     // Value props
-    "value.title": "Why vertical AI drama",
+    "value.title": "Built for volume",
     "value.subtitle":
-      "The reach of a series, at the speed and cost of a content sprint.",
+      "The reach of a studio, at the speed and cost of a content sprint.",
     "value.speed.title": "Speed",
     "value.speed.desc":
       "From brief to a full episode arc in days. No casting, no crew, no scheduling.",
@@ -67,7 +67,7 @@ export const ui = {
       "A fraction of a live shoot. Iterate on scripts and looks without reshoots.",
     "value.scale.title": "Scale",
     "value.scale.desc":
-      "One series, fifteen episodes, endless cutdowns for every platform and format.",
+      "One brief, a whole channel — endless cutdowns for every platform and format.",
     "value.reach.title": "Multilingual reach",
     "value.reach.desc":
       "Ship the same drama in every market — localized voices, not just subtitles.",
@@ -99,6 +99,42 @@ export const ui = {
     "work.closeLabel": "Close",
     "work.watchSeries": "Watch the full series on",
 
+    // Work index (the show wall)
+    "work.indexEyebrow": "The Work",
+    "work.indexTitle": "Shows we produce",
+    "work.indexSubtitle":
+      "Original vertical series and high-volume short-form — written, voiced, generated, scored and edited in-house, in Turkish and English.",
+
+    // Shows / genres / formats
+    "shows.title": "Our shows",
+    "shows.subtitle":
+      "A working studio — original series and short-form channels we produce and run across genres, in Turkish and English.",
+    "shows.viewShow": "View show",
+    "shows.viewAll": "See all shows",
+    "shows.episodesLabel": "episodes",
+    "shows.turkishAudio": "Turkish audio",
+    "shows.watchOn": "Watch on",
+    "shows.empty": "No shows match those filters.",
+    "genre.drama": "Drama",
+    "genre.moral": "Moral tales",
+    "genre.science": "Science",
+    "genre.history": "History",
+    "genre.darkHistory": "Dark history",
+    "genre.finance": "Business & money",
+    "format.series": "Series",
+    "format.shorts": "Shorts",
+    "filter.all": "All",
+    "filter.language": "Language",
+    "filter.genre": "Genre",
+    "filter.format": "Format",
+
+    // Portfolio stats
+    "stats.eyebrow": "A production studio, not a single show",
+    "stats.showsLabel": "shows in production",
+    "stats.genresLabel": "genres",
+    "stats.languagesLabel": "languages",
+    "stats.episodesLabel": "episodes shipped",
+
     // Contact
     "contact.title": "Start a project",
     "contact.subtitle":
@@ -119,25 +155,25 @@ export const ui = {
     "contact.directText": "Reach us directly at",
 
     // CTA banner
-    "cta.title": "Ready to produce your series?",
+    "cta.title": "Ready to build your channel?",
     "cta.subtitle":
-      "We'll pitch you a concept before you commit to anything.",
+      "Tell us the brand and the goal — we'll pitch you a show before you commit to anything.",
     "cta.button": "Start a project",
 
     // Footer
-    "footer.brand": "AI story studio.\nSeries businesses run on their own channels, in any language.",
+    "footer.brand": "AI video production studio.\nOriginal series and short-form channels, in Turkish and English.",
     "footer.studio": "Studio",
     "footer.connect": "Connect",
     "footer.copyright": "Jorsby. All rights reserved.",
 
     // About
     "about.title": "About Jorsby",
-    "about.subtitle": "An AI story studio — series your audience chooses to watch.",
+    "about.subtitle": "A mass AI video-production studio — series and short-form your audience chooses to watch.",
 
     // Meta
     "meta.defaultDescription":
-      "Jorsby is an AI story studio — we produce binge-worthy vertical dramas and long-form series that businesses run on their own channels, in any language.",
-    "meta.siteTitle": "Jorsby — AI Story Studio",
+      "Jorsby is a mass AI video-production studio — we produce binge-worthy vertical series, short-form channels and documentaries across genres, in Turkish and English.",
+    "meta.siteTitle": "Jorsby — AI Video Production Studio",
   },
   tr: {
     // Navigation
@@ -149,47 +185,47 @@ export const ui = {
     "nav.cta": "Projeye başla",
 
     // Hero
-    "hero.eyebrow": "Yapay Zeka Hikâye Stüdyosu",
-    "hero.title1": "İzleyicinin geçemeyeceği",
-    "hero.title2": "dikey diziler.",
+    "hero.eyebrow": "Yapay Zeka Video Prodüksiyon Stüdyosu",
+    "hero.title1": "İzleyicinin geçemeyeceği içerikleri",
+    "hero.title2": "ölçekte üreten stüdyo.",
     "hero.subtitle":
-      "Jorsby, işletmelerin kendi kanallarında yayınladığı bağımlılık yapan hikâye serileri üretir — dikey ya da uzun form, yapay zeka ile yazılır ve seslendirilir, her dilde.",
+      "Jorsby bir seri video prodüksiyon stüdyosudur. Türler arası özgün dizileri ve kısa video kanallarını yazar, seslendirir, üretir, müziklendirir ve kurgularız — Türkçe ve İngilizce — ve ölçekte yönetiriz.",
     "hero.ctaPrimary": "Projeye başla",
-    "hero.ctaSecondary": "Diziyi izle",
-    "hero.stat1": "15 bölüm",
-    "hero.stat1Label": "lansman serisi için üretildi",
-    "hero.stat2": "Her dil",
-    "hero.stat2Label": "aynı hikâye, yerelleştirilmiş",
-    "hero.stat3": "Aylar değil, günler",
-    "hero.stat3Label": "brieften teslimata",
+    "hero.ctaSecondary": "Şovları gör",
+    "hero.stat1": "şov",
+    "hero.stat1Label": "türlerde şov",
+    "hero.stat2": "bölüm",
+    "hero.stat2Label": "yayınlanan bölüm",
+    "hero.stat3": "dil",
+    "hero.stat3Label": "dilde, native üretim",
 
     // Featured drama (home teaser)
-    "featured.eyebrow": "Şimdi yayında",
-    "featured.viewAll": "15 bölümün tümünü gör",
+    "featured.eyebrow": "Amiral gemisi dizi",
+    "featured.viewAll": "Tüm diziyi izle",
     "featured.langLabel": "Şu dillerde",
     "featured.genreLabel": "Tür",
 
     // Services
-    "services.title": "Kanallarınız için ne üretiyoruz",
+    "services.title": "Tam kapsamlı bir video stüdyosu",
     "services.subtitle":
-      "Bölmeyen reklamlar değil — izleyicinin izlemeyi seçtiği hikâye serileri. Bir alan seçin, gerisini biz üretelim.",
-    "services.educational.title": "Eğitici hikâye anlatımı",
-    "services.educational.desc":
-      "Karmaşık konuları — hukuk, finans, sağlık — izleyicinin geçip gitmek yerine sonuna kadar izlediği hikâye odaklı bölümlere dönüştürün.",
+      "Tek bir viral kısa videodan koca bir kanala kadar — senaryo, seslendirme, görsel, müzik, altyazı ve yayını biz üstleniyoruz. Bir alan seçin, gerisini biz yürütelim; Türkçe ve İngilizce.",
     "services.series.title": "Dikey dizi serileri",
     "services.series.desc":
-      "Instagram ve TikTok için sürekli 9:16 diziler — tekrar eden karakterler, merak uyandıran finaller, bir sonraki bölüm için geri dönme nedeni.",
-    "services.history.title": "Tarih ve belgesel",
+      "Tekrar eden karakterler ve merak uyandıran finallerle bağımlılık yapan 9:16 diziler — amiral gemimizi kuran format, markanız için hazır.",
+    "services.history.title": "Yüksek hacimli kısa video",
     "services.history.desc":
-      "YouTube için uzun form görselleştirilmiş tarih ve anlatımlar — tüm bir kanal boyunca tutarlı bir oyuncu kadrosu ve dünya.",
-    "services.character.title": "Tutarlı karakterler",
+      "Kanal ölçeğinde günlük Reels, TikTok ve Shorts — tek seferlik paylaşımlar değil, kaydırmayı durduran videoların istikrarlı akışı.",
+    "services.educational.title": "Yüzsüz belgesel kanalları",
+    "services.educational.desc":
+      "Bilim, tarih ve para; sinematik belgeseller olarak anlatılır — kamera önünde oyuncu olmadan, tüm kanal boyunca tutarlı bir ses ve dünya.",
+    "services.character.title": "Uçtan uca & yerelleştirilmiş",
     "services.character.desc":
-      "Markanızın sahip olduğu tekrar eden karakterler ve dünyalar — her bölümde ve her dilde aynı yüzler, sesler ve stil.",
+      "Tüm süreci biz yönetiriz — senaryo → ses → video → müzik → altyazı → yayın — ve her içeriği küresel erişim için dillere uyarlarız.",
 
     // Value props
-    "value.title": "Neden dikey yapay zeka dizisi",
+    "value.title": "Ölçek için kurulu",
     "value.subtitle":
-      "Bir serinin erişimi, bir içerik sprintinin hızı ve maliyetiyle.",
+      "Bir stüdyonun erişimi, bir içerik sprintinin hızı ve maliyetiyle.",
     "value.speed.title": "Hız",
     "value.speed.desc":
       "Brieften tam bir bölüm kurgusuna günler içinde. Oyuncu, ekip, planlama yok.",
@@ -198,7 +234,7 @@ export const ui = {
       "Canlı çekimin küçük bir kısmı. Yeniden çekim olmadan senaryo ve görünümde deneyin.",
     "value.scale.title": "Ölçek",
     "value.scale.desc":
-      "Bir seri, on beş bölüm, her platform ve format için sonsuz kısa kurgu.",
+      "Tek bir brief, koca bir kanal — her platform ve format için sonsuz kısa kurgu.",
     "value.reach.title": "Çok dilli erişim",
     "value.reach.desc":
       "Aynı diziyi her pazarda yayınlayın — sadece altyazı değil, yerel sesler.",
@@ -230,6 +266,42 @@ export const ui = {
     "work.closeLabel": "Kapat",
     "work.watchSeries": "Diziyi şuradan izleyin",
 
+    // Work index (the show wall)
+    "work.indexEyebrow": "İşler",
+    "work.indexTitle": "Ürettiğimiz şovlar",
+    "work.indexSubtitle":
+      "Özgün dikey diziler ve yüksek hacimli kısa videolar — evde yazılır, seslendirilir, üretilir, müziklendirilir ve kurgulanır; Türkçe ve İngilizce.",
+
+    // Shows / genres / formats
+    "shows.title": "Şovlarımız",
+    "shows.subtitle":
+      "Çalışan bir stüdyo — türler arası, Türkçe ve İngilizce ürettiğimiz ve yönettiğimiz özgün diziler ve kısa video kanalları.",
+    "shows.viewShow": "Şovu gör",
+    "shows.viewAll": "Tüm şovları gör",
+    "shows.episodesLabel": "bölüm",
+    "shows.turkishAudio": "Türkçe seslendirme",
+    "shows.watchOn": "İzle:",
+    "shows.empty": "Bu filtrelere uygun şov yok.",
+    "genre.drama": "Drama",
+    "genre.moral": "Ahlak masalları",
+    "genre.science": "Bilim",
+    "genre.history": "Tarih",
+    "genre.darkHistory": "Karanlık tarih",
+    "genre.finance": "İş & para",
+    "format.series": "Dizi",
+    "format.shorts": "Kısa video",
+    "filter.all": "Tümü",
+    "filter.language": "Dil",
+    "filter.genre": "Tür",
+    "filter.format": "Format",
+
+    // Portfolio stats
+    "stats.eyebrow": "Tek bir şov değil, bir prodüksiyon stüdyosu",
+    "stats.showsLabel": "prodüksiyonda şov",
+    "stats.genresLabel": "tür",
+    "stats.languagesLabel": "dil",
+    "stats.episodesLabel": "yayınlanan bölüm",
+
     // Contact
     "contact.title": "Projeye başla",
     "contact.subtitle":
@@ -250,24 +322,24 @@ export const ui = {
     "contact.directText": "Bize doğrudan ulaşın:",
 
     // CTA banner
-    "cta.title": "Serinizi üretmeye hazır mısınız?",
+    "cta.title": "Kanalınızı kurmaya hazır mısınız?",
     "cta.subtitle":
-      "Hiçbir şeye bağlanmadan önce size bir konsept sunarız.",
+      "Markayı ve hedefi anlatın — hiçbir şeye bağlanmadan önce size bir şov sunalım.",
     "cta.button": "Projeye başla",
 
     // Footer
-    "footer.brand": "Yapay zeka hikâye stüdyosu.\nİşletmelerin kendi kanallarında yayınladığı seriler, her dilde.",
+    "footer.brand": "Yapay zeka video prodüksiyon stüdyosu.\nÖzgün diziler ve kısa video kanalları; Türkçe ve İngilizce.",
     "footer.studio": "Stüdyo",
     "footer.connect": "Bağlantı",
     "footer.copyright": "Jorsby. Tüm hakları saklıdır.",
 
     // About
     "about.title": "Jorsby Hakkında",
-    "about.subtitle": "Bir yapay zeka hikâye stüdyosu — izleyicinin izlemeyi seçtiği seriler.",
+    "about.subtitle": "Bir seri yapay zeka video prodüksiyon stüdyosu — izleyicinin izlemeyi seçtiği diziler ve kısa videolar.",
 
     // Meta
     "meta.defaultDescription":
-      "Jorsby bir yapay zeka hikâye stüdyosudur — işletmelerin kendi kanallarında yayınladığı bağımlılık yapan dikey dramalar ve uzun form seriler üretiyoruz, her dilde.",
-    "meta.siteTitle": "Jorsby — Yapay Zeka Hikâye Stüdyosu",
+      "Jorsby bir seri yapay zeka video prodüksiyon stüdyosudur — türler arası bağımlılık yapan dikey diziler, kısa video kanalları ve belgeseller üretiyoruz; Türkçe ve İngilizce.",
+    "meta.siteTitle": "Jorsby — Yapay Zeka Video Prodüksiyon Stüdyosu",
   },
 } as const;
