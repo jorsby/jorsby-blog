@@ -11,33 +11,29 @@ interface Props {
 
 const { genre, lang = "en", onDark = false, class: extra = "" } = Astro.props;
 
-// Light-background tints (default) — readable dark text on a soft color wash.
-const LIGHT: Record<Genre, string> = {
-  drama: "border-rose-300 bg-rose-50 text-rose-800",
-  moral: "border-emerald-300 bg-emerald-50 text-emerald-800",
-  science: "border-sky-300 bg-sky-50 text-sky-800",
-  history: "border-amber-300 bg-amber-50 text-amber-800",
-  "dark-history": "border-neutral-300 bg-neutral-100 text-neutral-800",
-  finance: "border-teal-300 bg-teal-50 text-teal-800",
+// One quiet chip for every genre — identity carried by a small muted-hue dot,
+// so the badges stay on the porcelain+gold palette instead of candy tints.
+const DOT: Record<Genre, string> = {
+  drama: "#c25e7d",
+  moral: "#4e9b7a",
+  science: "#4e7fb0",
+  history: "#c08a1f",
+  "dark-history": "#6f6558",
+  finance: "#3f8f8a",
 };
-// Over a dark poster image — bright text on a translucent color chip.
-const DARK: Record<Genre, string> = {
-  drama: "border-rose-300/40 bg-rose-500/25 text-rose-100",
-  moral: "border-emerald-300/40 bg-emerald-500/25 text-emerald-100",
-  science: "border-sky-300/40 bg-sky-500/25 text-sky-100",
-  history: "border-amber-300/40 bg-amber-500/30 text-amber-100",
-  "dark-history": "border-white/30 bg-white/15 text-neutral-100",
-  finance: "border-teal-300/40 bg-teal-500/25 text-teal-100",
-};
-const tint = (onDark ? DARK : LIGHT)[genre];
+
+const chip = onDark
+  ? "border-white/25 bg-[#0a0a0a]/60 text-media-ink/90 backdrop-blur"
+  : "border-border bg-white/70 text-ink/70";
 ---
 
 <span
   class:list={[
-    "inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-[11px] uppercase tracking-wide",
-    tint,
+    "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 font-mono text-[11px] uppercase tracking-wide",
+    chip,
     extra,
   ]}
 >
+  <span class="h-1.5 w-1.5 shrink-0 rounded-full" style={`background:${DOT[genre]}`}></span>
   {genreLabel(lang, genre)}
 </span>

@@ -17,10 +17,10 @@ const { lang = "en" } = Astro.props;
     <h2 class="font-display text-3xl font-extrabold text-ink sm:text-4xl">
       {t(lang, "cta.title")}
     </h2>
-    <p class="mx-auto mt-4 max-w-xl text-neutral-600">{t(lang, "cta.subtitle")}</p>
+    <p class="mx-auto mt-4 max-w-xl text-ink-faint">{t(lang, "cta.subtitle")}</p>
     <a
       href={localizedPath("/contact", lang)}
-      class="mt-8 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-ink transition-all hover:bg-accent-warm hover:shadow-glow-md"
+      class="mt-8 inline-flex items-center gap-2 rounded-xl bg-accent px-8 py-4 text-base font-semibold text-ink shadow-glow transition-all hover:bg-accent-warm hover:shadow-glow-md"
     >
       {t(lang, "cta.button")}
       <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

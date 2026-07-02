@@ -16,16 +16,16 @@ const navLinks = [
 ];
 ---
 
-<header class="sticky top-0 z-40 border-b border-border/60 bg-white/70 backdrop-blur-xl">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+<header class="sticky top-0 z-40 border-b border-border/60 bg-white/70 px-6 backdrop-blur-xl">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between py-3 sm:py-4">
     <a
       href={localizedPath("/", lang)}
       class="font-mono text-lg font-semibold text-neutral-900 transition-colors hover:text-accent-ink"
     >
       jorsby<span class="text-accent-ink">.</span>ai
     </a>
-    <div class="flex items-center gap-4 sm:gap-6">
-      <div class="hidden items-center gap-6 sm:flex">
+    <div class="flex items-center gap-2 sm:gap-4 md:gap-6">
+      <div class="hidden items-center gap-6 md:flex">
         {
           navLinks.map(({ href, label }) => (
             <a href={href} class="text-sm text-neutral-600 transition-colors hover:text-neutral-900">
@@ -34,13 +34,60 @@ const navLinks = [
           ))
         }
       </div>
-      <LanguageSwitcher lang={lang} />
+      <div class="hidden md:block">
+        <LanguageSwitcher lang={lang} />
+      </div>
       <a
         href={localizedPath("/contact", lang)}
-        class="inline-flex items-center rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink transition-all hover:bg-accent-warm hover:shadow-glow"
+        class="inline-flex items-center rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-ink transition-all hover:bg-accent-warm hover:shadow-glow sm:px-4"
       >
         {t(lang, "nav.cta")}
       </a>
+      <button
+        id="menu-toggle"
+        type="button"
+        class="flex h-10 w-10 items-center justify-center rounded-lg border border-border text-neutral-700 transition-colors hover:border-accent/40 hover:text-accent-ink md:hidden"
+        aria-label="Menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg id="menu-icon-open" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+        <svg id="menu-icon-close" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+      </button>
     </div>
   </nav>
+
+  <!-- Mobile menu sheet -->
+  <div id="mobile-menu" class="hidden border-t border-border/60 pb-4 md:hidden">
+    <nav class="mx-auto max-w-6xl">
+      {
+        navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            class="flex items-center rounded-lg px-2 py-3 text-base font-medium text-neutral-800 transition-colors hover:bg-accent/10 hover:text-accent-ink"
+          >
+            {label}
+          </a>
+        ))
+      }
+      <div class="mt-2 px-2">
+        <LanguageSwitcher lang={lang} />
+      </div>
+    </nav>
+  </div>
 </header>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("menu-icon-open");
+  const iconClose = document.getElementById("menu-icon-close");
+  if (toggle && menu && iconOpen && iconClose) {
+    toggle.addEventListener("click", () => {
+      const open = menu.classList.toggle("hidden") === false;
+      toggle.setAttribute("aria-expanded", String(open));
+      iconOpen.classList.toggle("hidden", open);
+      iconClose.classList.toggle("hidden", !open);
+    });
+  }
+</script>

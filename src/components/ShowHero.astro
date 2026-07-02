@@ -1,9 +1,9 @@
 ---
-import VideoPlayer from "./VideoPlayer.astro";
 import GenreBadge from "./GenreBadge.astro";
 import LanguageBadges from "./LanguageBadges.astro";
 import SeriesSocial from "./SeriesSocial.astro";
 import { L, showSocial, type Show } from "../data/shows";
+import { stats } from "../data/stats";
 import { t, type Lang } from "../i18n/utils";
 
 interface Props {
@@ -18,20 +18,26 @@ const featured = show.episodes[0];
 const featSrc = featured?.video[lang] ?? featured?.video.en ?? featured?.video.tr ?? "";
 const turkishAudio = lang === "en" && show.primaryLang === "tr";
 const social = showSocial(show, lang);
+
+// Real reach proof under the WATCH ON row (only when meaningful)
+const reach = stats.reach.find((r) => r.slug === show.slug)?.views ?? 0;
+const fmtViews = (n: number) =>
+  new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n);
 ---
 
-<section class="border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
-  <div class="mx-auto max-w-6xl">
-    <p class="mb-4 font-mono text-xs uppercase tracking-wider text-accent-ink">{t(lang, "work.indexEyebrow")}</p>
-    <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+<section class="relative overflow-hidden border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
+  <div class="aurora"></div>
+  <div class="relative z-10 mx-auto max-w-6xl">
+    <div class="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
       <div>
+        <p class="eyebrow mb-4">{t(lang, "work.indexEyebrow")}</p>
         <div class="mb-4 flex flex-wrap items-center gap-2">
           <GenreBadge genre={show.genre} lang={lang} />
           <LanguageBadges languages={show.languages} />
         </div>
         <h1 class="font-display text-4xl font-extrabold leading-tight text-ink sm:text-6xl">{title}</h1>
-        <p class="mt-3 text-lg font-medium text-accent-ink">{L(show.tagline, lang)}</p>
-        <p class="mt-5 max-w-xl text-lg leading-relaxed text-neutral-600">{synopsis}</p>
+        <p class="mt-3 text-lg font-medium italic text-ink/80">{L(show.tagline, lang)}</p>
+        <p class="mt-5 max-w-xl text-lg leading-relaxed text-ink-faint">{synopsis}</p>
         {
           turkishAudio && (
             <p class="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-1.5 font-mono text-xs text-neutral-600">
@@ -41,14 +47,41 @@ const social = showSocial(show, lang);
           )
         }
         {social && <SeriesSocial social={social} label={t(lang, "shows.watchOn")} />}
+        {
+          reach >= 1000 && (
+            <p class="mt-6 font-mono text-sm text-accent-ink">
+              <span class="font-semibold">{fmtViews(reach)}</span> {t(lang, "shows.reachAcross")}
+            </p>
+          )
+        }
       </div>
       {
         featured && (
           <div class="mx-auto w-full max-w-[320px]">
-            <p class="mb-3 text-center font-mono text-xs text-neutral-500">
+            <p class="mb-3 text-center font-mono text-xs text-ink-faint">
               {t(lang, "work.featuredLabel")} · {t(lang, "work.episodeLabel")} {featured.number}
             </p>
-            <VideoPlayer src={featSrc} poster={featured.poster} controls label={`${title} — ${L(featured.title, lang)}`} />
+            <button
+              type="button"
+              data-video={featSrc}
+              data-poster={featured.poster}
+              data-title={`${title} — ${L(featured.title, lang)}`}
+              class="group relative block aspect-[9/16] w-full overflow-hidden rounded-2xl border border-border bg-black shadow-glow-poster transition-all duration-300 hover:border-accent/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+              aria-label={`${t(lang, "work.playLabel")}: ${L(featured.title, lang)}`}
+            >
+              <img src={featured.poster} alt="" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              <div class="poster-vignette" />
+              <span class="absolute inset-0 flex items-center justify-center">
+                <span class="flex h-16 w-16 items-center justify-center rounded-full border border-accent/60 bg-[#0a0a0a]/55 backdrop-blur transition-transform duration-300 group-hover:scale-110">
+                  <svg class="h-6 w-6 translate-x-0.5 text-accent" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+              </span>
+              <span class="absolute bottom-3 right-3 rounded-full bg-[#0a0a0a]/70 px-2.5 py-1 font-mono text-xs text-media-ink backdrop-blur">
+                {featured.duration}
+              </span>
+            </button>
           </div>
         )
       }

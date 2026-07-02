@@ -68,8 +68,15 @@ export const PORTFOLIO_SHOWS = [
         tr: "İnsanın içini titreten küçük iyilikler — kaydırmayı durduran ahlak masalları.",
       },
       synopsis: {
-        en: "A Turkish short-form series of self-contained moral tales — quiet, warm stories about kindness, honesty and mercy, each built to land an emotional gut-punch in under two minutes.",
-        tr: "Kendi içinde tamamlanan ahlak masallarından oluşan kısa video serisi — iyilik, dürüstlük ve merhamet üzerine sıcak, sade hikâyeler; her biri iki dakikanın altında yüreğe dokunmak için kurgulandı.",
+        en: "A Turkish short-form series of self-contained moral tales — quiet, warm stories about kindness, honesty and mercy, each built to land an emotional gut-punch in just a few minutes.",
+        tr: "Kendi içinde tamamlanan ahlak masallarından oluşan kısa video serisi — iyilik, dürüstlük ve merhamet üzerine sıcak, sade hikâyeler; her biri birkaç dakika içinde yüreğe dokunmak için kurgulandı.",
+      },
+    },
+    social: {
+      tr: {
+        youtube: "https://www.youtube.com/@ahlakmasallari",
+        instagram: "https://www.instagram.com/ahlakmasallari",
+        tiktok: "https://www.tiktok.com/@ahlakmasallari",
       },
     },
   },
@@ -94,6 +101,13 @@ export const PORTFOLIO_SHOWS = [
         tr: "Yüksek tempolu bir Türkçe merak kanalı: batık hazineler, unutulmuş soygunlar, bilimsel bilmeceler ve inanması güç tarih — her biri art arda izlenmek için kurgulanmış kısa dikey videolar.",
       },
     },
+    social: {
+      tr: {
+        youtube: "https://www.youtube.com/@jorsbybilim",
+        instagram: "https://www.instagram.com/jorsbybilim",
+        tiktok: "https://www.tiktok.com/@jorsbybilim",
+      },
+    },
   },
   {
     id: "a50688ac-10ad-4bcc-a2e7-cc1f47e040e8",
@@ -114,6 +128,12 @@ export const PORTFOLIO_SHOWS = [
       synopsis: {
         en: "First-person biographical documentaries in Turkish — Tesla, Marie Curie, Da Vinci, Einstein and more, each recounting their life and final regrets in their own voice.",
         tr: "Türkçe, birinci ağızdan biyografik belgeseller — Tesla, Marie Curie, Da Vinci, Einstein ve daha fazlası; her biri hayatını ve son pişmanlıklarını kendi diliyle anlatıyor.",
+      },
+    },
+    social: {
+      tr: {
+        youtube: "https://www.youtube.com/@buyukzihinler",
+        tiktok: "https://www.tiktok.com/@buyukzihinler",
       },
     },
   },
@@ -138,6 +158,11 @@ export const PORTFOLIO_SHOWS = [
         tr: "Osmanlı ve dünya tarihinin en karanlık sayfaları üzerine sinematik Türkçe belgeseller — kardeş katli, saray entrikaları ve iktidarın bedeli; ölçülü ve ürpertici bir dille.",
       },
     },
+    social: {
+      tr: {
+        youtube: "https://www.youtube.com/@karasayfahikayeler",
+      },
+    },
   },
   {
     id: "45aa336e-7466-439d-bcb0-b6983917c23c",
@@ -158,6 +183,11 @@ export const PORTFOLIO_SHOWS = [
       synopsis: {
         en: "Turkish business documentaries on spectacular rises and falls — billion-dollar startups, pyramid schemes and the anatomy of financial collapse, told like true-crime.",
         tr: "Görkemli yükseliş ve çöküşler üzerine Türkçe iş belgeselleri — milyar dolarlık girişimler, saadet zincirleri ve finansal çöküşün anatomisi; suç dosyası tadında.",
+      },
+    },
+    social: {
+      tr: {
+        youtube: "https://www.youtube.com/@girisimseruvenleri",
       },
     },
   },

@@ -13,8 +13,9 @@ const { lang = "en" } = Astro.props;
 const WEB3FORMS_KEY =
   import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "608dbc03-36d4-42e0-be4d-0a1233590916";
 
+// Solid fields (the form sits in a glass panel) — visible borders + readable placeholders
 const inputClass =
-  "rounded-lg border border-border bg-white/60 backdrop-blur-sm px-4 py-2.5 text-sm text-neutral-800 placeholder:text-neutral-400 outline-none transition-colors focus:border-accent/60 focus:bg-white";
+  "rounded-lg border border-[#ddd4c6] bg-white px-4 py-2.5 text-sm text-neutral-800 shadow-sm placeholder:text-[#a5988a] outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20";
 ---
 
 <form
@@ -68,7 +69,7 @@ const inputClass =
 
   <button
     type="submit"
-    class="inline-flex items-center justify-center gap-2 self-start rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-ink transition-all hover:bg-accent-warm hover:shadow-glow-md disabled:opacity-60"
+    class="inline-flex items-center justify-center gap-2 self-start rounded-lg bg-accent px-7 py-3 text-sm font-semibold text-ink shadow-glow transition-all hover:bg-accent-warm hover:shadow-glow-md disabled:opacity-60"
   >
     {t(lang, "contact.submit")}
   </button>

@@ -6,7 +6,7 @@
 
 @layer base {
   html {
-    @apply bg-bg text-[#4a4038] antialiased;
+    @apply bg-bg text-ink-soft antialiased;
     scroll-behavior: smooth;
   }
 
@@ -17,6 +17,16 @@
   code:not(pre code) {
     @apply rounded bg-surface px-1.5 py-0.5 font-mono text-sm text-neutral-800;
   }
+
+  /* Kill widows/ragged wraps globally (both languages) */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
 }
 
 @layer components {
@@ -25,12 +35,21 @@
     @apply bg-gold-text bg-clip-text text-transparent;
   }
 
-  /* Frosted glass surface (light theme) */
+  /* Shared section eyebrow — one metronomic mono-caps treatment */
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.15em] text-accent-ink;
+  }
+  .eyebrow-dim {
+    @apply font-mono text-xs uppercase tracking-[0.15em] text-ink-faint;
+  }
+
+  /* Frosted glass surface (light theme) — warm visible hairline so cards
+     read as objects, not flat gray rectangles */
   .glass {
     background: rgba(255, 255, 255, 0.55);
     -webkit-backdrop-filter: blur(14px) saturate(150%);
     backdrop-filter: blur(14px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(232, 177, 76, 0.22);
     box-shadow: 0 8px 30px rgba(40, 28, 12, 0.08);
   }
   /* Warm gold-tinted glass — for the CTA */
@@ -69,6 +88,35 @@
     top: -80px;
     right: -80px;
     background: radial-gradient(circle, rgba(240, 198, 116, 0.4), transparent 70%);
+  }
+
+  /* Mid-section aurora — sits BEHIND card grids so the glass has something
+     to frost over. Same recipe, blobs pushed to mid-height, a touch softer. */
+  .aurora-mid {
+    @apply pointer-events-none absolute inset-0 overflow-hidden;
+    z-index: 0;
+  }
+  .aurora-mid::before,
+  .aurora-mid::after {
+    content: "";
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.45;
+  }
+  .aurora-mid::before {
+    width: 520px;
+    height: 520px;
+    top: 35%;
+    left: -140px;
+    background: radial-gradient(circle, rgba(232, 177, 76, 0.45), transparent 70%);
+  }
+  .aurora-mid::after {
+    width: 460px;
+    height: 460px;
+    top: 55%;
+    right: -120px;
+    background: radial-gradient(circle, rgba(240, 198, 116, 0.38), transparent 70%);
   }
 
   /* Bottom-up DARK vignette overlay — ONLY over dark poster images */
@@ -174,7 +222,8 @@
     transition: none;
   }
   .film-grain::after,
-  .aurora {
+  .aurora,
+  .aurora-mid {
     display: none;
   }
   .draw-line { stroke-dashoffset: 0; }

@@ -1,4 +1,5 @@
 ---
+import SectionHeader from "./SectionHeader.astro";
 import { t, type Lang } from "../i18n/utils";
 
 interface Props {
@@ -31,23 +32,22 @@ const values = [
 ];
 ---
 
-<section class="fade-in border-t border-border/50 px-6 py-16 sm:py-24">
-  <div class="mx-auto max-w-6xl">
-    <h2 class="font-display text-3xl font-extrabold text-ink sm:text-4xl">
-      {t(lang, "value.title")}
-    </h2>
-    <p class="mt-3 max-w-2xl text-neutral-600">{t(lang, "value.subtitle")}</p>
+<section class="fade-in relative overflow-hidden border-t border-border/50 bg-cinematic px-6 py-14 sm:py-20">
+  <div class="aurora"></div>
+  <div class="relative z-10 mx-auto max-w-6xl">
+    <SectionHeader align="center" title={t(lang, "value.title")} subtitle={t(lang, "value.subtitle")} />
 
-    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- A compact band, not another card wall — dividers carry the structure -->
+    <div class="mt-12 grid grid-cols-1 gap-y-10 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-4 lg:divide-x lg:divide-border/60">
       {
         values.map((v) => (
-          <div class="group glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+          <div class="lg:px-8 lg:first:pl-0 lg:last:pr-0">
             <span
-              class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-accent/30 bg-accent/10 text-accent-deep [&>svg]:h-5 [&>svg]:w-5"
+              class="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-accent/40 bg-accent/10 text-accent-deep sm:mx-0 [&>svg]:h-5 [&>svg]:w-5"
               set:html={v.icon}
             />
-            <h3 class="mb-2 text-lg font-semibold text-neutral-900">{v.title}</h3>
-            <p class="text-sm leading-relaxed text-neutral-600">{v.desc}</p>
+            <h3 class="mt-4 text-center text-lg font-semibold text-neutral-900 sm:text-left">{v.title}</h3>
+            <p class="mt-2 text-center text-sm leading-relaxed text-ink-faint sm:text-left">{v.desc}</p>
           </div>
         ))
       }

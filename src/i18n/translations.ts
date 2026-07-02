@@ -19,18 +19,18 @@ export const ui = {
 
     // Hero
     "hero.eyebrow": "AI Video Production Studio",
-    "hero.title1": "A studio that ships",
-    "hero.title2": "shows your audience can't scroll past.",
+    "hero.title1": "A studio that ships shows",
+    "hero.title2": "your audience can't scroll past.",
     "hero.subtitle":
       "Jorsby is a mass video-production studio. We write, voice, generate, score and edit original series and short-form channels across genres — in Turkish and English — and run them at scale.",
     "hero.ctaPrimary": "Start a project",
     "hero.ctaSecondary": "See our shows",
     "hero.stat1": "shows",
-    "hero.stat1Label": "shows across genres",
+    "hero.stat1Label": "shows",
     "hero.stat2": "episodes",
-    "hero.stat2Label": "episodes shipped",
+    "hero.stat2Label": "episodes",
     "hero.stat3": "languages",
-    "hero.stat3Label": "languages, produced natively",
+    "hero.stat3Label": "languages",
 
     // Featured drama (home teaser)
     "featured.eyebrow": "Flagship series",
@@ -101,6 +101,7 @@ export const ui = {
 
     // Work index (the show wall)
     "work.indexEyebrow": "The Work",
+    "work.portfolioEyebrow": "Portfolio",
     "work.indexTitle": "Shows we produce",
     "work.indexSubtitle":
       "Original vertical series and high-volume short-form — written, voiced, generated, scored and edited in-house, in Turkish and English.",
@@ -115,6 +116,8 @@ export const ui = {
     "shows.turkishAudio": "Turkish audio",
     "shows.watchOn": "Watch on",
     "shows.empty": "No shows match those filters.",
+    "shows.earlyRollout": "early rollout",
+    "shows.reachAcross": "views across channels",
     "genre.drama": "Drama",
     "genre.moral": "Moral tales",
     "genre.science": "Science",
@@ -143,14 +146,17 @@ export const ui = {
     "traction.viewsLabel": "views",
     "traction.likesLabel": "likes",
     "traction.postsLabel": "posts published",
-    "traction.episodesLabel": "episodes",
+    "traction.episodesLabel": "episodes shipped",
     "traction.reachTitle": "Reach by show",
     "traction.reachUnit": "views",
+    "traction.reachFootnote": "newer shows in early rollout",
     "traction.platformsTitle": "Every platform",
     "traction.platformsCenter": "posts",
+    "traction.platformsFootnote": "Native uploads to 5 platforms — no crossposting.",
     "traction.outputTitle": "Output",
     "traction.outputSubtitle": "Posts published per month",
-    "traction.outputHighlight": "47 episodes shipped in a single month.",
+    "traction.outputHighlight": "229 posts published in June alone.",
+    "traction.partialNote": "* current month, still in progress",
 
     // Contact
     "contact.title": "Start a project",
@@ -170,6 +176,10 @@ export const ui = {
     "contact.error": "Something went wrong. Email us at serhat@jorsby.ai.",
     "contact.directLabel": "Prefer email?",
     "contact.directText": "Reach us directly at",
+    "contact.nextTitle": "What happens next",
+    "contact.next1": "We reply within one business day.",
+    "contact.next2": "You get a series concept and a quote, tailored to your brand and goal.",
+    "contact.next3": "You commit only after you've seen the pitch — no retainers up front.",
 
     // CTA banner
     "cta.title": "Ready to build your channel?",
@@ -179,11 +189,13 @@ export const ui = {
 
     // Footer
     "footer.brand": "AI video production studio.\nOriginal series and short-form channels, in Turkish and English.",
-    "footer.studio": "Studio",
+    "footer.pages": "Pages",
+    "footer.shows": "Shows",
     "footer.connect": "Connect",
     "footer.copyright": "Jorsby. All rights reserved.",
 
     // About
+    "about.eyebrow": "The Studio",
     "about.title": "About Jorsby",
     "about.subtitle": "A mass AI video-production studio — series and short-form your audience chooses to watch.",
 
@@ -210,14 +222,14 @@ export const ui = {
     "hero.ctaPrimary": "Projeye başla",
     "hero.ctaSecondary": "Şovları gör",
     "hero.stat1": "şov",
-    "hero.stat1Label": "türlerde şov",
+    "hero.stat1Label": "şov",
     "hero.stat2": "bölüm",
-    "hero.stat2Label": "yayınlanan bölüm",
+    "hero.stat2Label": "bölüm",
     "hero.stat3": "dil",
-    "hero.stat3Label": "dilde, native üretim",
+    "hero.stat3Label": "dil",
 
     // Featured drama (home teaser)
-    "featured.eyebrow": "Amiral gemisi dizi",
+    "featured.eyebrow": "Amiral gemisi",
     "featured.viewAll": "Tüm diziyi izle",
     "featured.langLabel": "Şu dillerde",
     "featured.genreLabel": "Tür",
@@ -285,6 +297,7 @@ export const ui = {
 
     // Work index (the show wall)
     "work.indexEyebrow": "İşler",
+    "work.portfolioEyebrow": "Portföy",
     "work.indexTitle": "Ürettiğimiz şovlar",
     "work.indexSubtitle":
       "Özgün dikey diziler ve yüksek hacimli kısa videolar — evde yazılır, seslendirilir, üretilir, müziklendirilir ve kurgulanır; Türkçe ve İngilizce.",
@@ -299,8 +312,10 @@ export const ui = {
     "shows.turkishAudio": "Türkçe seslendirme",
     "shows.watchOn": "İzle:",
     "shows.empty": "Bu filtrelere uygun şov yok.",
+    "shows.earlyRollout": "erken yayında",
+    "shows.reachAcross": "görüntülenme, tüm kanallarda",
     "genre.drama": "Drama",
-    "genre.moral": "Ahlak masalları",
+    "genre.moral": "İbretlik hikâyeler",
     "genre.science": "Bilim",
     "genre.history": "Tarih",
     "genre.darkHistory": "Karanlık tarih",
@@ -326,15 +341,18 @@ export const ui = {
       "Makinenin ürettikleri — ve kazandığı izleyici — yönettiğimiz her kanalda ölçüldü.",
     "traction.viewsLabel": "görüntülenme",
     "traction.likesLabel": "beğeni",
-    "traction.postsLabel": "paylaşım",
-    "traction.episodesLabel": "bölüm",
+    "traction.postsLabel": "yayınlanan paylaşım",
+    "traction.episodesLabel": "yayınlanan bölüm",
     "traction.reachTitle": "Şova göre erişim",
     "traction.reachUnit": "görüntülenme",
+    "traction.reachFootnote": "yeni şov erken yayın döneminde",
     "traction.platformsTitle": "Her platform",
     "traction.platformsCenter": "paylaşım",
+    "traction.platformsFootnote": "Beş platforma doğrudan, yerel yayın.",
     "traction.outputTitle": "Üretim",
     "traction.outputSubtitle": "Aylık paylaşım sayısı",
-    "traction.outputHighlight": "Tek ayda 47 bölüm yayınlandı.",
+    "traction.outputHighlight": "Sadece haziranda 229 paylaşım yayınlandı.",
+    "traction.partialNote": "* içinde bulunduğumuz ay, devam ediyor",
 
     // Contact
     "contact.title": "Projeye başla",
@@ -354,6 +372,10 @@ export const ui = {
     "contact.error": "Bir şeyler ters gitti. Bize serhat@jorsby.ai adresinden yazın.",
     "contact.directLabel": "E-postayı mı tercih edersiniz?",
     "contact.directText": "Bize doğrudan ulaşın:",
+    "contact.nextTitle": "Sırada ne var",
+    "contact.next1": "Bir iş günü içinde dönüş yaparız.",
+    "contact.next2": "Markanıza ve hedefinize özel bir seri konsepti ve teklif alırsınız.",
+    "contact.next3": "Yalnızca sunumu gördükten sonra karar verirsiniz — peşin bağlılık yok.",
 
     // CTA banner
     "cta.title": "Kanalınızı kurmaya hazır mısınız?",
@@ -363,11 +385,13 @@ export const ui = {
 
     // Footer
     "footer.brand": "Yapay zeka video prodüksiyon stüdyosu.\nÖzgün diziler ve kısa video kanalları; Türkçe ve İngilizce.",
-    "footer.studio": "Stüdyo",
+    "footer.pages": "Sayfalar",
+    "footer.shows": "Şovlar",
     "footer.connect": "Bağlantı",
     "footer.copyright": "Jorsby. Tüm hakları saklıdır.",
 
     // About
+    "about.eyebrow": "Stüdyo",
     "about.title": "Jorsby Hakkında",
     "about.subtitle": "Bir seri yapay zeka video prodüksiyon stüdyosu — izleyicinin izlemeyi seçtiği diziler ve kısa videolar.",
 

@@ -1,48 +1,64 @@
 ---
 import ShowCard from "./ShowCard.astro";
 import { shows as allShows, allGenres, type Show } from "../data/shows";
+import { stats } from "../data/stats";
 import { t, genreLabel, formatLabel, type Lang } from "../i18n/utils";
 
 interface Props {
   lang?: Lang;
   shows?: Show[];
-  filter?: boolean; // show the filter chips
+  filter?: boolean; // show the filter chips (+ per-card reach proof)
 }
 
 const { lang = "en", shows = allShows, filter = false } = Astro.props;
 const ordered = [...shows].sort((a, b) => a.order - b.order);
 
+const reachBySlug = new Map(stats.reach.map((r) => [r.slug, r.views]));
+
 const genres = allGenres();
 const chip =
-  "filter-chip rounded-full border border-border px-3 py-1 font-mono text-xs text-neutral-600 transition-colors hover:border-accent/40 hover:text-neutral-800 data-[active]:border-accent/60 data-[active]:bg-accent/10 data-[active]:text-accent-ink";
+  "filter-chip rounded-full border border-border px-3 py-1.5 font-mono text-xs text-neutral-600 transition-colors hover:border-accent/40 hover:text-neutral-800 data-[active]:border-accent/60 data-[active]:bg-accent/10 data-[active]:text-accent-ink";
+const filterLabel = "w-16 shrink-0 font-mono text-[11px] uppercase tracking-wider text-ink-faint";
 ---
 
 {
   filter && (
     <div id="show-filters" class="mb-8 flex flex-col gap-3" data-genre="all" data-format="all" data-langs="all">
-      <div class="flex flex-wrap items-center gap-2">
-        <span class="mr-1 font-mono text-[11px] uppercase tracking-wider text-neutral-500">{t(lang, "filter.genre")}</span>
-        <button class={chip} data-set="genre" data-val="all" data-active>{t(lang, "filter.all")}</button>
-        {genres.map((g) => (
-          <button class={chip} data-set="genre" data-val={g}>{genreLabel(lang, g)}</button>
-        ))}
+      <div class="flex items-center gap-2">
+        <span class={filterLabel}>{t(lang, "filter.genre")}</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <button class={chip} data-set="genre" data-val="all" data-active>{t(lang, "filter.all")}</button>
+          {genres.map((g) => (
+            <button class={chip} data-set="genre" data-val={g}>{genreLabel(lang, g)}</button>
+          ))}
+        </div>
       </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <span class="mr-1 font-mono text-[11px] uppercase tracking-wider text-neutral-500">{t(lang, "filter.format")}</span>
-        <button class={chip} data-set="format" data-val="all" data-active>{t(lang, "filter.all")}</button>
-        <button class={chip} data-set="format" data-val="series">{formatLabel(lang, "series")}</button>
-        <button class={chip} data-set="format" data-val="shorts">{formatLabel(lang, "shorts")}</button>
-        <span class="ml-3 mr-1 font-mono text-[11px] uppercase tracking-wider text-neutral-500">{t(lang, "filter.language")}</span>
-        <button class={chip} data-set="langs" data-val="all" data-active>{t(lang, "filter.all")}</button>
-        <button class={chip} data-set="langs" data-val="EN">EN</button>
-        <button class={chip} data-set="langs" data-val="TR">TR</button>
+      <div class="flex items-center gap-2">
+        <span class={filterLabel}>{t(lang, "filter.format")}</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <button class={chip} data-set="format" data-val="all" data-active>{t(lang, "filter.all")}</button>
+          <button class={chip} data-set="format" data-val="series">{formatLabel(lang, "series")}</button>
+          <button class={chip} data-set="format" data-val="shorts">{formatLabel(lang, "shorts")}</button>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class={filterLabel}>{t(lang, "filter.language")}</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <button class={chip} data-set="langs" data-val="all" data-active>{t(lang, "filter.all")}</button>
+          <button class={chip} data-set="langs" data-val="EN">EN</button>
+          <button class={chip} data-set="langs" data-val="TR">TR</button>
+        </div>
       </div>
     </div>
   )
 }
 
-<div id="shows-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-  {ordered.map((show, i) => <ShowCard show={show} lang={lang} index={i} />)}
+<div id="shows-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5">
+  {
+    ordered.map((show, i) => (
+      <ShowCard show={show} lang={lang} index={i} views={filter ? reachBySlug.get(show.slug) : undefined} />
+    ))
+  }
 </div>
 
 {

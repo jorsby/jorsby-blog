@@ -12,18 +12,23 @@ interface Props {
 const { segments, centerValue, centerLabel } = Astro.props;
 
 const total = segments.reduce((s, x) => s + x.value, 0) || 1;
+// Flat caps + a small gap between segments so proportions read honestly
+// (round linecaps visually inflate small segments).
+const GAP = 1.4;
 let cum = 0;
 const arcs = segments.map((s) => {
   const pct = (s.value / total) * 100;
-  const arc = { ...s, pct, offset: -cum };
+  const seg = Math.max(pct - GAP, 0.5);
+  const arc = { ...s, pct, seg, offset: -(cum + GAP / 2) };
   cum += pct;
   return arc;
 });
+const share = (pct: number) => `${Math.round(pct)}%`;
 ---
 
 <div class="flex items-center gap-6">
-  <div class="relative shrink-0 pop-in">
-    <svg viewBox="0 0 42 42" class="h-32 w-32 -rotate-90">
+  <div class="pop-in relative shrink-0">
+    <svg viewBox="0 0 42 42" class="h-28 w-28 -rotate-90 sm:h-32 sm:w-32">
       <circle cx="21" cy="21" r="15.915" fill="none" stroke="#f0ebe3" stroke-width="5"></circle>
       {
         arcs.map((a) => (
@@ -34,9 +39,8 @@ const arcs = segments.map((s) => {
             fill="none"
             stroke={a.color}
             stroke-width="5"
-            stroke-linecap="round"
             pathLength="100"
-            stroke-dasharray={`${a.pct} ${100 - a.pct}`}
+            stroke-dasharray={`${a.seg} ${100 - a.seg}`}
             stroke-dashoffset={a.offset}
           />
         ))
@@ -44,18 +48,20 @@ const arcs = segments.map((s) => {
     </svg>
     <div class="absolute inset-0 flex flex-col items-center justify-center">
       <span class="font-display text-xl font-extrabold leading-none text-ink">{centerValue}</span>
-      <span class="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-neutral-500">{centerLabel}</span>
+      <span class="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-ink-faint">{centerLabel}</span>
     </div>
   </div>
   <ul class="min-w-0 flex-1 space-y-2">
     {
-      segments.map((s) => (
+      arcs.map((a) => (
         <li class="flex items-center justify-between gap-2 text-sm">
-          <span class="flex items-center gap-2 truncate text-neutral-700">
-            <span class="h-2.5 w-2.5 shrink-0 rounded-full" style={`background:${s.color}`} />
-            {s.label}
+          <span class="flex min-w-0 items-center gap-2 text-neutral-700">
+            <span class="h-2.5 w-2.5 shrink-0 rounded-full" style={`background:${a.color}`} />
+            <span class="truncate">{a.label}</span>
           </span>
-          <span class="shrink-0 font-mono text-xs text-neutral-500">{s.value}</span>
+          <span class="shrink-0 whitespace-nowrap font-mono text-[11px] text-ink-faint">
+            {a.value} · {share(a.pct)}
+          </span>
         </li>
       ))
     }

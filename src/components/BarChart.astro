@@ -12,7 +12,9 @@ const { rows, unit = "" } = Astro.props;
 const max = Math.max(...rows.map((r) => r.value), 1);
 const fmt = (n: number) =>
   new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n);
-const width = (v: number) => Math.max(3, Math.round((v / max) * 100)); // min 3% so tiny bars read
+// Honest lengths — rows are pre-filtered upstream; a small floor keeps the
+// lowest row reading as data rather than an empty track.
+const width = (v: number) => Math.max(2.5, +((v / max) * 100).toFixed(1));
 ---
 
 <div class="space-y-3.5">
@@ -21,7 +23,7 @@ const width = (v: number) => Math.max(3, Math.round((v / max) * 100)); // min 3%
       <div>
         <div class="mb-1 flex items-baseline justify-between gap-3">
           <span class="truncate text-sm font-medium text-neutral-800">{r.label}</span>
-          <span class="shrink-0 font-mono text-xs text-neutral-500">
+          <span class="shrink-0 font-mono text-xs text-ink-faint">
             {fmt(r.value)}
             {unit && ` ${unit}`}
           </span>

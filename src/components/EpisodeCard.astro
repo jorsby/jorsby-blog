@@ -31,7 +31,7 @@ const interactiveProps = href
 <Tag
   {...interactiveProps}
   class:list={[
-    "group fade-in relative block aspect-[9/16] w-full overflow-hidden rounded-xl border border-border bg-surface text-left transition-all duration-300 hover:border-accent/40 hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+    "group fade-in relative block aspect-[9/16] w-full overflow-hidden rounded-2xl border border-border bg-surface text-left transition-all duration-300 hover:border-accent/40 hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
     delay,
   ]}
   aria-label={`${t(lang, "work.playLabel")}: ${epLabel} ${episode.number}, ${title}`}
@@ -44,7 +44,7 @@ const interactiveProps = href
   />
   <div class="poster-vignette"></div>
 
-  <span class="absolute left-3 top-3 rounded-md bg-[#0a0a0a]/70 px-2 py-1 font-mono text-xs text-accent backdrop-blur">
+  <span class="absolute left-3 top-3 rounded-full bg-[#0a0a0a]/70 px-2.5 py-1 font-mono text-xs text-accent backdrop-blur">
     {nn}
   </span>
 

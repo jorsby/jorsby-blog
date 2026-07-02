@@ -1,76 +1,91 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import StatsBar from "../../components/StatsBar.astro";
+import CTABanner from "../../components/CTABanner.astro";
 import { t, localizedPath } from "../../i18n/utils";
 
 const lang = "tr" as const;
 ---
 
-<BaseLayout title={t(lang, "about.title")} description={t(lang, "about.subtitle")} lang={lang}>
-  <div class="fade-in">
-    <h1 class="font-display text-3xl font-extrabold text-ink sm:text-4xl">{t(lang, "about.title")}</h1>
-    <p class="mb-10 mt-3 text-lg text-neutral-600">{t(lang, "about.subtitle")}</p>
-  </div>
+<BaseLayout title={t(lang, "about.title")} description={t(lang, "about.subtitle")} fullWidth lang={lang}>
+  <section class="relative overflow-hidden border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
+    <div class="aurora"></div>
+    <div class="relative z-10 mx-auto max-w-6xl">
+      <p class="eyebrow mb-3">{t(lang, "about.eyebrow")}</p>
+      <h1 class="max-w-3xl font-display text-4xl font-extrabold leading-tight text-ink sm:text-5xl">
+        {t(lang, "about.title")}
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-faint">{t(lang, "about.subtitle")}</p>
+    </div>
+  </section>
 
-  <div class="prose prose-lg prose-neutral max-w-none fade-in prose-headings:text-ink prose-a:text-accent-ink prose-strong:text-ink">
-    <p>
-      Jorsby bir <strong>seri video prodüksiyon stüdyosudur</strong>. Ölçekte bölümlü
-      içerikler üretiyoruz — dikey dramalar, kısa video kanalları ve uzun form belgeseller —
-      işletmelerin <strong>kendi kanallarında</strong> yayınladığı; bir banner reklamın asla
-      satın alamayacağı tek şeyi kazanmak için: insanların gönüllü verdiği dikkat.
-    </p>
+  <section class="px-6 py-14 sm:py-16">
+    <div
+      class="prose prose-lg prose-neutral fade-in mx-auto max-w-3xl prose-headings:font-display prose-headings:text-ink prose-a:text-accent-ink prose-strong:text-ink"
+    >
+      <p>
+        Jorsby bir <strong>seri video prodüksiyon stüdyosudur</strong>. Ölçekte bölümlü
+        içerikler üretiyoruz — dikey dramalar, kısa video kanalları ve uzun form belgeseller —
+        işletmelerin <strong>kendi kanallarında</strong> yayınladığı; bir banner reklamın asla
+        satın alamayacağı tek şeyi kazanmak için: insanların gönüllü verdiği dikkat.
+      </p>
 
-    <p>
-      Drama, var olan en eski büyüme taktiğidir. İnsanlar önemsedikleri bir hikâyenin on
-      beş bölümünü izler, on beş saniyelik bir reklamı ise düşünmeden geçer. Bu yüzden
-      reklam yapmıyoruz. <strong>Diziler</strong> yapıyoruz — karakterler, gerilim,
-      merak uyandıran finaller, yarın geri dönmek için bir neden — Instagram, TikTok ve
-      YouTube için, her dilde.
-    </p>
+      <p>
+        Drama, var olan en eski büyüme taktiğidir. İnsanlar önemsedikleri bir hikâyenin on
+        beş bölümünü izler, on beş saniyelik bir reklamı ise düşünmeden geçer. Bu yüzden
+        reklam yapmıyoruz. <strong>Diziler</strong> yapıyoruz — karakterler, gerilim,
+        merak uyandıran finaller, yarın geri dönmek için bir neden — Instagram, TikTok ve
+        YouTube için, her dilde.
+      </p>
 
-    <h2>Ne üretiyoruz</h2>
+      <h2>Ne üretiyoruz</h2>
 
-    <p>
-      İzleyicinizin gerçekten izleyeceği her şeyi — ve tüm bu yelpazeyi hâlihazırda kendi
-      kanallarımızda yürütüyoruz: bir kurt adam aşkı draması, günlük bir bilim ve merak
-      kanalı, tarihin büyük zihinlerinin birinci ağızdan biyografileri, Osmanlı tarihinin
-      karanlık sayfaları, milyar dolarlık çöküşlerin anatomisi ve kaydırmayı durduran kısa
-      ahlak masalları. Altı şov ve onlarca bölüm boyunca, Türkçe ve İngilizce, ortak nokta
-      hikâye ve insanların bölüm bölüm tanıdığı tutarlı bir dünya. Hepsini
-      <a href={localizedPath("/work", lang)}>İşler sayfasında</a> görün.
-    </p>
+      <p>
+        İzleyicinizin gerçekten izleyeceği her şeyi — ve tüm bu yelpazeyi hâlihazırda kendi
+        kanallarımızda yürütüyoruz: bir kurt adam aşkı draması, günlük bir bilim ve merak
+        kanalı, tarihin büyük zihinlerinin birinci ağızdan biyografileri, Osmanlı tarihinin
+        karanlık sayfaları, milyar dolarlık çöküşlerin anatomisi ve kaydırmayı durduran kısa
+        ahlak masalları. Altı şov ve onlarca bölüm boyunca, Türkçe ve İngilizce, ortak nokta
+        hikâye ve insanların bölüm bölüm tanıdığı tutarlı bir dünya. Hepsini
+        <a href={localizedPath("/work", lang)}>İşler sayfasında</a> görün.
+      </p>
 
-    <h2>Nasıl çalışıyoruz</h2>
+      <h2>Nasıl çalışıyoruz</h2>
 
-    <p>
-      Bölümlü serilerin tamamını yapay zeka ile yazıyor, üretiyor, seslendiriyor ve
-      kurguluyoruz. Bu, eskiden bir ekip, oyuncu kadrosu ve takvim gerektiren işi,
-      bir briefi günler içinde yayına hazır bölümlere dönüştüren bir sürece indirir —
-      ve aynı hikâyeyi yayınladığınız her dilde, altyazıyla değil yerel seslerle
-      sunmamızı sağlar.
-    </p>
+      <p>
+        Bölümlü serilerin tamamını yapay zeka ile yazıyor, üretiyor, seslendiriyor ve
+        kurguluyoruz. Bu, eskiden bir ekip, oyuncu kadrosu ve takvim gerektiren işi,
+        bir briefi günler içinde yayına hazır bölümlere dönüştüren bir sürece indirir —
+        ve aynı hikâyeyi yayınladığınız her dilde, altyazıyla değil yerel seslerle
+        sunmamızı sağlar.
+      </p>
 
-    <h2>Amiral gemisi dizi</h2>
+      <h2>Amiral gemisi dizi</h2>
 
-    <p>
-      <em>Beni Mahveden Alfa ile Evlendim</em> amiral gemimiz — uçtan uca İngilizce ve Türkçe
-      üretilmiş, her bölümde tutarlı bir kadroya sahip doğaüstü bir aşk. Süreci kanıtlayan
-      şov buydu; gerisi onu izledi.
-      <a href={localizedPath(`/shows/married-to-the-alpha`, lang)}>Şov sayfasından</a> izleyin.
-    </p>
+      <p>
+        <em>Beni Mahveden Alfa ile Evlendim</em> amiral gemimiz — uçtan uca İngilizce ve Türkçe
+        üretilmiş, her bölümde tutarlı bir kadroya sahip doğaüstü bir aşk. Süreci kanıtlayan
+        şov buydu; gerisi onu izledi.
+        <a href={localizedPath(`/shows/married-to-the-alpha`, lang)}>Şov sayfasından</a> izleyin.
+      </p>
 
-    <h2>Arkasındaki ekip</h2>
+      <h2>Arkasındaki ekip</h2>
 
-    <p>
-      <strong>Serhat</strong> — kurucu. Üretim sürecini kuruyor, hikâyeleri yönetiyor ve
-      her bölümün ilk üç saniyesine takıntıyla yaklaşıyor.
-    </p>
+      <p>
+        <strong>Serhat</strong> — kurucu. Üretim sürecini kuruyor, hikâyeleri yönetiyor ve
+        her bölümün ilk üç saniyesine takıntıyla yaklaşıyor.
+      </p>
 
-    <h2>Bizimle çalışın</h2>
+      <h2>Bizimle çalışın</h2>
 
-    <p>
-      İzleyicinizin gerçekten takip edeceği bir seri istiyorsanız, <a href={localizedPath("/contact", lang)}
-        >ne üretmek istediğinizi anlatın</a
-      > — hiçbir şeye bağlanmadan önce size bir konsept ve teklifle döneriz.
-    </p>
-  </div>
+      <p>
+        İzleyicinizin gerçekten takip edeceği bir seri istiyorsanız, <a href={localizedPath("/contact", lang)}
+          >ne üretmek istediğinizi anlatın</a
+        > — hiçbir şeye bağlanmadan önce size bir konsept ve teklifle döneriz.
+      </p>
+    </div>
+  </section>
+
+  <StatsBar lang={lang} />
+  <CTABanner lang={lang} />
 </BaseLayout>

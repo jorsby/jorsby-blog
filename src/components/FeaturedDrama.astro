@@ -17,22 +17,22 @@ const preview = d.episodes.slice(0, 5);
 
 <section class="fade-in border-t border-border/50 px-6 py-16 sm:py-24">
   <div class="mx-auto max-w-6xl">
-    <p class="mb-3 font-mono text-xs uppercase tracking-wider text-accent-ink">
+    <p class="eyebrow mb-3">
       {t(lang, "featured.eyebrow")}
     </p>
 
     <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <h2 class="font-display text-3xl font-extrabold text-ink sm:text-5xl">{L(d.title, lang)}</h2>
-        <p class="mt-3 max-w-xl text-neutral-600">{L(d.tagline, lang)}</p>
+        <p class="mt-3 max-w-xl text-ink-faint">{L(d.tagline, lang)}</p>
       </div>
       <div class="flex flex-col gap-2 sm:items-end">
         <div class="flex items-center gap-2">
-          <span class="font-mono text-xs text-neutral-500">{t(lang, "featured.genreLabel")}:</span>
+          <span class="font-mono text-xs text-ink-faint">{t(lang, "featured.genreLabel")}:</span>
           <GenreBadge genre={d.genre} lang={lang} />
         </div>
         <div class="flex items-center gap-2">
-          <span class="font-mono text-xs text-neutral-500">{t(lang, "featured.langLabel")}</span>
+          <span class="font-mono text-xs text-ink-faint">{t(lang, "featured.langLabel")}</span>
           <LanguageBadges languages={d.languages} />
         </div>
       </div>

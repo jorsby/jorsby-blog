@@ -312,8 +312,8 @@ export const shows: Show[] = [
       "tr": "İnsanın içini titreten küçük iyilikler — kaydırmayı durduran ahlak masalları."
     },
     "synopsis": {
-      "en": "A Turkish short-form series of self-contained moral tales — quiet, warm stories about kindness, honesty and mercy, each built to land an emotional gut-punch in under two minutes.",
-      "tr": "Kendi içinde tamamlanan ahlak masallarından oluşan kısa video serisi — iyilik, dürüstlük ve merhamet üzerine sıcak, sade hikâyeler; her biri iki dakikanın altında yüreğe dokunmak için kurgulandı."
+      "en": "A Turkish short-form series of self-contained moral tales — quiet, warm stories about kindness, honesty and mercy, each built to land an emotional gut-punch in just a few minutes.",
+      "tr": "Kendi içinde tamamlanan ahlak masallarından oluşan kısa video serisi — iyilik, dürüstlük ve merhamet üzerine sıcak, sade hikâyeler; her biri birkaç dakika içinde yüreğe dokunmak için kurgulandı."
     },
     "genre": "moral",
     "format": "shorts",
@@ -322,6 +322,13 @@ export const shows: Show[] = [
     ],
     "primaryLang": "tr",
     "poster": "/posters/ahlak-masallari/ep-01.jpg",
+    "social": {
+      "tr": {
+        "youtube": "https://www.youtube.com/@ahlakmasallari",
+        "instagram": "https://www.instagram.com/ahlakmasallari",
+        "tiktok": "https://www.tiktok.com/@ahlakmasallari"
+      }
+    },
     "episodes": [
       {
         "number": 1,
@@ -600,6 +607,13 @@ export const shows: Show[] = [
     ],
     "primaryLang": "tr",
     "poster": "/posters/jorsby-bilim/ep-01.jpg",
+    "social": {
+      "tr": {
+        "youtube": "https://www.youtube.com/@jorsbybilim",
+        "instagram": "https://www.instagram.com/jorsbybilim",
+        "tiktok": "https://www.tiktok.com/@jorsbybilim"
+      }
+    },
     "episodes": [
       {
         "number": 1,
@@ -850,6 +864,12 @@ export const shows: Show[] = [
     ],
     "primaryLang": "tr",
     "poster": "/posters/buyuk-zihinler/ep-01.jpg",
+    "social": {
+      "tr": {
+        "youtube": "https://www.youtube.com/@buyukzihinler",
+        "tiktok": "https://www.tiktok.com/@buyukzihinler"
+      }
+    },
     "episodes": [
       {
         "number": 1,
@@ -960,6 +980,11 @@ export const shows: Show[] = [
     ],
     "primaryLang": "tr",
     "poster": "/posters/kara-sayfa/ep-01.jpg",
+    "social": {
+      "tr": {
+        "youtube": "https://www.youtube.com/@karasayfahikayeler"
+      }
+    },
     "episodes": [
       {
         "number": 1,
@@ -1042,6 +1067,11 @@ export const shows: Show[] = [
     ],
     "primaryLang": "tr",
     "poster": "/posters/para-hikayeleri/ep-01.jpg",
+    "social": {
+      "tr": {
+        "youtube": "https://www.youtube.com/@girisimseruvenleri"
+      }
+    },
     "episodes": [
       {
         "number": 1,

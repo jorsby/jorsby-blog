@@ -2,6 +2,7 @@
 import VideoPlayer from "./VideoPlayer.astro";
 import { t, localizedPath, type Lang } from "../i18n/utils";
 import { portfolioStats } from "../data/shows";
+import { stats as traction } from "../data/stats";
 
 interface Props {
   lang?: Lang;
@@ -17,15 +18,15 @@ const reelPoster = lang === "tr" ? "/posters/teaser.tr.jpg" : "/posters/teaser.j
 
 const stats = [
   { value: String(ps.shows), label: t(lang, "hero.stat1Label") },
-  { value: `${ps.episodes}+`, label: t(lang, "hero.stat2Label") },
+  { value: `${traction.totals.episodes}+`, label: t(lang, "hero.stat2Label") },
   { value: String(ps.languages), label: t(lang, "hero.stat3Label") },
 ];
 ---
 
-<section class="film-grain relative overflow-hidden bg-cinematic">
+<section class="film-grain relative overflow-hidden bg-cinematic px-6">
   <div class="aurora"></div>
   <div
-    class="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 pb-16 pt-16 sm:pb-24 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr]"
+    class="relative z-10 mx-auto grid max-w-6xl items-center gap-12 pb-16 pt-16 sm:pb-24 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr]"
   >
     <div>
       <div
@@ -67,7 +68,7 @@ const stats = [
           stats.map((s) => (
             <div>
               <dt class="font-display text-xl font-bold text-ink sm:text-2xl">{s.value}</dt>
-              <dd class="mt-1 text-xs leading-snug text-neutral-500">{s.label}</dd>
+              <dd class="mt-1.5 font-mono text-[11px] uppercase leading-snug tracking-wider text-ink-faint">{s.label}</dd>
             </div>
           ))
         }

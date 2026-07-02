@@ -10,6 +10,8 @@ export default {
         "surface-light": "#fffdf9",
         border: "#ece6dc", // warm hairline
         ink: "#1a1613", // near-black warm — headings
+        "ink-soft": "#4a4038", // warm body text (~9:1 on porcelain)
+        "ink-faint": "#6f6558", // warm secondary/labels (~5.3:1 — AA at any size)
         // Cinematic gold accent system (kept as brand)
         accent: "#e8b14c", // fills, borders, icons
         "accent-warm": "#f0c674",
@@ -35,11 +37,12 @@ export default {
         // soft warm gold glow at the top of a section, on porcelain
         cinematic:
           "radial-gradient(120% 80% at 50% 0%, rgba(232, 177, 76, 0.16), transparent 62%)",
-        // dark bottom vignette — used ONLY over dark poster images
+        // dark bottom vignette — used ONLY over dark poster images. Dense and
+        // tall enough that baked-in video captions can't collide with titles.
         vignette:
-          "linear-gradient(to top, rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0) 55%)",
+          "linear-gradient(to top, rgba(10, 10, 10, 0.96) 12%, rgba(10, 10, 10, 0.55) 38%, rgba(10, 10, 10, 0) 68%)",
         // gold headline gradient, darkened so it reads on white
-        "gold-text": "linear-gradient(92deg, #d99b2b, #b8860b 55%, #8a6410)",
+        "gold-text": "linear-gradient(92deg, #c08a1f, #a1750d 55%, #8a6410)",
       },
     },
   },

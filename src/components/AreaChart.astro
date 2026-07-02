@@ -2,6 +2,7 @@
 interface Point {
   label: string;
   value: number;
+  partial?: boolean; // in-progress period → dashed segment + hollow marker
 }
 interface Props {
   points: Point[];
@@ -19,8 +20,17 @@ const n = points.length;
 const x = (i: number) => (n === 1 ? W / 2 : padX + (i * (W - padX * 2)) / (n - 1));
 const y = (v: number) => padTop + (1 - v / max) * (H - padTop - padBottom);
 
-const linePath = points.map((p, i) => `${i === 0 ? "M" : "L"} ${x(i).toFixed(1)} ${y(p.value).toFixed(1)}`).join(" ");
-const areaPath = `${linePath} L ${x(n - 1).toFixed(1)} ${H - padBottom} L ${x(0).toFixed(1)} ${H - padBottom} Z`;
+// Solid line through the completed points; dashed tail to a partial point.
+const lastSolid = points[n - 1]?.partial ? n - 2 : n - 1;
+const solid = points.slice(0, lastSolid + 1);
+const solidPath = solid
+  .map((p, i) => `${i === 0 ? "M" : "L"} ${x(i).toFixed(1)} ${y(p.value).toFixed(1)}`)
+  .join(" ");
+const dashedPath =
+  lastSolid < n - 1
+    ? `M ${x(lastSolid).toFixed(1)} ${y(points[lastSolid].value).toFixed(1)} L ${x(n - 1).toFixed(1)} ${y(points[n - 1].value).toFixed(1)}`
+    : "";
+const areaPath = `${points.map((p, i) => `${i === 0 ? "M" : "L"} ${x(i).toFixed(1)} ${y(p.value).toFixed(1)}`).join(" ")} L ${x(n - 1).toFixed(1)} ${H - padBottom} L ${x(0).toFixed(1)} ${H - padBottom} Z`;
 const fmt = (v: number) => new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(v);
 ---
 
@@ -32,11 +42,32 @@ const fmt = (v: number) => new Intl.NumberFormat("en", { notation: "compact", ma
     </linearGradient>
   </defs>
   <path d={areaPath} fill="url(#areaGrad)" class="area-fill"></path>
-  <path d={linePath} fill="none" stroke="#b8860b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="draw-line"></path>
+  <path d={solidPath} fill="none" stroke="#b8860b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="draw-line"></path>
+  {
+    dashedPath && (
+      <path
+        d={dashedPath}
+        fill="none"
+        stroke="#b8860b"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-dasharray="4 4"
+        class="area-fill"
+      />
+    )
+  }
   {
     points.map((p, i) => (
       <g class="pop-in">
-        <circle cx={x(i)} cy={y(p.value)} r="3.5" fill="#ffffff" stroke="#b8860b" stroke-width="2" />
+        <circle
+          cx={x(i)}
+          cy={y(p.value)}
+          r="3.5"
+          fill={p.partial ? "#faf7f2" : "#ffffff"}
+          stroke="#b8860b"
+          stroke-width="2"
+          stroke-dasharray={p.partial ? "2 2" : undefined}
+        />
         <text x={x(i)} y={y(p.value) - 9} text-anchor="middle" class="fill-neutral-800 font-mono" style="font-size:10px;font-weight:600">
           {fmt(p.value)}
         </text>

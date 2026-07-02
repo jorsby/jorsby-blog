@@ -16,16 +16,14 @@ export interface Totals {
 export interface PlatformStat {
   platform: string;
   label: string;
-  posts: number;
-  views: number;
-  likes: number;
+  posts: number; // published posts (post_accounts.published_at)
 }
 
 export interface MonthPoint {
-  month: string; // "2026-06"
-  label: string; // "Jun"
+  month: string; // "2026-06" — display label derived per-language at render
   posts: number;
   episodes: number;
+  partial?: boolean; // month still in progress at snapshot time
 }
 
 export interface ShowReach {
