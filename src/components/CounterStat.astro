@@ -1,0 +1,22 @@
+---
+interface Props {
+  to: number;
+  label: string;
+  suffix?: string;
+  compact?: boolean; // 100661 -> "100K"
+  class?: string;
+}
+const { to, label, suffix = "", compact = false, class: extra = "" } = Astro.props;
+---
+
+<div class:list={["text-center", extra]}>
+  <div
+    class="count-up font-display text-4xl font-extrabold leading-none text-ink sm:text-5xl"
+    data-to={to}
+    data-suffix={suffix}
+    data-compact={compact ? "1" : "0"}
+  >
+    0{suffix}
+  </div>
+  <div class="mt-2 font-mono text-xs uppercase tracking-wider text-ink-faint">{label}</div>
+</div>

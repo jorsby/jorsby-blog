@@ -63,6 +63,24 @@ original Supabase/Remotion URLs (unwatermarked). Run `--mirror` to move them ont
 the blog's own branded R2 bucket. Alpha is already hosted + watermarked and is
 never re-mirrored.
 
+## Traction stats (the homepage charts)
+
+The `/` traction section (views, likes, reach-by-show, platform mix, output
+velocity) reads `src/data/stats.generated.ts`. To refresh it, run the queries in
+`scripts/refresh-stats.sql` against the jorsby-media Supabase and transcribe the
+results into `stats.generated.ts`, then rebuild.
+
+Reconciliation rules (keep the section internally consistent):
+
+- **posts** everywhere = `post_accounts.published_at` rows (query 1). The
+  counter, platform donut and monthly chart must all come from this one query.
+- **views/likes/comments** = latest `post_engagement` snapshot per post (query 2).
+- Mark the in-progress month `partial: true` — it renders as a dashed "MTD"
+  point instead of looking like a crash.
+- The reach chart only renders shows with ≥1K views; the rest are summarized in
+  the "+N newer shows in early rollout" footnote (see `REACH_FLOOR` in
+  `Traction.astro`).
+
 ## Notes
 
 - **Watermark**: a lightweight ffmpeg `drawbox` + `drawtext` post-pass (bottom

@@ -1,0 +1,113 @@
+---
+import CounterStat from "./CounterStat.astro";
+import BarChart from "./BarChart.astro";
+import DonutChart from "./DonutChart.astro";
+import AreaChart from "./AreaChart.astro";
+import SectionHeader from "./SectionHeader.astro";
+import { stats } from "../data/stats";
+import { getShow, L } from "../data/shows";
+import { t, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+const { lang = "en" } = Astro.props;
+
+// Reach bars: only shows with real traction — newer shows in early rollout
+// are summarized in the footnote instead of shaming themselves with a 12-view bar.
+const REACH_FLOOR = 1000;
+const SHORT_TITLES: Record<string, Record<string, string>> = {
+  "married-to-the-alpha": { en: "Married to the Alpha", tr: "Mahveden Alfa" },
+};
+const reachShown = stats.reach.filter((r) => r.views >= REACH_FLOOR);
+const reachHidden = stats.reach.length - reachShown.length;
+const reachRows = reachShown.map((r) => ({
+  label:
+    SHORT_TITLES[r.slug]?.[lang] ??
+    (getShow(r.slug) ? L(getShow(r.slug)!.title, lang) : r.slug),
+  value: r.views,
+}));
+
+// 5-step gold ramp, dark → light, in posts-desc order
+const platformColors = ["#8a6410", "#b8860b", "#e8b14c", "#f0c674", "#e3d7bb"];
+const platformSegments = stats.platforms.map((p, i) => ({
+  label: p.label,
+  value: p.posts,
+  color: platformColors[i % platformColors.length],
+}));
+const totalPosts = stats.platforms.reduce((s, p) => s + p.posts, 0);
+
+// Month labels in the page language; in-progress month marked with *
+const monthLabel = (month: string) =>
+  new Intl.DateTimeFormat(lang === "tr" ? "tr" : "en", { month: "short", timeZone: "UTC" }).format(
+    new Date(`${month}-01T00:00:00Z`),
+  );
+const velocityPoints = stats.velocity.map((v) => ({
+  label: monthLabel(v.month) + (v.partial ? "*" : ""),
+  value: v.posts,
+  partial: v.partial,
+}));
+const hasPartial = stats.velocity.some((v) => v.partial);
+
+const cardCls = "glass rounded-2xl p-6 flex flex-col";
+const cardTitle = "font-display text-lg font-bold text-ink";
+const cardFoot = "mt-4 border-t border-border/50 pt-3 text-sm text-neutral-700";
+---
+
+<section class="relative overflow-hidden border-y border-border/60 bg-cinematic px-6 py-20 sm:py-24">
+  <div class="aurora"></div>
+  <div class="aurora-mid"></div>
+  <div class="relative z-10 mx-auto max-w-6xl">
+    <SectionHeader
+      align="center"
+      eyebrow={t(lang, "traction.eyebrow")}
+      title={t(lang, "traction.title")}
+      subtitle={t(lang, "traction.subtitle")}
+    />
+
+    <!-- Counter band -->
+    <div class="fade-in glass mt-12 rounded-2xl p-8">
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
+        <CounterStat to={stats.totals.views} compact label={t(lang, "traction.viewsLabel")} />
+        <CounterStat to={stats.totals.likes} compact label={t(lang, "traction.likesLabel")} />
+        <CounterStat to={stats.totals.posts} label={t(lang, "traction.postsLabel")} />
+        <CounterStat to={stats.totals.episodes} label={t(lang, "traction.episodesLabel")} />
+      </div>
+    </div>
+
+    <!-- Chart cards -->
+    <div class="mt-6 grid gap-6 lg:grid-cols-3">
+      <div class={`fade-in ${cardCls}`}>
+        <h3 class={cardTitle}>{t(lang, "traction.reachTitle")}</h3>
+        <div class="mt-5 flex-1">
+          <BarChart rows={reachRows} unit={t(lang, "traction.reachUnit")} />
+        </div>
+        {
+          reachHidden > 0 && (
+            <p class={cardFoot}>+{reachHidden} {t(lang, "traction.reachFootnote")}</p>
+          )
+        }
+      </div>
+
+      <div class={`fade-in fade-in-delay-1 ${cardCls}`}>
+        <h3 class={cardTitle}>{t(lang, "traction.platformsTitle")}</h3>
+        <div class="mt-6 flex flex-1 items-center">
+          <DonutChart segments={platformSegments} centerValue={String(totalPosts)} centerLabel={t(lang, "traction.platformsCenter")} />
+        </div>
+        <p class={cardFoot}>{t(lang, "traction.platformsFootnote")}</p>
+      </div>
+
+      <div class={`fade-in fade-in-delay-2 ${cardCls}`}>
+        <h3 class={cardTitle}>{t(lang, "traction.outputTitle")}</h3>
+        <p class="mt-1 font-mono text-xs uppercase tracking-wider text-ink-faint">{t(lang, "traction.outputSubtitle")}</p>
+        <div class="mt-4 flex-1">
+          <AreaChart points={velocityPoints} />
+        </div>
+        <div class={cardFoot}>
+          <p class="font-medium">{t(lang, "traction.outputHighlight")}</p>
+          {hasPartial && <p class="mt-1 text-xs text-ink-faint">{t(lang, "traction.partialNote")}</p>}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

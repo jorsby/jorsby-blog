@@ -31,7 +31,7 @@ const interactiveProps = href
 <Tag
   {...interactiveProps}
   class:list={[
-    "group fade-in relative block aspect-[9/16] w-full overflow-hidden rounded-xl border border-border bg-surface text-left transition-all duration-300 hover:border-accent/40 hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+    "group fade-in relative block aspect-[9/16] w-full overflow-hidden rounded-2xl border border-border bg-surface text-left transition-all duration-300 hover:border-accent/40 hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
     delay,
   ]}
   aria-label={`${t(lang, "work.playLabel")}: ${epLabel} ${episode.number}, ${title}`}
@@ -44,12 +44,12 @@ const interactiveProps = href
   />
   <div class="poster-vignette"></div>
 
-  <span class="absolute left-3 top-3 rounded-md bg-bg/70 px-2 py-1 font-mono text-xs text-accent backdrop-blur">
+  <span class="absolute left-3 top-3 rounded-full bg-[#0a0a0a]/70 px-2.5 py-1 font-mono text-xs text-accent backdrop-blur">
     {nn}
   </span>
 
   <span class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-    <span class="flex h-14 w-14 items-center justify-center rounded-full border border-accent/60 bg-bg/50 backdrop-blur">
+    <span class="flex h-14 w-14 items-center justify-center rounded-full border border-accent/60 bg-[#0a0a0a]/50 backdrop-blur">
       <svg class="h-5 w-5 translate-x-0.5 text-accent" viewBox="0 0 24 24" fill="currentColor">
         <path d="M8 5v14l11-7z"></path>
       </svg>
@@ -57,7 +57,7 @@ const interactiveProps = href
   </span>
 
   <div class="absolute inset-x-0 bottom-0 p-3">
-    <h3 class="font-display text-sm font-bold leading-tight text-ink">{title}</h3>
+    <h3 class="font-display text-sm font-bold leading-tight text-media-ink">{title}</h3>
     <p class="mt-1 font-mono text-[11px] text-neutral-400">
       {epLabel} {episode.number} &middot; {episode.duration}
     </p>

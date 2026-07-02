@@ -1,74 +1,89 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import StatsBar from "../components/StatsBar.astro";
+import CTABanner from "../components/CTABanner.astro";
 import { t, localizedPath } from "../i18n/utils";
 
 const lang = "en" as const;
 ---
 
-<BaseLayout title={t(lang, "about.title")} description={t(lang, "about.subtitle")} lang={lang}>
-  <div class="fade-in">
-    <h1 class="font-display text-3xl font-extrabold text-ink sm:text-4xl">{t(lang, "about.title")}</h1>
-    <p class="mb-10 mt-3 text-lg text-neutral-400">{t(lang, "about.subtitle")}</p>
-  </div>
+<BaseLayout title={t(lang, "about.title")} description={t(lang, "about.subtitle")} fullWidth lang={lang}>
+  <section class="relative overflow-hidden border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
+    <div class="aurora"></div>
+    <div class="relative z-10 mx-auto max-w-6xl">
+      <p class="eyebrow mb-3">{t(lang, "about.eyebrow")}</p>
+      <h1 class="max-w-3xl font-display text-4xl font-extrabold leading-tight text-ink sm:text-5xl">
+        {t(lang, "about.title")}
+      </h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-faint">{t(lang, "about.subtitle")}</p>
+    </div>
+  </section>
 
-  <div class="prose prose-invert prose-lg max-w-none fade-in">
-    <p>
-      Jorsby is a <strong>mass video-production studio</strong>. We produce episodic content
-      at scale — vertical dramas, short-form channels and long-form documentaries — that
-      businesses run on their <strong>own channels</strong> to win the one thing a banner ad
-      can't: attention people choose to give.
-    </p>
+  <section class="px-6 py-14 sm:py-16">
+    <div
+      class="prose prose-lg prose-neutral fade-in mx-auto max-w-3xl prose-headings:font-display prose-headings:text-ink prose-a:text-accent-ink prose-strong:text-ink"
+    >
+      <p>
+        Jorsby is a <strong>mass video-production studio</strong>. We produce episodic content
+        at scale — vertical dramas, short-form channels and long-form documentaries — that
+        businesses run on their <strong>own channels</strong> to win the one thing a banner ad
+        can't: attention people choose to give.
+      </p>
 
-    <p>
-      Drama is the oldest growth hack there is. People will watch fifteen episodes of a
-      story they care about and scroll past a fifteen-second ad without a thought. So we
-      don't make ads. We make <strong>series</strong> — characters, tension, cliffhangers,
-      a reason to come back tomorrow — for Instagram, TikTok and YouTube, in any language.
-    </p>
+      <p>
+        Drama is the oldest growth hack there is. People will watch fifteen episodes of a
+        story they care about and scroll past a fifteen-second ad without a thought. So we
+        don't make ads. We make <strong>series</strong> — characters, tension, cliffhangers,
+        a reason to come back tomorrow — for Instagram, TikTok and YouTube, in any language.
+      </p>
 
-    <h2>What we make</h2>
+      <h2>What we make</h2>
 
-    <p>
-      Whatever your audience will actually watch — and we already run the full range on our
-      own channels: a werewolf romance drama, a daily science-and-curiosity channel,
-      first-person biographies of history's great minds, dark chapters of Ottoman history,
-      the anatomy of billion-dollar business collapses, and short moral tales that make a
-      scrolling thumb stop. Across six shows and dozens of episodes, in Turkish and English,
-      the through-line is story and a consistent world people recognize episode after episode.
-      See them all on the <a href={localizedPath("/work", lang)}>work page</a>.
-    </p>
+      <p>
+        Whatever your audience will actually watch — and we already run the full range on our
+        own channels: a werewolf romance drama, a daily science-and-curiosity channel,
+        first-person biographies of history's great minds, dark chapters of Ottoman history,
+        the anatomy of billion-dollar business collapses, and short moral tales that make a
+        scrolling thumb stop. Across six shows and dozens of episodes, in Turkish and English,
+        the through-line is story and a consistent world people recognize episode after episode.
+        See them all on the <a href={localizedPath("/work", lang)}>work page</a>.
+      </p>
 
-    <h2>How we work</h2>
+      <h2>How we work</h2>
 
-    <p>
-      We write, produce, voice and edit entire series with AI. That collapses what used to
-      take a crew, a cast and a calendar into a pipeline that turns a brief into
-      ready-to-post episodes in days — and lets us ship the same story in every language
-      you publish in, with localized voices instead of subtitles.
-    </p>
+      <p>
+        We write, produce, voice and edit entire series with AI. That collapses what used to
+        take a crew, a cast and a calendar into a pipeline that turns a brief into
+        ready-to-post episodes in days — and lets us ship the same story in every language
+        you publish in, with localized voices instead of subtitles.
+      </p>
 
-    <h2>The flagship series</h2>
+      <h2>The flagship series</h2>
 
-    <p>
-      <em>Married to the Alpha Who Ruined Me</em> is our flagship — a supernatural romance
-      produced end to end in English and Turkish with a consistent cast across every
-      episode. It's the show that proved the pipeline; the rest of the slate followed. Watch
-      it on the <a href={localizedPath(`/shows/married-to-the-alpha`, lang)}>show page</a>.
-    </p>
+      <p>
+        <em>Married to the Alpha Who Ruined Me</em> is our flagship — a supernatural romance
+        produced end to end in English and Turkish with a consistent cast across every
+        episode. It's the show that proved the pipeline; the rest of the slate followed. Watch
+        it on the <a href={localizedPath(`/shows/married-to-the-alpha`, lang)}>show page</a>.
+      </p>
 
-    <h2>Who's behind it</h2>
+      <h2>Who's behind it</h2>
 
-    <p>
-      <strong>Serhat</strong> — founder. Builds the production pipeline, directs the
-      stories and obsesses over the first three seconds of every episode.
-    </p>
+      <p>
+        <strong>Serhat</strong> — founder. Builds the production pipeline, directs the
+        stories and obsesses over the first three seconds of every episode.
+      </p>
 
-    <h2>Work with us</h2>
+      <h2>Work with us</h2>
 
-    <p>
-      If you want a series your audience will actually follow, <a href={localizedPath("/contact", lang)}
-        >tell us what you want to make</a
-      > — we'll come back with a concept and a quote before you commit to anything.
-    </p>
-  </div>
+      <p>
+        If you want a series your audience will actually follow, <a href={localizedPath("/contact", lang)}
+          >tell us what you want to make</a
+        > — we'll come back with a concept and a quote before you commit to anything.
+      </p>
+    </div>
+  </section>
+
+  <StatsBar lang={lang} />
+  <CTABanner lang={lang} />
 </BaseLayout>

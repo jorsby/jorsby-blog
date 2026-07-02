@@ -24,13 +24,14 @@ const jsonLd = {
 ---
 
 <BaseLayout title={t(lang, "work.indexTitle")} description={t(lang, "work.indexSubtitle")} fullWidth lang={lang} jsonLd={jsonLd}>
-  <section class="border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
-    <div class="mx-auto max-w-6xl">
-      <p class="mb-3 font-mono text-xs uppercase tracking-wider text-accent">{t(lang, "work.indexEyebrow")}</p>
+  <section class="relative overflow-hidden border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
+    <div class="aurora"></div>
+    <div class="relative z-10 mx-auto max-w-6xl">
+      <p class="eyebrow mb-3">{t(lang, "work.portfolioEyebrow")}</p>
       <h1 class="max-w-3xl font-display text-4xl font-extrabold leading-tight text-ink sm:text-6xl">
-        {t(lang, "work.indexTitle")}
+        {t(lang, "nav.work")}
       </h1>
-      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-400">{t(lang, "work.indexSubtitle")}</p>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-faint">{t(lang, "work.indexSubtitle")}</p>
     </div>
   </section>
 

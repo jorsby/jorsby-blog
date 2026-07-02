@@ -7,9 +7,10 @@ interface Props {
   show: Show;
   lang?: Lang;
   index?: number;
+  views?: number; // when set (/work), a small reach line is added to the meta
 }
 
-const { show, lang = "en", index = 0 } = Astro.props;
+const { show, lang = "en", index = 0, views } = Astro.props;
 
 const href = localizedPath(`/shows/${show.slug}`, lang);
 const title = L(show.title, lang);
@@ -17,6 +18,17 @@ const tagline = L(show.tagline, lang);
 const delay = ["", "fade-in-delay-1", "fade-in-delay-2", "fade-in-delay-3"][index % 4];
 const turkishAudio = lang === "en" && show.primaryLang === "tr";
 const langTag = show.languages.join(" · ");
+
+// Hover teaser: the sizzle reel when the show has one, else episode 1.
+const preview =
+  show.reel?.[lang] ??
+  show.reel?.en ??
+  show.episodes[0]?.video[lang] ??
+  show.episodes[0]?.video.en ??
+  show.episodes[0]?.video.tr;
+
+const fmtViews = (n: number) =>
+  new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n);
 ---
 
 <a
@@ -36,21 +48,69 @@ const langTag = show.languages.join(" · ");
     loading="lazy"
     class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
   />
+  {
+    preview && (
+      <video
+        data-preview={preview}
+        muted
+        loop
+        playsinline
+        preload="none"
+        class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500"
+      />
+    )
+  }
   <div class="poster-vignette"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent"></div>
 
   <div class="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
-    <GenreBadge genre={show.genre} lang={lang} />
-    <span class="rounded-full border border-accent/30 bg-bg/70 px-2 py-0.5 font-mono text-[11px] text-accent backdrop-blur">
+    <GenreBadge genre={show.genre} lang={lang} onDark />
+    <span class="hidden whitespace-nowrap rounded-full border border-accent/40 bg-[#0a0a0a]/70 px-2 py-0.5 font-mono text-[11px] text-accent backdrop-blur sm:inline-flex">
       {turkishAudio ? t(lang, "shows.turkishAudio") : langTag}
     </span>
   </div>
 
   <div class="absolute inset-x-0 bottom-0 p-4">
-    <h3 class="font-display text-lg font-extrabold leading-tight text-ink sm:text-xl">{title}</h3>
+    <h3 class="font-display text-lg font-extrabold leading-tight text-media-ink sm:text-xl">{title}</h3>
     <p class="mt-1.5 line-clamp-2 text-sm leading-snug text-neutral-300">{tagline}</p>
     <p class="mt-2.5 font-mono text-[11px] uppercase tracking-wider text-neutral-400">
-      {formatLabel(lang, show.format)} · {show.episodeCount} {t(lang, "shows.episodesLabel")}
+      {formatLabel(lang, show.format)} · {show.episodeCount} {t(lang, "shows.episodesLabel")}{
+        views !== undefined && (
+          <> · <span class="text-accent">{
+            views >= 1000 ? `${fmtViews(views)} ${t(lang, "traction.reachUnit")}` : t(lang, "shows.earlyRollout")
+          }</span></>
+        )
+      }
     </p>
   </div>
 </a>
+
+<script>
+  // Hover-to-play teasers — desktop pointers only, lazy src, respects reduced-motion
+  const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (fine && !reduce) {
+    document.querySelectorAll<HTMLVideoElement>("video[data-preview]").forEach((v) => {
+      const card = v.closest("a");
+      if (!card) return;
+      let timer = 0;
+      card.addEventListener("mouseenter", () => {
+        timer = window.setTimeout(() => {
+          if (!v.src) {
+            v.src = v.dataset.preview!;
+            v.addEventListener("playing", () => v.classList.add("opacity-100"), { once: true });
+          } else {
+            v.classList.add("opacity-100");
+          }
+          v.play().catch(() => {});
+        }, 250);
+      });
+      card.addEventListener("mouseleave", () => {
+        window.clearTimeout(timer);
+        v.pause();
+        v.currentTime = 0;
+        v.classList.remove("opacity-100");
+      });
+    });
+  }
+</script>
