@@ -335,12 +335,33 @@ const orgSchema = {
         const floating = document.querySelector<HTMLElement>("[data-floating-preview]");
         const floatingImage = floating?.querySelector<HTMLImageElement>("[data-floating-preview-image]");
         if (floating && floatingImage) {
-          document.querySelectorAll<HTMLElement>("[data-service-preview]").forEach((row) => {
+          const rows = Array.from(document.querySelectorAll<HTMLElement>("[data-service-preview]"));
+          const previewCache = new Map<string, HTMLImageElement>();
+
+          rows.forEach((row) => {
+            const poster = row.dataset.servicePreview;
+            if (!poster || previewCache.has(poster)) return;
+            const image = new Image();
+            image.decoding = "async";
+            image.src = poster;
+            previewCache.set(poster, image);
+          });
+
+          rows.forEach((row) => {
             row.addEventListener("pointerenter", () => {
               const poster = row.dataset.servicePreview;
               if (!poster) return;
-              floatingImage.src = poster;
-              floating.classList.add("is-visible");
+
+              const cached = previewCache.get(poster);
+              const reveal = () => {
+                if (!row.matches(":hover")) return;
+                floatingImage.src = poster;
+                floating.classList.add("is-visible");
+              };
+
+              floating.classList.remove("is-visible");
+              if (cached?.complete && cached.naturalWidth > 0) reveal();
+              else cached?.addEventListener("load", reveal, { once: true });
             });
             row.addEventListener("pointerleave", () => floating.classList.remove("is-visible"));
           });

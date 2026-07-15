@@ -223,6 +223,14 @@
   background: rgba(242, 240, 235, 0.18);
 }
 
+[data-mosaic-count="5"] .hero-mosaic-grid {
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+
+[data-mosaic-count="5"] .hero-mosaic-item:first-child {
+  grid-column: span 2;
+}
+
 .hero-mosaic-item {
   position: relative;
   min-width: 0;
@@ -494,6 +502,43 @@
   .hero-mosaic-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-rows: minmax(0, 1fr);
+  }
+
+  [data-mosaic-count="5"] .hero-mosaic-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  [data-mosaic-count="5"] .hero-mosaic-item:first-child {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 640px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  [data-mosaic-count="5"] .hero-mosaic-grid {
+    display: flex;
+  }
+
+  [data-mosaic-count="5"] .hero-mosaic-item {
+    flex: 1 1 0%;
+    transition:
+      flex-grow 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.55s ease,
+      border-color 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+
+  [data-mosaic-count="5"] .hero-mosaic-item:hover {
+    flex-grow: 1.9;
+  }
+
+  [data-mosaic-count="5"] .hero-mosaic-grid:hover .hero-mosaic-item:not(:hover) {
+    filter: saturate(0.45) brightness(0.5);
+  }
+
+  [data-mosaic-count="5"] .hero-mosaic-item:hover > img,
+  [data-mosaic-count="5"] .hero-mosaic-item:hover > video {
+    transform: scale(1.055);
   }
 }
 

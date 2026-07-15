@@ -17,7 +17,7 @@ form. (It replaced the previous dev-blog.)
   configurable URL per episode
 
 ## Pages
-1. **Home** (`/`) — four-format video mosaic → services → process → CTA
+1. **Home** (`/`) — five-format video mosaic → services → process → CTA
 2. **Work** (`/work`) — filterable six-show portfolio
 3. **About** (`/about`) — The studio story
 4. **Contact** (`/contact`) — Web3Forms contact form + direct email
@@ -31,7 +31,7 @@ white heading `ink #f2f0eb`; fonts Archivo (sans), Space Mono (mono), Anton
 `film-grain`, `display-outline`) live in `src/styles/global.css`.
 
 The motion system is vanilla JS in `BaseLayout.astro` and `Hero.astro`: a
-first-visit curtain, hero line reveals, the four-format video mosaic, lazy autoplay
+first-visit curtain, hero line reveals, the five-format video mosaic, lazy autoplay
 previews, reel parallax/glare, magnetic CTAs, work-card tilt, nav scramble, and
 floating service previews. Every interaction is disabled under
 `prefers-reduced-motion` and pointer effects only run on fine pointers.
@@ -65,14 +65,16 @@ floating service previews. Every interaction is disabled under
    - Real 1200×630 social image used by `src/layouts/BaseLayout.astro`.
 5. **Translations** — refine Turkish copy in `src/i18n/translations.ts` (placeholder
    translations are in place; `t()` falls back EN → key).
-6. **Hero video mosaic** — `Hero.astro` presents one curated scene from four
-   distinct formats with no project or episode names. Hero clips are muted,
-   subtitle-free scene exports shared by both locales; local posters prevent
-   captioned opening frames from flashing while media loads. Reduced-motion
-   visitors receive the same clean poster mosaic. The dedicated R2 sources live
-   under `kara-sayfa/hero-gates-silent.mp4`,
-   `the-paper-throne/hero-confrontation-silent.mp4`, and
-   `jorsby-films/hero-flor-storm-silent.mp4` in the `jorsby-media` bucket.
+6. **Home media manifest → `src/data/siteMedia.ts`**
+   - Hero clips and service-hover posters are website-owned copies under
+     `jorsby-media/website-assets/v1/home/`. Never point these surfaces back at
+     project-generated asset keys or Remotion render URLs; project cleanup must
+     not be able to remove the public homepage.
+   - `Hero.astro` presents five muted, subtitle-free scenes with no project or
+     episode names, including the handcrafted Fenn treasure film. Both locales
+     share the same visual clips.
+   - Service previews are preloaded and only revealed after a successful image
+     load, preventing an empty or broken frame on first hover.
 ## Video notes (R2)
 - Encode H.264 + faststart (moov atom at front), ~1080×1920.
 - Set long `Cache-Control` on R2 objects; R2 supports HTTP Range so seeking works.

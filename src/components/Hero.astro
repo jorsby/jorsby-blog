@@ -1,5 +1,6 @@
 ---
 import { shows, portfolioStats } from "../data/shows";
+import { siteMedia } from "../data/siteMedia";
 import { t, localizedPath, type Lang } from "../i18n/utils";
 
 interface Props {
@@ -20,44 +21,13 @@ interface MosaicItem {
   startRatio: number;
 }
 
-interface ClipSelection {
-  poster: string;
-  startRatio: number;
-  slug?: string;
-  episodeIndex?: number;
-  source?: string;
-}
-
-const HERO_R2 = "https://pub-acd1440124614ccb9c0b6dcdfd9cd4af.r2.dev";
-const KARA_SAYFA_HERO = `${HERO_R2}/kara-sayfa/hero-gates-silent.mp4`;
-const PAPER_THRONE_HERO = `${HERO_R2}/the-paper-throne/hero-confrontation-silent.mp4`;
-const JORSBY_FILMS_HERO = `${HERO_R2}/jorsby-films/hero-flor-storm-silent.mp4`;
-
-const clipSelections: ClipSelection[] = [
-  { source: KARA_SAYFA_HERO, startRatio: 0, poster: "/posters/hero/kara-gates.jpg" },
-  { slug: "married-to-the-alpha", episodeIndex: 0, startRatio: 0.48, poster: "/posters/hero/alpha.jpg" },
-  { source: PAPER_THRONE_HERO, startRatio: 0, poster: "/posters/hero/paper-throne-clay.jpg" },
-  { source: JORSBY_FILMS_HERO, startRatio: 0, poster: "/posters/hero/science-storm.jpg" },
-];
-
 // One strong scene per format keeps cold-outreach visitors focused on range,
 // while each muted selection stays free of embedded subtitle text.
-const mosaic = clipSelections
-  .map(({ slug, episodeIndex = 0, source: directSource, startRatio, poster }): MosaicItem | null => {
-    let source = directSource;
-
-    if (!source && slug) {
-      const show = shows.find((item) => item.slug === slug);
-      const episode = show?.episodes[episodeIndex];
-      if (!show || !episode) return null;
-
-      source = episode.video[lang] ?? episode.video[show.primaryLang] ?? episode.video.en ?? episode.video.tr;
-    }
-    if (!source) return null;
-
-    return { poster, source, startRatio };
-  })
-  .filter((item): item is MosaicItem => item !== null);
+const mosaic: MosaicItem[] = siteMedia.heroClips.map(({ poster, source }) => ({
+  poster,
+  source,
+  startRatio: 0,
+}));
 
 const mosaicLabels = lang === "tr"
   ? {
@@ -155,6 +125,7 @@ const marquee = lang === "tr"
       id="hero-reel"
       data-reel-stage
       data-mosaic-stage
+      data-mosaic-count={mosaic.length}
       class="hero-reel-stage hero-mosaic-stage relative mx-auto mt-9 h-[620px] w-full max-w-[980px] scroll-mt-24 overflow-hidden border border-white/20 bg-surface shadow-[0_40px_120px_rgba(0,0,0,.62)] sm:h-[480px] lg:h-[620px]"
       aria-label={mosaicLabels.gallery}
     >

@@ -1,6 +1,6 @@
 ---
 import { t, type Lang } from "../i18n/utils";
-import { getShow } from "../data/shows";
+import { siteMedia } from "../data/siteMedia";
 
 interface Props {
   lang?: Lang;
@@ -13,25 +13,25 @@ const services = [
     title: t(lang, "services.series.title"),
     desc: t(lang, "services.series.desc"),
     meta: lang === "tr" ? "9:16 BÖLÜMLER · DEVAM EDEN KARAKTERLER" : "9:16 EPISODES · CLIFFHANGERS · RECURRING CAST",
-    poster: getShow("married-to-the-alpha")?.poster,
+    poster: siteMedia.servicePreviews.verticalDrama,
   },
   {
     title: t(lang, "services.history.title"),
     desc: t(lang, "services.history.desc"),
     meta: lang === "tr" ? "REELS · TIKTOK · SHORTS · HER GÜN" : "REELS · TIKTOK · SHORTS · DAILY",
-    poster: getShow("jorsby-bilim")?.poster,
+    poster: siteMedia.servicePreviews.shortForm,
   },
   {
     title: t(lang, "services.educational.title"),
     desc: t(lang, "services.educational.desc"),
     meta: lang === "tr" ? "BİLİM · TARİH · İŞ DÜNYASI" : "SCIENCE · HISTORY · BUSINESS",
-    poster: getShow("buyuk-zihinler")?.poster,
+    poster: siteMedia.servicePreviews.documentary,
   },
   {
     title: t(lang, "services.character.title"),
     desc: t(lang, "services.character.desc"),
     meta: lang === "tr" ? "SENARYO · SES · KURGU · YERELLEŞTİRME" : "SCRIPT · VOICE · EDIT · LOCALIZE",
-    poster: "/posters/hero/kara-gates.jpg",
+    poster: siteMedia.servicePreviews.localized,
   },
 ];
 ---
@@ -74,7 +74,7 @@ const services = [
   </div>
 
   <div data-floating-preview class="hidden lg:block" aria-hidden="true">
-    <img data-floating-preview-image src="" alt="" class="h-full w-full object-cover" />
+    <img data-floating-preview-image src={services[0].poster} alt="" class="h-full w-full object-cover" />
     <div class="poster-vignette"></div>
     <span class="absolute bottom-2 left-2 bg-bg/85 px-2 py-1 font-mono text-[8px] uppercase text-accent">JORSBY / 2026</span>
   </div>
