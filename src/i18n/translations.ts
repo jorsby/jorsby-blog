@@ -18,13 +18,14 @@ export const ui = {
     "nav.cta": "Start a project",
 
     // Hero
-    "hero.eyebrow": "AI Video Production Studio",
-    "hero.title1": "A studio that ships shows",
-    "hero.title2": "your audience can't scroll past.",
+    "hero.eyebrow": "AI SERIES STUDIO — BRANDS + CHANNELS",
+    "hero.title1": "WE MAKE",
+    "hero.titleOutline": "PEOPLE SAY",
+    "hero.title2": "WOW.",
     "hero.subtitle":
-      "Jorsby is a mass video-production studio. We write, voice, generate, score and edit original series and short-form channels across genres — in Turkish and English — and run them at scale.",
-    "hero.ctaPrimary": "Start a project",
-    "hero.ctaSecondary": "See our shows",
+      "Original AI video series for brands and channels. We write, direct, voice, generate, edit and localize every episode — with characters and worlds that stay consistent.",
+    "hero.ctaPrimary": "Start a series",
+    "hero.ctaSecondary": "Watch the reel",
     "hero.stat1": "shows",
     "hero.stat1Label": "shows",
     "hero.stat2": "episodes",
@@ -182,7 +183,7 @@ export const ui = {
     "contact.next3": "You commit only after you've seen the pitch — no retainers up front.",
 
     // CTA banner
-    "cta.title": "Ready to build your channel?",
+    "cta.title": "Ready to make something worth following?",
     "cta.subtitle":
       "Tell us the brand and the goal — we'll pitch you a show before you commit to anything.",
     "cta.button": "Start a project",
@@ -214,13 +215,14 @@ export const ui = {
     "nav.cta": "Projeye başla",
 
     // Hero
-    "hero.eyebrow": "Yapay Zeka Video Prodüksiyon Stüdyosu",
-    "hero.title1": "İzleyicinin geçemeyeceği içerikleri",
-    "hero.title2": "ölçekte üreten stüdyo.",
+    "hero.eyebrow": "YAPAY ZEKA DİZİ STÜDYOSU — MARKALAR + KANALLAR",
+    "hero.title1": "HİKÂYELER",
+    "hero.titleOutline": "ÜRETİRİZ",
+    "hero.title2": "İZLETİRİZ.",
     "hero.subtitle":
-      "Jorsby bir seri video prodüksiyon stüdyosudur. Türler arası özgün dizileri ve kısa video kanallarını yazar, seslendirir, üretir, müziklendirir ve kurgularız — Türkçe ve İngilizce — ve ölçekte yönetiriz.",
-    "hero.ctaPrimary": "Projeye başla",
-    "hero.ctaSecondary": "Şovları gör",
+      "Markalar ve kanallar için özgün yapay zeka video serileri. Her bölümü yazar, yönetir, seslendirir, üretir, kurgular ve yerelleştiririz — tutarlı karakterler ve dünyalarla.",
+    "hero.ctaPrimary": "Bir seri başlat",
+    "hero.ctaSecondary": "Reeli izle",
     "hero.stat1": "şov",
     "hero.stat1Label": "şov",
     "hero.stat2": "bölüm",
@@ -378,7 +380,7 @@ export const ui = {
     "contact.next3": "Yalnızca sunumu gördükten sonra karar verirsiniz — peşin bağlılık yok.",
 
     // CTA banner
-    "cta.title": "Kanalınızı kurmaya hazır mısınız?",
+    "cta.title": "Takip edilmeye değer bir seri üretmeye hazır mısınız?",
     "cta.subtitle":
       "Markayı ve hedefi anlatın — hiçbir şeye bağlanmadan önce size bir şov sunalım.",
     "cta.button": "Projeye başla",

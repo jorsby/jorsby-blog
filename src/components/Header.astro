@@ -7,71 +7,85 @@ interface Props {
 }
 
 const { lang = "en" } = Astro.props;
+const homePath = localizedPath("/", lang);
 
 const navLinks = [
   { href: localizedPath("/work", lang), label: t(lang, "nav.work") },
-  { href: `${localizedPath("/", lang)}#services`, label: t(lang, "nav.services") },
+  { href: `${homePath}#services`, label: t(lang, "nav.services") },
+  { href: `${homePath}#process`, label: t(lang, "process.title") },
   { href: localizedPath("/about", lang), label: t(lang, "nav.about") },
   { href: localizedPath("/contact", lang), label: t(lang, "nav.contact") },
 ];
 ---
 
-<header class="sticky top-0 z-40 border-b border-border/60 bg-white/70 px-6 backdrop-blur-xl">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between py-3 sm:py-4">
+<header class="sticky top-0 z-40 border-b border-border bg-bg/90 px-5 backdrop-blur-xl sm:px-8">
+  <nav class="mx-auto flex h-[72px] max-w-[1280px] items-center justify-between">
     <a
-      href={localizedPath("/", lang)}
-      class="font-mono text-lg font-semibold text-neutral-900 transition-colors hover:text-accent-ink"
+      href={homePath}
+      class="flex shrink-0 items-baseline gap-2 text-ink transition-colors hover:text-accent"
     >
-      jorsby<span class="text-accent-ink">.</span>ai
+      <span class="font-display text-2xl uppercase">Jorsby</span>
+      <span class="font-mono text-[10px] uppercase text-accent">Media</span>
     </a>
-    <div class="flex items-center gap-2 sm:gap-4 md:gap-6">
-      <div class="hidden items-center gap-6 md:flex">
+    <div class="flex items-center gap-2 sm:gap-3">
+      <div class="hidden items-center gap-6 lg:flex">
         {
           navLinks.map(({ href, label }) => (
-            <a href={href} class="text-sm text-neutral-600 transition-colors hover:text-neutral-900">
+            <a
+              href={href}
+              data-scramble
+              aria-label={label}
+              class="font-mono text-[11px] uppercase text-ink-faint transition-colors hover:text-accent"
+            >
               {label}
             </a>
           ))
         }
       </div>
-      <div class="hidden md:block">
+      <div class="hidden sm:block">
         <LanguageSwitcher lang={lang} />
       </div>
       <a
         href={localizedPath("/contact", lang)}
-        class="inline-flex items-center rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-ink transition-all hover:bg-accent-warm hover:shadow-glow sm:px-4"
+        data-magnetic
+        class="hidden min-h-10 items-center rounded-full bg-accent px-5 text-xs font-extrabold uppercase text-bg transition-colors hover:bg-accent-warm sm:inline-flex"
       >
         {t(lang, "nav.cta")}
       </a>
       <button
         id="menu-toggle"
         type="button"
-        class="flex h-10 w-10 items-center justify-center rounded-lg border border-border text-neutral-700 transition-colors hover:border-accent/40 hover:text-accent-ink md:hidden"
-        aria-label="Menu"
+        class="flex h-10 w-10 flex-col items-center justify-center gap-1.5 border border-border text-ink transition-colors hover:border-accent hover:text-accent lg:hidden"
+        aria-label={lang === "tr" ? "Menüyü aç" : "Open menu"}
+        data-open-label={lang === "tr" ? "Menüyü aç" : "Open menu"}
+        data-close-label={lang === "tr" ? "Menüyü kapat" : "Close menu"}
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
-        <svg id="menu-icon-open" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
-        <svg id="menu-icon-close" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+        <span class="menu-line block h-px w-5 bg-current transition-transform"></span>
+        <span class="menu-line block h-px w-5 bg-current transition-opacity"></span>
+        <span class="menu-line block h-px w-5 bg-current transition-transform"></span>
       </button>
     </div>
   </nav>
 
-  <!-- Mobile menu sheet -->
-  <div id="mobile-menu" class="hidden border-t border-border/60 pb-4 md:hidden">
-    <nav class="mx-auto max-w-6xl">
+  <div id="mobile-menu" class="hidden border-t border-border pb-5 lg:hidden">
+    <nav class="mx-auto max-w-[1280px] pt-2">
       {
         navLinks.map(({ href, label }) => (
           <a
             href={href}
-            class="flex items-center rounded-lg px-2 py-3 text-base font-medium text-neutral-800 transition-colors hover:bg-accent/10 hover:text-accent-ink"
+            class="flex items-center border-b border-border px-1 py-4 font-display text-2xl uppercase text-ink transition-colors hover:text-accent"
           >
             {label}
           </a>
         ))
       }
-      <div class="mt-2 px-2">
+      <div class="mt-4 flex items-center justify-between sm:hidden">
         <LanguageSwitcher lang={lang} />
+        <a href={localizedPath("/contact", lang)} class="button-primary min-h-10 px-5 text-xs">
+          {t(lang, "nav.cta")}
+        </a>
       </div>
     </nav>
   </div>
@@ -80,14 +94,19 @@ const navLinks = [
 <script>
   const toggle = document.getElementById("menu-toggle");
   const menu = document.getElementById("mobile-menu");
-  const iconOpen = document.getElementById("menu-icon-open");
-  const iconClose = document.getElementById("menu-icon-close");
-  if (toggle && menu && iconOpen && iconClose) {
-    toggle.addEventListener("click", () => {
-      const open = menu.classList.toggle("hidden") === false;
+  const lines = toggle?.querySelectorAll<HTMLElement>(".menu-line");
+  if (toggle && menu && lines?.length === 3) {
+    const setOpen = (open: boolean) => {
+      menu.classList.toggle("hidden", !open);
       toggle.setAttribute("aria-expanded", String(open));
-      iconOpen.classList.toggle("hidden", open);
-      iconClose.classList.toggle("hidden", !open);
-    });
+      toggle.setAttribute("aria-label", open ? toggle.dataset.closeLabel || "Close menu" : toggle.dataset.openLabel || "Open menu");
+      lines[0].classList.toggle("translate-y-[7px]", open);
+      lines[0].classList.toggle("rotate-45", open);
+      lines[1].classList.toggle("opacity-0", open);
+      lines[2].classList.toggle("-translate-y-[7px]", open);
+      lines[2].classList.toggle("-rotate-45", open);
+    };
+    toggle.addEventListener("click", () => setOpen(menu.classList.contains("hidden")));
+    menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
   }
 </script>

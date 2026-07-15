@@ -28,8 +28,7 @@ const reachRows = reachShown.map((r) => ({
   value: r.views,
 }));
 
-// 5-step gold ramp, dark → light, in posts-desc order
-const platformColors = ["#8a6410", "#b8860b", "#e8b14c", "#f0c674", "#e3d7bb"];
+const platformColors = ["#e8ff47", "#64d8cb", "#ff866e", "#9bb8ff", "#f2f0eb"];
 const platformSegments = stats.platforms.map((p, i) => ({
   label: p.label,
   value: p.posts,
@@ -49,15 +48,15 @@ const velocityPoints = stats.velocity.map((v) => ({
 }));
 const hasPartial = stats.velocity.some((v) => v.partial);
 
-const cardCls = "glass rounded-2xl p-6 flex flex-col";
-const cardTitle = "font-display text-lg font-bold text-ink";
-const cardFoot = "mt-4 border-t border-border/50 pt-3 text-sm text-neutral-700";
+const cardCls = "border border-border bg-surface p-6 flex flex-col";
+const cardTitle = "font-display text-2xl uppercase text-ink";
+const cardFoot = "mt-4 border-t border-border pt-3 text-sm text-ink-faint";
 ---
 
-<section class="relative overflow-hidden border-y border-border/60 bg-cinematic px-6 py-20 sm:py-24">
+<section id="proof" class="relative overflow-hidden border-b border-border bg-cinematic px-5 py-20 sm:px-8 sm:py-28">
   <div class="aurora"></div>
   <div class="aurora-mid"></div>
-  <div class="relative z-10 mx-auto max-w-6xl">
+  <div class="page-shell relative z-10">
     <SectionHeader
       align="center"
       eyebrow={t(lang, "traction.eyebrow")}
@@ -65,17 +64,15 @@ const cardFoot = "mt-4 border-t border-border/50 pt-3 text-sm text-neutral-700";
       subtitle={t(lang, "traction.subtitle")}
     />
 
-    <!-- Counter band -->
-    <div class="fade-in glass mt-12 rounded-2xl p-8">
-      <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
-        <CounterStat to={stats.totals.views} compact label={t(lang, "traction.viewsLabel")} />
-        <CounterStat to={stats.totals.likes} compact label={t(lang, "traction.likesLabel")} />
-        <CounterStat to={stats.totals.posts} label={t(lang, "traction.postsLabel")} />
-        <CounterStat to={stats.totals.episodes} label={t(lang, "traction.episodesLabel")} />
+    <div class="fade-in mt-12 border-y border-border">
+      <div class="grid grid-cols-2 sm:grid-cols-4 sm:divide-x sm:divide-border">
+        <CounterStat to={stats.totals.views} compact label={t(lang, "traction.viewsLabel")} class="py-7" />
+        <CounterStat to={stats.totals.likes} compact label={t(lang, "traction.likesLabel")} class="border-l border-border py-7 sm:border-l-0" />
+        <CounterStat to={stats.totals.posts} label={t(lang, "traction.postsLabel")} class="border-t border-border py-7 sm:border-t-0" />
+        <CounterStat to={stats.totals.episodes} label={t(lang, "traction.episodesLabel")} class="border-l border-t border-border py-7 sm:border-l-0 sm:border-t-0" />
       </div>
     </div>
 
-    <!-- Chart cards -->
     <div class="mt-6 grid gap-6 lg:grid-cols-3">
       <div class={`fade-in ${cardCls}`}>
         <h3 class={cardTitle}>{t(lang, "traction.reachTitle")}</h3>
@@ -99,7 +96,7 @@ const cardFoot = "mt-4 border-t border-border/50 pt-3 text-sm text-neutral-700";
 
       <div class={`fade-in fade-in-delay-2 ${cardCls}`}>
         <h3 class={cardTitle}>{t(lang, "traction.outputTitle")}</h3>
-        <p class="mt-1 font-mono text-xs uppercase tracking-wider text-ink-faint">{t(lang, "traction.outputSubtitle")}</p>
+        <p class="mt-1 font-mono text-xs uppercase text-ink-faint">{t(lang, "traction.outputSubtitle")}</p>
         <div class="mt-4 flex-1">
           <AreaChart points={velocityPoints} />
         </div>

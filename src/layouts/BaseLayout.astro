@@ -50,8 +50,15 @@ const orgSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#070707" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- hreflang -->
     <link rel="alternate" hreflang="en" href={enURL} />
@@ -81,7 +88,56 @@ const orgSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
-  <body class="flex min-h-screen flex-col">
+  <body class="flex min-h-screen flex-col bg-bg text-ink-soft">
+    <div id="site-intro" class="site-intro" aria-hidden="true">
+      <p class="font-mono text-[10px] uppercase text-ink-faint">JORSBY / MOTION PICTURES</p>
+      <p id="site-intro-count" class="font-display text-7xl text-accent sm:text-8xl">000</p>
+      <div class="h-px w-56 bg-white/15 sm:w-72">
+        <div id="site-intro-bar" class="h-full origin-left scale-x-0 bg-accent"></div>
+      </div>
+    </div>
+    <script is:inline>
+      (() => {
+        const intro = document.getElementById("site-intro");
+        const count = document.getElementById("site-intro-count");
+        const bar = document.getElementById("site-intro-bar");
+        const ready = () => document.documentElement.classList.add("page-ready");
+        if (!intro) {
+          ready();
+          return;
+        }
+
+        let seen = false;
+        try {
+          seen = sessionStorage.getItem("jorsby-intro-seen") === "1";
+        } catch (_) {}
+
+        if (seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          intro.classList.add("is-skipped");
+          ready();
+          return;
+        }
+
+        const start = performance.now();
+        const duration = 720;
+        const tick = (now) => {
+          const progress = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const value = Math.round(eased * 100);
+          if (count) count.textContent = String(value).padStart(3, "0");
+          if (bar) bar.style.transform = `scaleX(${eased})`;
+          intro.style.setProperty("--intro-progress", String(eased));
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+            return;
+          }
+          intro.classList.add("is-done");
+          ready();
+          try { sessionStorage.setItem("jorsby-intro-seen", "1"); } catch (_) {}
+        };
+        requestAnimationFrame(tick);
+      })();
+    </script>
     <Header lang={lang} />
     {
       fullWidth ? (
@@ -89,7 +145,7 @@ const orgSchema = {
           <slot />
         </main>
       ) : (
-        <main class="mx-auto w-full max-w-3xl flex-1 px-6 py-12">
+        <main class="mx-auto w-full max-w-3xl flex-1 px-5 py-12 sm:px-8">
           <slot />
         </main>
       )
@@ -148,17 +204,155 @@ const orgSchema = {
       );
       document.querySelectorAll<HTMLElement>(".count-up").forEach((el) => countObserver.observe(el));
 
-      // Autoplay hero videos reliably (muted), and respect reduced-motion
-      const reduce = reduceMotion;
-      document.querySelectorAll<HTMLVideoElement>("video[autoplay]").forEach((v) => {
-        v.muted = true;
-        if (reduce) {
-          v.removeAttribute("autoplay");
-          v.pause();
-        } else {
-          v.play().catch(() => {});
+      // Lazy-load moving previews only when they approach the viewport.
+      const motionVideos = document.querySelectorAll<HTMLVideoElement>("video[data-autoplay-src]");
+      if (reduceMotion) {
+        document.querySelectorAll<HTMLVideoElement>("video[autoplay], video[data-autoplay-src]").forEach((video) => {
+          video.removeAttribute("autoplay");
+          video.pause();
+        });
+      } else {
+        const videoObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const video = entry.target as HTMLVideoElement;
+              if (entry.isIntersecting) {
+                if (!video.src && video.dataset.autoplaySrc) {
+                  video.src = video.dataset.autoplaySrc;
+                  video.load();
+                }
+                video.muted = true;
+                video.play().catch(() => {});
+              } else {
+                video.pause();
+              }
+            });
+          },
+          { rootMargin: "180px 0px", threshold: 0.05 },
+        );
+        motionVideos.forEach((video) => videoObserver.observe(video));
+        document.querySelectorAll<HTMLVideoElement>("video[autoplay]:not([data-autoplay-src])").forEach((video) => {
+          video.muted = true;
+          video.play().catch(() => {});
+        });
+      }
+
+      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      if (finePointer && !reduceMotion) {
+        // Hero wall parallax.
+        document.querySelectorAll<HTMLElement>("[data-hero-motion]").forEach((hero) => {
+          const wall = hero.querySelector<HTMLElement>("[data-film-wall]");
+          hero.addEventListener("pointermove", (event) => {
+            const rect = hero.getBoundingClientRect();
+            const x = (event.clientX - rect.left) / rect.width - 0.5;
+            const y = (event.clientY - rect.top) / rect.height - 0.5;
+            wall?.style.setProperty("--wall-x", `${(-x * 30).toFixed(1)}px`);
+            wall?.style.setProperty("--wall-y", `${(-y * 20).toFixed(1)}px`);
+          });
+          hero.addEventListener("pointerleave", () => {
+            wall?.style.setProperty("--wall-x", "0px");
+            wall?.style.setProperty("--wall-y", "0px");
+          });
+        });
+
+        // Hero reel tilt, glare, and optional live pointer coordinates.
+        document.querySelectorAll<HTMLElement>("[data-reel-stage]").forEach((stage) => {
+          const glare = stage.querySelector<HTMLElement>("[data-reel-glare]");
+          const coordinates = stage.querySelector<HTMLElement>("[data-reel-coordinates]");
+          stage.addEventListener("pointermove", (event) => {
+            const rect = stage.getBoundingClientRect();
+            const px = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
+            const py = Math.min(1, Math.max(0, (event.clientY - rect.top) / rect.height));
+            stage.style.setProperty("--reel-rx", `${((0.5 - py) * 5).toFixed(2)}deg`);
+            stage.style.setProperty("--reel-ry", `${((px - 0.5) * 6).toFixed(2)}deg`);
+            glare?.style.setProperty("--glare-x", `${(px * 100).toFixed(1)}%`);
+            glare?.style.setProperty("--glare-y", `${(py * 100).toFixed(1)}%`);
+            glare?.style.setProperty("--glare-opacity", "1");
+            if (coordinates) coordinates.textContent = `X ${px.toFixed(2)} / Y ${py.toFixed(2)}`;
+          });
+          stage.addEventListener("pointerleave", () => {
+            stage.style.setProperty("--reel-rx", "0deg");
+            stage.style.setProperty("--reel-ry", "0deg");
+            glare?.style.setProperty("--glare-opacity", "0");
+            if (coordinates) coordinates.textContent = "X 0.50 / Y 0.50";
+          });
+        });
+
+        // Work-card depth and highlight.
+        document.querySelectorAll<HTMLElement>("[data-tilt]").forEach((card) => {
+          const glare = card.querySelector<HTMLElement>("[data-card-glare]");
+          card.addEventListener("pointermove", (event) => {
+            const rect = card.getBoundingClientRect();
+            const px = (event.clientX - rect.left) / rect.width;
+            const py = (event.clientY - rect.top) / rect.height;
+            card.style.transform = `perspective(800px) rotateY(${((px - 0.5) * 8).toFixed(2)}deg) rotateX(${((0.5 - py) * 8).toFixed(2)}deg) translateY(-6px)`;
+            glare?.style.setProperty("--glare-x", `${(px * 100).toFixed(1)}%`);
+            glare?.style.setProperty("--glare-y", `${(py * 100).toFixed(1)}%`);
+            glare?.style.setProperty("--glare-opacity", "1");
+          });
+          card.addEventListener("pointerleave", () => {
+            card.style.removeProperty("transform");
+            glare?.style.setProperty("--glare-opacity", "0");
+          });
+        });
+
+        // Magnetic CTAs use local pointer movement, so they settle immediately.
+        document.querySelectorAll<HTMLElement>("[data-magnetic]").forEach((button) => {
+          button.addEventListener("pointermove", (event) => {
+            const rect = button.getBoundingClientRect();
+            const x = event.clientX - (rect.left + rect.width / 2);
+            const y = event.clientY - (rect.top + rect.height / 2);
+            button.style.transform = `translate(${(x * 0.22).toFixed(1)}px, ${(y * 0.22).toFixed(1)}px)`;
+          });
+          button.addEventListener("pointerleave", () => button.style.removeProperty("transform"));
+        });
+
+        // Compact text scramble on desktop navigation.
+        document.querySelectorAll<HTMLElement>("[data-scramble]").forEach((element) => {
+          element.addEventListener("mouseenter", () => {
+            if (element.dataset.scrambling === "true") return;
+            const original = element.dataset.originalText || element.textContent || "";
+            element.dataset.originalText = original;
+            element.dataset.scrambling = "true";
+            const glyphs = "JORSBYMEDIA#01";
+            let frame = 0;
+            const timer = window.setInterval(() => {
+              frame += 1;
+              element.textContent = original
+                .split("")
+                .map((character, index) => index < frame || character === " " ? character : glyphs[Math.floor(Math.random() * glyphs.length)])
+                .join("");
+              if (frame >= original.length) {
+                window.clearInterval(timer);
+                element.textContent = original;
+                element.dataset.scrambling = "false";
+              }
+            }, 34);
+          });
+        });
+
+        // Show a film-frame preview beside the pointer while browsing services.
+        const floating = document.querySelector<HTMLElement>("[data-floating-preview]");
+        const floatingImage = floating?.querySelector<HTMLImageElement>("[data-floating-preview-image]");
+        if (floating && floatingImage) {
+          document.querySelectorAll<HTMLElement>("[data-service-preview]").forEach((row) => {
+            row.addEventListener("pointerenter", () => {
+              const poster = row.dataset.servicePreview;
+              if (!poster) return;
+              floatingImage.src = poster;
+              floating.classList.add("is-visible");
+            });
+            row.addEventListener("pointerleave", () => floating.classList.remove("is-visible"));
+          });
+          window.addEventListener("pointermove", (event) => {
+            const x = Math.min(event.clientX, window.innerWidth - 210);
+            const y = Math.min(window.innerHeight - 150, Math.max(150, event.clientY));
+            floating.style.left = `${x}px`;
+            floating.style.top = `${y}px`;
+          });
         }
-      });
+
+      }
     </script>
   </body>
 </html>

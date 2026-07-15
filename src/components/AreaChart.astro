@@ -37,18 +37,18 @@ const fmt = (v: number) => new Intl.NumberFormat("en", { notation: "compact", ma
 <svg viewBox={`0 0 ${W} ${H}`} class="h-auto w-full" role="img">
   <defs>
     <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#e8b14c" stop-opacity="0.35"></stop>
-      <stop offset="100%" stop-color="#e8b14c" stop-opacity="0"></stop>
+      <stop offset="0%" stop-color="#e8ff47" stop-opacity="0.3"></stop>
+      <stop offset="100%" stop-color="#e8ff47" stop-opacity="0"></stop>
     </linearGradient>
   </defs>
   <path d={areaPath} fill="url(#areaGrad)" class="area-fill"></path>
-  <path d={solidPath} fill="none" stroke="#b8860b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="draw-line"></path>
+  <path d={solidPath} fill="none" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="draw-line"></path>
   {
     dashedPath && (
       <path
         d={dashedPath}
         fill="none"
-        stroke="#b8860b"
+        stroke="#e8ff47"
         stroke-width="2"
         stroke-linecap="round"
         stroke-dasharray="4 4"
@@ -63,15 +63,15 @@ const fmt = (v: number) => new Intl.NumberFormat("en", { notation: "compact", ma
           cx={x(i)}
           cy={y(p.value)}
           r="3.5"
-          fill={p.partial ? "#faf7f2" : "#ffffff"}
-          stroke="#b8860b"
+          fill={p.partial ? "#070707" : "#e8ff47"}
+          stroke="#e8ff47"
           stroke-width="2"
           stroke-dasharray={p.partial ? "2 2" : undefined}
         />
-        <text x={x(i)} y={y(p.value) - 9} text-anchor="middle" class="fill-neutral-800 font-mono" style="font-size:10px;font-weight:600">
+        <text x={x(i)} y={y(p.value) - 9} text-anchor="middle" class="fill-ink font-mono" style="font-size:10px;font-weight:600">
           {fmt(p.value)}
         </text>
-        <text x={x(i)} y={H - 6} text-anchor="middle" class="fill-neutral-500 font-mono" style="font-size:10px">
+        <text x={x(i)} y={H - 6} text-anchor="middle" class="fill-ink-faint font-mono" style="font-size:10px">
           {p.label}
         </text>
       </g>

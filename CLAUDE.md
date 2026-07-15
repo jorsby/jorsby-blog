@@ -11,39 +11,48 @@ form. (It replaced the previous dev-blog.)
 
 ## Tech Stack
 - **Astro** (static output, `output: "static"`) — deployed to Vercel
-- **Tailwind CSS** with a dark + **gold/amber** cinematic theme
+- **Tailwind CSS** with a black + **acid-lime** editorial theme
 - **i18n**: English at `/`, Turkish at `/tr/` (see `src/i18n/`)
 - Videos: self-hosted MP4s expected on **Cloudflare R2 / CDN**, played via a
   configurable URL per episode
 
 ## Pages
-1. **Home** (`/`) — Hero (autoplay teaser) → Featured drama → Services → Value props → Process → CTA
-2. **Work** (`/work`) — The series: featured player + 15-episode grid with a click-to-play lightbox
+1. **Home** (`/`) — four-format video mosaic → services → process → CTA
+2. **Work** (`/work`) — filterable six-show portfolio
 3. **About** (`/about`) — The studio story
 4. **Contact** (`/contact`) — Web3Forms contact form + direct email
+5. **Show detail** (`/shows/[slug]`) — show overview, social channels, and episode lightbox
 Each has a Turkish mirror under `src/pages/tr/`.
 
 ## Design tokens
-`tailwind.config.mjs`: dark base `#0a0a0a`; gold accent `#e8b14c` (`accent-warm`,
-`accent-deep`); warm heading `ink #f5f0e6`; fonts Inter (sans), JetBrains Mono
-(mono), Bricolage Grotesque (display). Cinematic utilities (`bg-cinematic`,
-`poster-vignette`, `film-grain`, `gold-text`) live in `src/styles/global.css`.
+`tailwind.config.mjs`: black base `#070707`; acid-lime accent `#e8ff47`; warm
+white heading `ink #f2f0eb`; fonts Archivo (sans), Space Mono (mono), Anton
+(display). Editorial/cinematic utilities (`bg-cinematic`, `poster-vignette`,
+`film-grain`, `display-outline`) live in `src/styles/global.css`.
+
+The motion system is vanilla JS in `BaseLayout.astro` and `Hero.astro`: a
+first-visit curtain, hero line reveals, the four-format video mosaic, lazy autoplay
+previews, reel parallax/glare, magnetic CTAs, work-card tilt, nav scramble, and
+floating service previews. Every interaction is disabled under
+`prefers-reduced-motion` and pointer effects only run on fine pointers.
 
 ## Real assets (already wired)
-1. **Series data → `src/data/episodes.ts`**
-   - Flagship: **"Married to the Alpha Who Ruined Me"** — 15 episodes, EN + TR.
-     Eps 1–10 titles/synopses are final (from the episode dialogue + the production
-     glossary); **eps 11–15 titles/synopses are placeholders** (marked
-     `(Placeholder — confirm.)`) — no transcripts existed.
-   - Videos live on Cloudflare **R2 bucket `jorsby-media`**, key prefix
-     `married-to-the-alpha/`, served from `R2_BASE` (currently the public r2.dev
-     dev URL). Eps 1–10 have `.en.mp4` + `.tr.mp4`; eps 11–15 are `.en.mp4` only —
-     the TR site falls back to EN audio via `TR_AUDIO_THROUGH`.
+1. **Portfolio data → `src/data/shows.generated.ts`**
+   - Six shows and the current generated episode set are exposed through the
+     typed model/helpers in `src/data/shows.ts`.
+   - `scripts/portfolio-snapshot.mjs` is the committed fallback; regenerate with
+     `node scripts/sync-portfolio.mjs`. Live Supabase sync requires service-role
+     credentials and should never broaden beyond the UUID allowlist in
+     `scripts/portfolio.config.mjs`.
+   - Kara Sayfa's requested **Paper Throne — Episode 1** render is curated first,
+     followed by the existing four showcase films.
+   - The flagship lives on Cloudflare **R2 bucket `jorsby-media`** and has EN + TR
+     audio where available. Other generated shows currently use their production
+     render URLs until the portfolio mirror pipeline is run with `--mirror`.
    - **Production upgrade:** connect custom domain `media.jorsby.ai` to the bucket
      and replace `R2_BASE` with `https://media.jorsby.ai`.
-2. **Posters → `public/posters/ep-01.jpg`…`ep-15.jpg`** (+ `teaser.jpg`)
-   - Real frames cut from the episodes, committed in-repo (~1.7 MB). Shared across
-     languages. Swap = drop a new `ep-NN.jpg`.
+2. **Posters → `public/posters/`**
+   - Real frames are organized by show slug; flagship posters remain at the root.
    - Re-encode/upload pipeline (masters live OUTSIDE the repo on the Desktop):
      `ffmpeg` → 1080×1920 H.264 faststart ~3 Mbps; upload with
      `npx wrangler r2 object put jorsby-media/married-to-the-alpha/<file> --file=… --remote -y --content-type=video/mp4 --cache-control="public, max-age=31536000, immutable"`.
@@ -52,13 +61,18 @@ Each has a Turkish mirror under `src/pages/tr/`.
    - Set `PUBLIC_WEB3FORMS_KEY` in Vercel env (key is tied to your email and is
      public-safe), or replace the fallback constant in
      `src/components/ContactForm.astro`. Until set, the form shows a graceful error.
-4. **OG image → `public/og-default.svg`**
-   - Replace with a real **1200×630 PNG/JPG** for best social-scraper support
-     (most scrapers don't render SVG), then update the `ogImage` default in
-     `src/layouts/BaseLayout.astro`.
+4. **OG image → `public/og-default.jpg`**
+   - Real 1200×630 social image used by `src/layouts/BaseLayout.astro`.
 5. **Translations** — refine Turkish copy in `src/i18n/translations.ts` (placeholder
    translations are in place; `t()` falls back EN → key).
-
+6. **Hero video mosaic** — `Hero.astro` presents one curated scene from four
+   distinct formats with no project or episode names. Hero clips are muted,
+   subtitle-free scene exports shared by both locales; local posters prevent
+   captioned opening frames from flashing while media loads. Reduced-motion
+   visitors receive the same clean poster mosaic. The dedicated R2 sources live
+   under `kara-sayfa/hero-gates-silent.mp4`,
+   `the-paper-throne/hero-confrontation-silent.mp4`, and
+   `jorsby-films/hero-flor-storm-silent.mp4` in the `jorsby-media` bucket.
 ## Video notes (R2)
 - Encode H.264 + faststart (moov atom at front), ~1080×1920.
 - Set long `Cache-Control` on R2 objects; R2 supports HTTP Range so seeking works.

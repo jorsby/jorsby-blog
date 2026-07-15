@@ -4,45 +4,38 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Porcelain light theme
-        bg: "#faf7f2", // warm porcelain page background
-        surface: "#ffffff", // cards
-        "surface-light": "#fffdf9",
-        border: "#ece6dc", // warm hairline
-        ink: "#1a1613", // near-black warm — headings
-        "ink-soft": "#4a4038", // warm body text (~9:1 on porcelain)
-        "ink-faint": "#6f6558", // warm secondary/labels (~5.3:1 — AA at any size)
-        // Cinematic gold accent system (kept as brand)
-        accent: "#e8b14c", // fills, borders, icons
-        "accent-warm": "#f0c674",
-        "accent-deep": "#b8860b",
-        "accent-ink": "#8a6410", // darker gold for small TEXT/links on white (contrast)
+        bg: "#070707",
+        surface: "#0d0d0d",
+        "surface-light": "#141414",
+        border: "#292929",
+        ink: "#f2f0eb",
+        "ink-soft": "#c8c6c0",
+        "ink-faint": "#8d8b85",
+        accent: "#e8ff47",
+        "accent-warm": "#f2ff85",
+        "accent-deep": "#bad02c",
+        "accent-ink": "#e8ff47",
         "accent-blue": "#3b82f6",
-        // Text that sits over dark poster images (must stay light)
-        "media-ink": "#f5f0e6",
+        "media-ink": "#f2f0eb",
       },
       fontFamily: {
-        mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
-        sans: ['"Inter"', "system-ui", "sans-serif"],
-        display: ['"Bricolage Grotesque"', '"Inter"', "system-ui", "sans-serif"],
+        mono: ['"Space Mono"', "ui-monospace", "monospace"],
+        sans: ['"Archivo"', "system-ui", "sans-serif"],
+        display: ['"Anton"', '"Archivo"', "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 24px rgba(232, 177, 76, 0.18)",
-        "glow-md": "0 6px 40px rgba(232, 177, 76, 0.24)",
-        "glow-poster": "0 18px 50px rgba(30, 20, 8, 0.28)",
-        soft: "0 8px 30px rgba(40, 28, 12, 0.08)",
-        lift: "0 18px 48px rgba(40, 28, 12, 0.14)",
+        glow: "0 0 28px rgba(232, 255, 71, 0.14)",
+        "glow-md": "0 0 48px rgba(232, 255, 71, 0.24)",
+        "glow-poster": "0 28px 80px rgba(0, 0, 0, 0.72)",
+        soft: "0 12px 36px rgba(0, 0, 0, 0.28)",
+        lift: "0 20px 56px rgba(0, 0, 0, 0.48)",
       },
       backgroundImage: {
-        // soft warm gold glow at the top of a section, on porcelain
         cinematic:
-          "radial-gradient(120% 80% at 50% 0%, rgba(232, 177, 76, 0.16), transparent 62%)",
-        // dark bottom vignette — used ONLY over dark poster images. Dense and
-        // tall enough that baked-in video captions can't collide with titles.
+          "linear-gradient(180deg, rgba(232, 255, 71, 0.035), transparent 36%), linear-gradient(90deg, #070707, #0b0c08 52%, #070707)",
         vignette:
-          "linear-gradient(to top, rgba(10, 10, 10, 0.96) 12%, rgba(10, 10, 10, 0.55) 38%, rgba(10, 10, 10, 0) 68%)",
-        // gold headline gradient, darkened so it reads on white
-        "gold-text": "linear-gradient(92deg, #c08a1f, #a1750d 55%, #8a6410)",
+          "linear-gradient(to top, rgba(7, 7, 7, 0.98) 10%, rgba(7, 7, 7, 0.68) 40%, rgba(7, 7, 7, 0) 72%)",
+        "gold-text": "linear-gradient(90deg, #e8ff47, #f2ff85)",
       },
     },
   },

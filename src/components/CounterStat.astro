@@ -11,12 +11,12 @@ const { to, label, suffix = "", compact = false, class: extra = "" } = Astro.pro
 
 <div class:list={["text-center", extra]}>
   <div
-    class="count-up font-display text-4xl font-extrabold leading-none text-ink sm:text-5xl"
+    class="count-up font-display text-4xl leading-none text-ink sm:text-6xl"
     data-to={to}
     data-suffix={suffix}
     data-compact={compact ? "1" : "0"}
   >
     0{suffix}
   </div>
-  <div class="mt-2 font-mono text-xs uppercase tracking-wider text-ink-faint">{label}</div>
+  <div class="mt-2 font-mono text-[10px] uppercase text-ink-faint">{label}</div>
 </div>

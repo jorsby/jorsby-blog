@@ -8,20 +8,20 @@ const lang = "en" as const;
 ---
 
 <BaseLayout title={t(lang, "about.title")} description={t(lang, "about.subtitle")} fullWidth lang={lang}>
-  <section class="relative overflow-hidden border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
+  <section id="top" class="page-hero">
     <div class="aurora"></div>
-    <div class="relative z-10 mx-auto max-w-6xl">
+    <div class="page-shell relative z-10">
       <p class="eyebrow mb-3">{t(lang, "about.eyebrow")}</p>
-      <h1 class="max-w-3xl font-display text-4xl font-extrabold leading-tight text-ink sm:text-5xl">
+      <h1 class="max-w-4xl font-display text-6xl uppercase leading-none text-ink sm:text-8xl">
         {t(lang, "about.title")}
       </h1>
       <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-faint">{t(lang, "about.subtitle")}</p>
     </div>
   </section>
 
-  <section class="px-6 py-14 sm:py-16">
+  <section class="px-5 py-16 sm:px-8 sm:py-24">
     <div
-      class="prose prose-lg prose-neutral fade-in mx-auto max-w-3xl prose-headings:font-display prose-headings:text-ink prose-a:text-accent-ink prose-strong:text-ink"
+      class="prose prose-lg prose-invert fade-in mx-auto max-w-3xl prose-headings:font-display prose-headings:uppercase prose-headings:text-ink prose-p:text-ink-soft prose-a:text-accent prose-strong:text-ink"
     >
       <p>
         Jorsby is a <strong>mass video-production studio</strong>. We produce episodic content

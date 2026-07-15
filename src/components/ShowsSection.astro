@@ -1,6 +1,7 @@
 ---
 import ShowsWall from "./ShowsWall.astro";
-import { t, localizedPath, type Lang } from "../i18n/utils";
+import { shows } from "../data/shows";
+import { localizedPath, type Lang } from "../i18n/utils";
 
 interface Props {
   lang?: Lang;
@@ -8,31 +9,43 @@ interface Props {
 
 const { lang = "en" } = Astro.props;
 const workPath = localizedPath("/work", lang);
+const selected = [...shows].sort((a, b) => a.order - b.order).slice(0, 4);
+const copy = lang === "tr"
+  ? {
+      eyebrow: "SEÇİLİ PROJELER",
+      title: "Bir stüdyo. Birçok dünya.",
+      subtitle: "Dikey dramadan bilime, tarihten eğitici hikâyelere uzanan üretim dünyalarımızdan seçilmiş örnekler.",
+      viewAll: "TÜM PROJELERİ GÖR",
+    }
+  : {
+      eyebrow: "SELECTED PROJECTS",
+      title: "One studio. Many worlds.",
+      subtitle: "Selected project worlds spanning vertical drama, science, history and educational storytelling.",
+      viewAll: "VIEW ALL PROJECTS",
+    };
 ---
 
-<section id="shows" class="fade-in border-t border-border/50 px-6 py-16 sm:py-24">
-  <div class="mx-auto max-w-6xl">
+<section id="work" class="fade-in border-b border-border px-5 py-20 sm:px-8 sm:py-28">
+  <div class="page-shell">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="eyebrow mb-3">{t(lang, "shows.title")}</p>
-        <h2 class="max-w-2xl font-display text-3xl font-extrabold text-ink sm:text-5xl">
-          {t(lang, "work.indexTitle")}
+        <p class="eyebrow mb-4">{copy.eyebrow}</p>
+        <h2 class="max-w-2xl font-display text-5xl uppercase leading-none text-ink sm:text-7xl">
+          {copy.title}
         </h2>
-        <p class="mt-3 max-w-xl text-ink-faint">{t(lang, "shows.subtitle")}</p>
+        <p class="mt-4 max-w-xl leading-relaxed text-ink-faint">{copy.subtitle}</p>
       </div>
       <a
         href={workPath}
-        class="inline-flex shrink-0 items-center gap-1 font-mono text-sm text-accent-ink transition-colors hover:text-accent-warm"
+        class="inline-flex shrink-0 items-center gap-2 font-mono text-xs uppercase text-accent transition-colors hover:text-accent-warm"
       >
-        {t(lang, "shows.viewAll")}
-        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
+        {copy.viewAll}
+        <span aria-hidden="true">&rarr;</span>
       </a>
     </div>
 
-    <div class="mt-10">
-      <ShowsWall lang={lang} />
+    <div class="mt-12">
+      <ShowsWall lang={lang} shows={selected} layout="featured" />
     </div>
   </div>
 </section>

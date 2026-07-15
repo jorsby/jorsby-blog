@@ -13,9 +13,8 @@ const { lang = "en" } = Astro.props;
 const WEB3FORMS_KEY =
   import.meta.env.PUBLIC_WEB3FORMS_KEY ?? "608dbc03-36d4-42e0-be4d-0a1233590916";
 
-// Solid fields (the form sits in a glass panel) — visible borders + readable placeholders
 const inputClass =
-  "rounded-lg border border-[#ddd4c6] bg-white px-4 py-2.5 text-sm text-neutral-800 shadow-sm placeholder:text-[#a5988a] outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20";
+  "border border-border bg-bg px-4 py-3 text-sm text-ink placeholder:text-ink-faint outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent";
 ---
 
 <form
@@ -43,22 +42,22 @@ const inputClass =
 
   <div class="grid gap-5 sm:grid-cols-2">
     <label class="flex flex-col gap-2">
-      <span class="text-sm text-neutral-700">{t(lang, "contact.name")}</span>
+      <span class="font-mono text-[10px] uppercase text-ink-faint">{t(lang, "contact.name")}</span>
       <input type="text" name="name" required placeholder={t(lang, "contact.namePh")} class={inputClass} />
     </label>
     <label class="flex flex-col gap-2">
-      <span class="text-sm text-neutral-700">{t(lang, "contact.company")}</span>
+      <span class="font-mono text-[10px] uppercase text-ink-faint">{t(lang, "contact.company")}</span>
       <input type="text" name="company" placeholder={t(lang, "contact.companyPh")} class={inputClass} />
     </label>
   </div>
 
   <label class="flex flex-col gap-2">
-    <span class="text-sm text-neutral-700">{t(lang, "contact.email")}</span>
+    <span class="font-mono text-[10px] uppercase text-ink-faint">{t(lang, "contact.email")}</span>
     <input type="email" name="email" required placeholder={t(lang, "contact.emailPh")} class={inputClass} />
   </label>
 
   <label class="flex flex-col gap-2">
-    <span class="text-sm text-neutral-700">{t(lang, "contact.message")}</span>
+    <span class="font-mono text-[10px] uppercase text-ink-faint">{t(lang, "contact.message")}</span>
     <textarea
       name="message"
       required
@@ -69,7 +68,7 @@ const inputClass =
 
   <button
     type="submit"
-    class="inline-flex items-center justify-center gap-2 self-start rounded-lg bg-accent px-7 py-3 text-sm font-semibold text-ink shadow-glow transition-all hover:bg-accent-warm hover:shadow-glow-md disabled:opacity-60"
+    class="button-primary self-start disabled:opacity-60"
   >
     {t(lang, "contact.submit")}
   </button>
@@ -87,7 +86,7 @@ const inputClass =
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      status.className = "text-sm text-neutral-600";
+      status.className = "text-sm text-ink-faint";
       status.textContent = form.dataset.sending ?? "";
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -102,14 +101,14 @@ const inputClass =
         });
         const data = await res.json();
         if (res.ok && data.success) {
-          status.className = "text-sm text-accent-ink";
+          status.className = "text-sm text-accent";
           status.textContent = form.dataset.success ?? "";
           form.reset();
         } else {
           throw new Error(data.message || "error");
         }
       } catch {
-        status.className = "text-sm text-red-600";
+        status.className = "text-sm text-red-400";
         status.textContent = form.dataset.error ?? "";
       } finally {
         if (submitBtn) {

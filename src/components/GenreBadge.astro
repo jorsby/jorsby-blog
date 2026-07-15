@@ -23,13 +23,13 @@ const DOT: Record<Genre, string> = {
 };
 
 const chip = onDark
-  ? "border-white/25 bg-[#0a0a0a]/60 text-media-ink/90 backdrop-blur"
-  : "border-border bg-white/70 text-ink/70";
+  ? "border-white/25 bg-bg/70 text-media-ink/90 backdrop-blur"
+  : "border-border bg-surface text-ink-soft";
 ---
 
 <span
   class:list={[
-    "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 font-mono text-[11px] uppercase tracking-wide",
+    "inline-flex items-center gap-1.5 whitespace-nowrap border px-2.5 py-1 font-mono text-[10px] uppercase",
     chip,
     extra,
   ]}

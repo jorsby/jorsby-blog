@@ -29,7 +29,7 @@ const share = (pct: number) => `${Math.round(pct)}%`;
 <div class="flex items-center gap-6">
   <div class="pop-in relative shrink-0">
     <svg viewBox="0 0 42 42" class="h-28 w-28 -rotate-90 sm:h-32 sm:w-32">
-      <circle cx="21" cy="21" r="15.915" fill="none" stroke="#f0ebe3" stroke-width="5"></circle>
+      <circle cx="21" cy="21" r="15.915" fill="none" stroke="#242424" stroke-width="5"></circle>
       {
         arcs.map((a) => (
           <circle
@@ -47,16 +47,16 @@ const share = (pct: number) => `${Math.round(pct)}%`;
       }
     </svg>
     <div class="absolute inset-0 flex flex-col items-center justify-center">
-      <span class="font-display text-xl font-extrabold leading-none text-ink">{centerValue}</span>
-      <span class="mt-0.5 font-mono text-[10px] uppercase tracking-wider text-ink-faint">{centerLabel}</span>
+      <span class="font-display text-2xl leading-none text-ink">{centerValue}</span>
+      <span class="mt-0.5 font-mono text-[9px] uppercase text-ink-faint">{centerLabel}</span>
     </div>
   </div>
   <ul class="min-w-0 flex-1 space-y-2">
     {
       arcs.map((a) => (
         <li class="flex items-center justify-between gap-2 text-sm">
-          <span class="flex min-w-0 items-center gap-2 text-neutral-700">
-            <span class="h-2.5 w-2.5 shrink-0 rounded-full" style={`background:${a.color}`} />
+          <span class="flex min-w-0 items-center gap-2 text-ink-soft">
+            <span class="h-2.5 w-2.5 shrink-0" style={`background:${a.color}`} />
             <span class="truncate">{a.label}</span>
           </span>
           <span class="shrink-0 whitespace-nowrap font-mono text-[11px] text-ink-faint">

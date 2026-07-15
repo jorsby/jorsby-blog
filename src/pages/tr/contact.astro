@@ -13,21 +13,21 @@ const nextSteps = [
 ---
 
 <BaseLayout title={t(lang, "contact.title")} description={t(lang, "contact.subtitle")} fullWidth lang={lang}>
-  <section class="relative overflow-hidden border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
+  <section id="top" class="page-hero">
     <div class="aurora"></div>
-    <div class="relative z-10 mx-auto max-w-6xl">
+    <div class="page-shell relative z-10">
       <p class="eyebrow mb-3">{t(lang, "nav.contact")}</p>
-      <h1 class="max-w-3xl font-display text-4xl font-extrabold leading-tight text-ink sm:text-5xl">
+      <h1 class="max-w-4xl font-display text-6xl uppercase leading-none text-ink sm:text-8xl">
         {t(lang, "contact.title")}
       </h1>
       <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-faint">{t(lang, "contact.subtitle")}</p>
     </div>
   </section>
 
-  <section class="relative overflow-hidden px-6 py-14 sm:py-16">
+  <section class="relative overflow-hidden px-5 py-16 sm:px-8 sm:py-24">
     <div class="aurora-mid"></div>
-    <div class="relative z-10 mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-      <div class="fade-in glass rounded-2xl p-6 sm:p-8">
+    <div class="page-shell relative z-10 grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+      <div class="fade-in border border-border bg-surface p-6 sm:p-8">
         <ContactForm lang={lang} />
       </div>
 
@@ -37,7 +37,7 @@ const nextSteps = [
           {
             nextSteps.map((step, i) => (
               <li class="flex gap-4">
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/50 bg-bg font-mono text-sm text-accent-ink">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center border border-accent/50 bg-bg font-mono text-sm text-accent">
                   {i + 1}
                 </span>
                 <p class="pt-1.5 text-sm leading-relaxed text-ink-soft">{step}</p>
@@ -46,9 +46,9 @@ const nextSteps = [
           }
         </ol>
 
-        <p class="mt-10 border-t border-border/50 pt-6 text-sm text-ink-faint">
+        <p class="mt-10 border-t border-border pt-6 text-sm text-ink-faint">
           {t(lang, "contact.directLabel")} {t(lang, "contact.directText")}{" "}
-          <a href="mailto:serhat@jorsby.ai" class="font-medium text-accent-ink transition-colors hover:text-accent-deep">serhat@jorsby.ai</a>
+          <a href="mailto:serhat@jorsby.ai" class="font-medium text-accent transition-colors hover:text-accent-warm">serhat@jorsby.ai</a>
         </p>
       </div>
     </div>

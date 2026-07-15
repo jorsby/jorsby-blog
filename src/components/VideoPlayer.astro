@@ -24,14 +24,14 @@ const {
 
 <div
   class:list={[
-    "letterbox relative mx-auto aspect-[9/16] w-full max-h-[80vh] overflow-hidden rounded-2xl border border-border bg-black shadow-glow-poster",
+    "letterbox relative mx-auto aspect-[9/16] w-full max-h-[80vh] overflow-hidden border border-border bg-black shadow-glow-poster",
     className,
   ]}
 >
   <video
     class="h-full w-full object-cover"
     poster={poster}
-    preload="none"
+    preload="metadata"
     playsinline
     autoplay={autoplay || undefined}
     loop={loop || undefined}

@@ -989,19 +989,34 @@ export const shows: Show[] = [
       {
         "number": 1,
         "title": {
+          "en": "Paper Throne — Episode 1",
+          "tr": "Padişahı Deviren İsyanın Lideri, Üç Kapıda Nasıl Yalnız Kaldı? 🕯️"
+        },
+        "synopsis": {
+          "en": ""
+        },
+        "duration": "2:19",
+        "poster": "/posters/kara-sayfa/ep-01.jpg",
+        "video": {
+          "tr": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-hja8y0cbwi/renders/7n7pec79g7/out.mp4"
+        }
+      },
+      {
+        "number": 2,
+        "title": {
           "en": "Bir Gecede On Dokuz Kardeş"
         },
         "synopsis": {
           "en": ""
         },
         "duration": "6:29",
-        "poster": "/posters/kara-sayfa/ep-01.jpg",
+        "poster": "/posters/kara-sayfa/ep-02.jpg",
         "video": {
           "tr": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-hja8y0cbwi/renders/bttla0jfsx/out.mp4"
         }
       },
       {
-        "number": 2,
+        "number": 3,
         "title": {
           "en": "Kafesin İçindeki Valide"
         },
@@ -1009,13 +1024,13 @@ export const shows: Show[] = [
           "en": ""
         },
         "duration": "6:07",
-        "poster": "/posters/kara-sayfa/ep-02.jpg",
+        "poster": "/posters/kara-sayfa/ep-03.jpg",
         "video": {
           "tr": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-hja8y0cbwi/renders/cmd68t30k7/out.mp4"
         }
       },
       {
-        "number": 3,
+        "number": 4,
         "title": {
           "en": "Tahtın Kırıldığı Gece"
         },
@@ -1023,13 +1038,13 @@ export const shows: Show[] = [
           "en": ""
         },
         "duration": "7:26",
-        "poster": "/posters/kara-sayfa/ep-03.jpg",
+        "poster": "/posters/kara-sayfa/ep-04.jpg",
         "video": {
           "tr": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-hja8y0cbwi/renders/o9musvyrnk/out.mp4"
         }
       },
       {
-        "number": 4,
+        "number": 5,
         "title": {
           "en": "Kanuni, kendi oğlunu bir çadırda boğdurdu"
         },
@@ -1037,13 +1052,13 @@ export const shows: Show[] = [
           "en": ""
         },
         "duration": "2:30",
-        "poster": "/posters/kara-sayfa/ep-04.jpg",
+        "poster": "/posters/kara-sayfa/ep-05.jpg",
         "video": {
           "tr": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-hja8y0cbwi/renders/ibiiu3acny/out.mp4"
         }
       }
     ],
-    "episodeCount": 4,
+    "episodeCount": 5,
     "order": 5
   },
   {

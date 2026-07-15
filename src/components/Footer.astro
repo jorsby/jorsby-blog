@@ -1,6 +1,4 @@
 ---
-import { shows } from "../data/shows";
-import { L } from "../data/shows";
 import { t, localizedPath, type Lang } from "../i18n/utils";
 
 interface Props {
@@ -17,27 +15,23 @@ const pageLinks = [
   { href: localizedPath("/contact", lang), label: t(lang, "nav.contact") },
 ];
 
-const showLinks = [...shows]
-  .sort((a, b) => a.order - b.order)
-  .map((s) => ({ href: localizedPath(`/shows/${s.slug}`, lang), label: L(s.title, lang) }));
-
-const linkCls = "text-sm text-neutral-600 transition-colors hover:text-neutral-900";
+const linkCls = "text-sm text-ink-faint transition-colors hover:text-accent";
 ---
 
-<footer class="mt-auto border-t border-border/50 px-6">
-  <div class="mx-auto max-w-6xl py-12">
-    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1fr_1fr]">
-      <!-- Brand -->
+<footer class="mt-auto border-t border-border bg-[#050505] px-5 sm:px-8">
+  <div class="mx-auto max-w-[1280px] py-14">
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-3 lg:grid-cols-[1.5fr_0.8fr_0.9fr]">
       <div>
-        <a href={localizedPath("/", lang)} class="font-mono text-lg font-semibold text-neutral-900">
-          jorsby<span class="text-accent-ink">.</span>ai
+        <a href={localizedPath("/", lang)} class="flex items-baseline gap-2 text-ink transition-colors hover:text-accent">
+          <span class="font-display text-3xl uppercase">Jorsby</span>
+          <span class="font-mono text-[10px] uppercase text-accent">Media</span>
         </a>
         <p class="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-faint">
           {t(lang, "footer.brand")}
         </p>
+        <a href="mailto:serhat@jorsby.ai" class="mt-6 inline-block font-mono text-xs text-accent hover:text-accent-warm">serhat@jorsby.ai</a>
       </div>
 
-      <!-- Pages -->
       <div>
         <h4 class="eyebrow-dim mb-4">{t(lang, "footer.pages")}</h4>
         <ul class="space-y-2.5">
@@ -53,42 +47,23 @@ const linkCls = "text-sm text-neutral-600 transition-colors hover:text-neutral-9
         </ul>
       </div>
 
-      <!-- Shows -->
-      <div>
-        <h4 class="eyebrow-dim mb-4">{t(lang, "footer.shows")}</h4>
-        <ul class="space-y-2.5">
-          {
-            showLinks.map(({ href, label }) => (
-              <li>
-                <a href={href} class={linkCls}>
-                  {label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-
-      <!-- Connect -->
       <div>
         <h4 class="eyebrow-dim mb-4">{t(lang, "footer.connect")}</h4>
         <ul class="space-y-2.5">
           <li>
-            <a href="mailto:serhat@jorsby.ai" class={linkCls}>serhat@jorsby.ai</a>
-          </li>
-          <li>
-            <a href={localizedPath("/contact", lang)} class="inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink transition-colors hover:text-accent-deep">
+            <a href={localizedPath("/contact", lang)} class="inline-flex items-center gap-1.5 text-sm font-semibold uppercase text-accent transition-colors hover:text-accent-warm">
               {t(lang, "nav.cta")}
-              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+              <span aria-hidden="true">&rarr;</span>
             </a>
           </li>
         </ul>
       </div>
     </div>
 
-    <!-- Bottom bar -->
-    <div class="mt-10 border-t border-border/50 pt-6 text-sm text-neutral-600">
-      &copy; {year} {t(lang, "footer.copyright")}
+    <div class="mt-12 flex flex-col gap-3 border-t border-border pt-5 font-mono text-[10px] uppercase text-ink-faint sm:flex-row sm:items-center sm:justify-between">
+      <span>&copy; {year} {t(lang, "footer.copyright")}</span>
+      <a href="#top" class="transition-colors hover:text-accent">{lang === "tr" ? "Başa dön ↑" : "Back to top ↑"}</a>
+      <span>{lang === "tr" ? "Yapay zeka ile üretildi" : "Directed with AI"} <span class="text-accent">●</span></span>
     </div>
   </div>
 </footer>

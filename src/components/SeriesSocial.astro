@@ -33,7 +33,7 @@ const links = order
 {
   links.length > 0 && (
     <div class="mt-8">
-      <p class="mb-2.5 font-mono text-xs uppercase tracking-wider text-neutral-500">{label}</p>
+      <p class="mb-2.5 font-mono text-[10px] uppercase text-ink-faint">{label}</p>
       <div class="flex flex-wrap gap-2.5">
         {links.map((l) => (
           <a
@@ -42,7 +42,7 @@ const links = order
             rel="noopener noreferrer"
             aria-label={l.name}
             title={l.name}
-            class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-surface text-neutral-700 transition-all hover:border-accent/40 hover:text-accent-ink [&>svg]:h-[18px] [&>svg]:w-[18px]"
+            class="flex h-10 w-10 items-center justify-center border border-border bg-surface text-ink-soft transition-all hover:border-accent hover:text-accent [&>svg]:h-[18px] [&>svg]:w-[18px]"
             set:html={l.icon}
           />
         ))}

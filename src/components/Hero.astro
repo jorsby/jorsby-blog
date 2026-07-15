@@ -1,8 +1,6 @@
 ---
-import VideoPlayer from "./VideoPlayer.astro";
+import { shows, portfolioStats } from "../data/shows";
 import { t, localizedPath, type Lang } from "../i18n/utils";
-import { portfolioStats } from "../data/shows";
-import { stats as traction } from "../data/stats";
 
 interface Props {
   lang?: Lang;
@@ -10,81 +8,344 @@ interface Props {
 
 const { lang = "en" } = Astro.props;
 const ps = portfolioStats();
+const orderedShows = [...shows].sort((a, b) => {
+  if (a.slug === "kara-sayfa") return -1;
+  if (b.slug === "kara-sayfa") return 1;
+  return a.order - b.order;
+});
 
-// Studio sizzle reel (bilingual) — stable committed assets on the blog's R2.
-const REEL = "https://pub-acd1440124614ccb9c0b6dcdfd9cd4af.r2.dev/married-to-the-alpha";
-const reelSrc = `${REEL}/sizzle${lang === "tr" ? ".tr" : ""}.mp4?v=2`;
-const reelPoster = lang === "tr" ? "/posters/teaser.tr.jpg" : "/posters/teaser.jpg";
+interface MosaicItem {
+  poster: string;
+  source: string;
+  startRatio: number;
+}
+
+interface ClipSelection {
+  poster: string;
+  startRatio: number;
+  slug?: string;
+  episodeIndex?: number;
+  source?: string;
+}
+
+const HERO_R2 = "https://pub-acd1440124614ccb9c0b6dcdfd9cd4af.r2.dev";
+const KARA_SAYFA_HERO = `${HERO_R2}/kara-sayfa/hero-gates-silent.mp4`;
+const PAPER_THRONE_HERO = `${HERO_R2}/the-paper-throne/hero-confrontation-silent.mp4`;
+const JORSBY_FILMS_HERO = `${HERO_R2}/jorsby-films/hero-flor-storm-silent.mp4`;
+
+const clipSelections: ClipSelection[] = [
+  { source: KARA_SAYFA_HERO, startRatio: 0, poster: "/posters/hero/kara-gates.jpg" },
+  { slug: "married-to-the-alpha", episodeIndex: 0, startRatio: 0.48, poster: "/posters/hero/alpha.jpg" },
+  { source: PAPER_THRONE_HERO, startRatio: 0, poster: "/posters/hero/paper-throne-clay.jpg" },
+  { source: JORSBY_FILMS_HERO, startRatio: 0, poster: "/posters/hero/science-storm.jpg" },
+];
+
+// One strong scene per format keeps cold-outreach visitors focused on range,
+// while each muted selection stays free of embedded subtitle text.
+const mosaic = clipSelections
+  .map(({ slug, episodeIndex = 0, source: directSource, startRatio, poster }): MosaicItem | null => {
+    let source = directSource;
+
+    if (!source && slug) {
+      const show = shows.find((item) => item.slug === slug);
+      const episode = show?.episodes[episodeIndex];
+      if (!show || !episode) return null;
+
+      source = episode.video[lang] ?? episode.video[show.primaryLang] ?? episode.video.en ?? episode.video.tr;
+    }
+    if (!source) return null;
+
+    return { poster, source, startRatio };
+  })
+  .filter((item): item is MosaicItem => item !== null);
+
+const mosaicLabels = lang === "tr"
+  ? {
+      gallery: "Jorsby seçili video sahneleri",
+      clip: "Seçili yapay zeka video sahnesi",
+      pause: "Video mozaiğini durdur",
+      play: "Video mozaiğini oynat",
+      projects: "PROJE DÜNYASI",
+      formats: "FARKLI FORMAT",
+      films: "SEÇİLİ SAHNE",
+      languages: "DİL",
+    }
+  : {
+      gallery: "Jorsby selected video scenes",
+      clip: "Selected AI video scene",
+      pause: "Pause video mosaic",
+      play: "Play video mosaic",
+      projects: "PROJECT WORLDS",
+      formats: "DISTINCT FORMATS",
+      films: "SELECTED SCENES",
+      languages: "LANGUAGES",
+    };
 
 const stats = [
-  { value: String(ps.shows), label: t(lang, "hero.stat1Label") },
-  { value: `${traction.totals.episodes}+`, label: t(lang, "hero.stat2Label") },
-  { value: String(ps.languages), label: t(lang, "hero.stat3Label") },
+  { value: String(mosaic.length).padStart(2, "0"), label: mosaicLabels.formats },
+  { value: String(ps.shows).padStart(2, "0"), label: mosaicLabels.projects },
+  { value: String(ps.languages).padStart(2, "0"), label: mosaicLabels.languages },
 ];
+
+const wallColumns = [0, 1, 2, 3].map((offset) => {
+  const sequence = orderedShows.map((_, i) => orderedShows[(i + offset) % orderedShows.length]);
+  return [...sequence, ...sequence];
+});
+
+const marquee = lang === "tr"
+  ? "DİKEY DİZİLER ✦ YOUTUBE SERİLERİ ✦ TUTARLI KARAKTERLER ✦ EĞİTİCİ HİKÂYELER ✦ HER DİLDE ✦"
+  : "VERTICAL DRAMAS ✦ YOUTUBE SERIES ✦ CONSISTENT CHARACTERS ✦ EDUCATIONAL STORIES ✦ EVERY LANGUAGE ✦";
 ---
 
-<section class="film-grain relative overflow-hidden bg-cinematic px-6">
-  <div class="aurora"></div>
+<section
+  id="top"
+  data-hero-motion
+  class="film-grain relative overflow-hidden border-b border-border bg-bg"
+>
   <div
-    class="relative z-10 mx-auto grid max-w-6xl items-center gap-12 pb-16 pt-16 sm:pb-24 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr]"
+    data-film-wall
+    class="pointer-events-none absolute inset-[-12%] grid grid-cols-3 gap-3 opacity-[0.11] sm:grid-cols-4"
+    aria-hidden="true"
   >
-    <div>
-      <div
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/5 px-4 py-1.5 font-mono text-xs text-accent-ink"
-      >
-        <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
-        {t(lang, "hero.eyebrow")}
-      </div>
+    {
+      wallColumns.map((column, index) => (
+        <div class:list={["flex flex-col gap-3", index % 2 === 0 ? "film-column-up" : "film-column-down"]}>
+          {column.map((show) => (
+            <img src={show.poster} alt="" class="aspect-[9/16] w-full border border-white/10 object-cover grayscale" loading="eager" />
+          ))}
+        </div>
+      ))
+    }
+  </div>
+  <div
+    class="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(7,7,7,.96)_0%,rgba(7,7,7,.80)_54%,rgba(7,7,7,.68)_100%),linear-gradient(180deg,rgba(7,7,7,.18),rgba(7,7,7,.92))]"
+    aria-hidden="true"
+  >
+  </div>
 
-      <h1
-        class="font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-ink sm:text-6xl lg:text-7xl"
-      >
-        {t(lang, "hero.title1")}<br />
-        <span class="gold-text">{t(lang, "hero.title2")}</span>
-      </h1>
+  <div class="page-shell relative z-10 px-5 pb-12 pt-10 sm:px-8 sm:pb-16 sm:pt-14">
+    <div class="hero-kicker eyebrow flex items-center gap-3 text-ink-faint">
+      <span class="h-2 w-2 animate-pulse rounded-full bg-accent"></span>
+      <span>{t(lang, "hero.eyebrow")}</span>
+    </div>
 
-      <p class="mt-6 max-w-xl text-lg leading-relaxed text-neutral-600">
+    <h1 class="mt-5 max-w-[1120px] font-display text-[3.9rem] uppercase leading-[0.88] text-ink sm:text-[5.6rem] lg:text-[6.8rem]">
+      <span class="hero-line-mask"><span class="hero-line hero-line-1 block">{t(lang, "hero.title1")}</span></span>
+      <span class="hero-line-mask"><span class="hero-line hero-line-2 display-outline block">{t(lang, "hero.titleOutline")}</span></span>
+      <span class="hero-line-mask"><span class="hero-line hero-line-3 block text-accent">{t(lang, "hero.title2")}</span></span>
+    </h1>
+
+    <div class="hero-support mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <p class="max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
         {t(lang, "hero.subtitle")}
       </p>
 
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a
-          href={localizedPath("/contact", lang)}
-          class="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-ink transition-all hover:bg-accent-warm hover:shadow-glow-md"
-        >
+      <div class="flex flex-wrap gap-3">
+        <a href={localizedPath("/contact", lang)} class="button-primary" data-magnetic>
           {t(lang, "hero.ctaPrimary")}
         </a>
-        <a
-          href={localizedPath("/work", lang)}
-          class="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold text-neutral-800 transition-colors hover:border-accent/50 hover:text-accent-ink"
-        >
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+        <a href="#hero-reel" class="button-secondary" data-magnetic>
+          <span class="mr-2 inline-block h-0 w-0 border-b-[5px] border-l-[8px] border-t-[5px] border-b-transparent border-l-current border-t-transparent" aria-hidden="true"></span>
           {t(lang, "hero.ctaSecondary")}
         </a>
       </div>
+    </div>
 
-      <dl class="mt-12 grid grid-cols-3 gap-6 border-t border-border/60 pt-8">
+    <div
+      id="hero-reel"
+      data-reel-stage
+      data-mosaic-stage
+      class="hero-reel-stage hero-mosaic-stage relative mx-auto mt-9 h-[620px] w-full max-w-[980px] scroll-mt-24 overflow-hidden border border-white/20 bg-surface shadow-[0_40px_120px_rgba(0,0,0,.62)] sm:h-[480px] lg:h-[620px]"
+      aria-label={mosaicLabels.gallery}
+    >
+      <div class="hero-mosaic-grid absolute inset-0">
         {
-          stats.map((s) => (
-            <div>
-              <dt class="font-display text-xl font-bold text-ink sm:text-2xl">{s.value}</dt>
-              <dd class="mt-1.5 font-mono text-[11px] uppercase leading-snug tracking-wider text-ink-faint">{s.label}</dd>
+          mosaic.map((item, index) => (
+            <div
+              class="hero-mosaic-item"
+              data-mosaic-item
+              data-mosaic-live="true"
+              data-mosaic-ready="false"
+              data-index={index}
+              role="img"
+              aria-label={`${mosaicLabels.clip} ${index + 1}`}
+            >
+              <img
+                src={item.poster}
+                alt=""
+                class="absolute inset-0 h-full w-full object-cover"
+                loading={index < 6 ? "eager" : "lazy"}
+              />
+              <video
+                data-mosaic-src={item.source}
+                data-mosaic-start={item.startRatio}
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster={item.poster}
+                class="absolute inset-0 h-full w-full object-cover"
+              />
+              <span class="hero-mosaic-shade pointer-events-none absolute inset-0"></span>
             </div>
           ))
         }
-      </dl>
+      </div>
+
+      <div data-reel-glare class="pointer-events-none absolute inset-0"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between bg-gradient-to-b from-black/90 to-transparent p-3 font-mono text-[8px] text-ink sm:p-4 sm:text-[10px]">
+        <span>JORSBY_SELECTED_WORK / {String(mosaic.length).padStart(2, "0")}</span>
+        <span class="flex items-center gap-2 text-accent"><span class="h-2 w-2 animate-pulse rounded-full bg-red-500"></span>REC</span>
+      </div>
+
+      <div class="pointer-events-none absolute bottom-3 left-3 z-20 bg-bg/85 px-2 py-1 font-mono text-[7px] uppercase text-ink-faint backdrop-blur sm:bottom-4 sm:left-4 sm:text-[8px]">
+        {String(mosaic.length).padStart(2, "0")} {mosaicLabels.films} / {String(mosaic.length).padStart(2, "0")} {mosaicLabels.formats}
+      </div>
+
+      <div class="absolute bottom-3 right-3 z-30 border border-white/20 bg-bg/85 backdrop-blur sm:bottom-4 sm:right-4">
+        <button
+          type="button"
+          class="hero-mosaic-control"
+          data-mosaic-toggle
+          data-pause-label={mosaicLabels.pause}
+          data-play-label={mosaicLabels.play}
+          aria-label={mosaicLabels.pause}
+          title={mosaicLabels.pause}
+        >
+          <span data-mosaic-toggle-icon aria-hidden="true">Ⅱ</span>
+        </button>
+      </div>
+      <p class="sr-only">{mosaicLabels.gallery}</p>
     </div>
 
-    <div class="relative mx-auto w-full max-w-[300px] lg:max-w-[340px]">
-      <VideoPlayer
-        src={reelSrc}
-        poster={reelPoster}
-        autoplay
-        loop
-        muted
-        controls={false}
-        label={t(lang, "meta.siteTitle")}
-      />
+    <div class="hero-support mx-auto mt-5 grid max-w-[980px] grid-cols-3 border-y border-border bg-bg/50 backdrop-blur-sm">
+      {
+        stats.map((stat, index) => (
+          <div class:list={["px-3 py-3 sm:px-6", index > 0 && "border-l border-border"]}>
+            <span class="flex items-baseline gap-2">
+              <span class="font-display text-2xl text-ink sm:text-3xl">{stat.value}</span>
+              <span class="font-mono text-[8px] uppercase text-ink-faint sm:text-[10px]">{stat.label}</span>
+            </span>
+          </div>
+        ))
+      }
     </div>
   </div>
 </section>
+
+<div class="overflow-hidden border-b border-bg bg-accent py-3 text-bg" aria-label={marquee}>
+  <div class="marquee-track flex w-max whitespace-nowrap font-display text-2xl uppercase sm:text-3xl">
+    <span class="pr-8">{marquee}&nbsp;</span>
+    <span class="pr-8" aria-hidden="true">{marquee}&nbsp;</span>
+  </div>
+</div>
+
+<script>
+  const setupMosaic = (stage: HTMLElement) => {
+    const items = Array.from(stage.querySelectorAll<HTMLElement>("[data-mosaic-item]"));
+    const toggle = stage.querySelector<HTMLButtonElement>("[data-mosaic-toggle]");
+    const toggleIcon = stage.querySelector<HTMLElement>("[data-mosaic-toggle-icon]");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (items.length === 0 || !toggle) return;
+
+    let inView = false;
+    let userPaused = reduceMotion;
+
+    if (reduceMotion) stage.dataset.reducedMotion = "true";
+
+    const shouldPlay = (item: HTMLElement) =>
+      item.dataset.mosaicLive === "true" &&
+      inView &&
+      !userPaused &&
+      !reduceMotion &&
+      !document.hidden;
+
+    items.forEach((item) => {
+      const video = item.querySelector<HTMLVideoElement>("video[data-mosaic-src]");
+      if (!video) return;
+
+      const markReady = () => {
+        item.dataset.mosaicReady = "true";
+        if (shouldPlay(item)) video.play().catch(() => {});
+      };
+
+      video.addEventListener("loadedmetadata", () => {
+        const ratio = Number(video.dataset.mosaicStart || "0.4");
+        const start = Math.max(0, Math.min(video.duration - 12, video.duration * ratio));
+        video.dataset.clipStart = String(start);
+
+        if (start <= 0.05) {
+          video.currentTime = 0;
+          markReady();
+          return;
+        }
+
+        video.currentTime = start;
+      });
+
+      video.addEventListener("seeked", markReady);
+
+      video.addEventListener("timeupdate", () => {
+        const start = Number(video.dataset.clipStart);
+        if (Number.isFinite(start) && video.currentTime >= start + 10) {
+          video.currentTime = start;
+        }
+      });
+    });
+
+    const syncPlayback = () => {
+      items.forEach((item) => {
+        const video = item.querySelector<HTMLVideoElement>("video[data-mosaic-src]");
+        if (!video) return;
+
+        if (shouldPlay(item)) {
+          if (!video.getAttribute("src") && video.dataset.mosaicSrc) {
+            item.dataset.mosaicReady = "false";
+            video.src = video.dataset.mosaicSrc;
+            video.load();
+            return;
+          }
+          video.muted = true;
+          if (item.dataset.mosaicReady === "true") video.play().catch(() => {});
+        } else {
+          video.pause();
+          if (video.hasAttribute("src")) {
+            item.dataset.mosaicReady = "false";
+            video.removeAttribute("src");
+            video.load();
+          }
+        }
+      });
+    };
+
+    const updateToggle = () => {
+      const label = userPaused ? toggle.dataset.playLabel : toggle.dataset.pauseLabel;
+      stage.dataset.mosaicPaused = String(userPaused);
+      toggle.setAttribute("aria-label", label || "");
+      toggle.title = label || "";
+      if (toggleIcon) toggleIcon.textContent = userPaused ? "▶" : "Ⅱ";
+    };
+
+    toggle.addEventListener("click", () => {
+      userPaused = !userPaused;
+      updateToggle();
+      syncPlayback();
+    });
+
+    document.addEventListener("visibilitychange", syncPlayback);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        syncPlayback();
+      },
+      { threshold: 0.12 },
+    );
+    observer.observe(stage);
+
+    updateToggle();
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-mosaic-stage]").forEach(setupMosaic);
+</script>

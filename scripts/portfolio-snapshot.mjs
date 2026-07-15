@@ -8,6 +8,7 @@
 // `sync-portfolio.mjs` prefers a live Supabase query when SUPABASE_SERVICE_ROLE_KEY
 // is set; otherwise it reads this. Alpha is NOT here — its curated 15 live in
 // portfolio.config.mjs (ALPHA_EPISODES). Rows are [title, durationSec, sourceUrl].
+// `title` may be a string or an { en, tr } object for a curated localized label.
 // Numbers are assigned sequentially in listed (order_index) order.
 // ───────────────────────────────────────────────────────────────────────────
 
@@ -46,6 +47,14 @@ export const SNAPSHOT = {
     ["Albert Einstein — İmza", 171, S3("fyuqsfuxph")],
   ],
   "kara-sayfa": [
+    [
+      {
+        en: "Paper Throne — Episode 1",
+        tr: "Padişahı Deviren İsyanın Lideri, Üç Kapıda Nasıl Yalnız Kaldı? 🕯️",
+      },
+      138.96,
+      S3("7n7pec79g7"),
+    ],
     ["Bir Gecede On Dokuz Kardeş", 389, S3("bttla0jfsx")],
     ["Kafesin İçindeki Valide", 367, S3("cmd68t30k7")],
     ["Tahtın Kırıldığı Gece", 446, S3("o9musvyrnk")],

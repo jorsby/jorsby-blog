@@ -17,13 +17,13 @@ const { lang = "en" } = Astro.props;
       id="lightbox-close"
       type="button"
       aria-label={t(lang, "work.closeLabel")}
-      class="absolute -top-12 right-0 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white/90 backdrop-blur transition-colors hover:border-accent/60 hover:text-accent"
+      class="absolute -top-12 right-0 flex h-9 w-9 items-center justify-center border border-white/20 bg-black/70 text-white/90 backdrop-blur transition-colors hover:border-accent hover:text-accent"
     >
       <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M18 6 6 18M6 6l12 12"></path>
       </svg>
     </button>
-    <div class="aspect-[9/16] w-full overflow-hidden rounded-2xl border border-border bg-black shadow-glow-poster">
+    <div class="aspect-[9/16] w-full overflow-hidden border border-border bg-black shadow-glow-poster">
       <video
         id="lightbox-video"
         class="h-full w-full object-contain"
@@ -31,7 +31,7 @@ const { lang = "en" } = Astro.props;
         playsinline
         preload="auto"></video>
     </div>
-    <p id="lightbox-title" class="mt-3 text-center font-mono text-xs text-neutral-400"></p>
+    <p id="lightbox-title" class="mt-3 text-center font-mono text-xs text-ink-faint"></p>
   </div>
 </dialog>
 

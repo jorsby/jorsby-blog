@@ -24,11 +24,11 @@ const jsonLd = {
 ---
 
 <BaseLayout title={t(lang, "work.indexTitle")} description={t(lang, "work.indexSubtitle")} fullWidth lang={lang} jsonLd={jsonLd}>
-  <section class="relative overflow-hidden border-b border-border/50 bg-cinematic px-6 py-16 sm:py-20">
+  <section id="top" class="page-hero">
     <div class="aurora"></div>
-    <div class="relative z-10 mx-auto max-w-6xl">
+    <div class="page-shell relative z-10">
       <p class="eyebrow mb-3">{t(lang, "work.portfolioEyebrow")}</p>
-      <h1 class="max-w-3xl font-display text-4xl font-extrabold leading-tight text-ink sm:text-6xl">
+      <h1 class="max-w-4xl font-display text-6xl uppercase leading-none text-ink sm:text-8xl">
         {t(lang, "nav.work")}
       </h1>
       <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-faint">{t(lang, "work.indexSubtitle")}</p>
@@ -37,8 +37,8 @@ const jsonLd = {
 
   <StatsBar lang={lang} />
 
-  <section class="fade-in px-6 py-16 sm:py-20">
-    <div class="mx-auto max-w-6xl">
+  <section class="fade-in px-5 py-16 sm:px-8 sm:py-24">
+    <div class="page-shell">
       <ShowsWall lang={lang} filter />
     </div>
   </section>

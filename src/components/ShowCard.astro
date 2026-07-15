@@ -1,25 +1,21 @@
 ---
-import GenreBadge from "./GenreBadge.astro";
 import { L, type Show } from "../data/shows";
-import { t, localizedPath, formatLabel, type Lang } from "../i18n/utils";
+import { t, localizedPath, formatLabel, genreLabel, type Lang } from "../i18n/utils";
 
 interface Props {
   show: Show;
   lang?: Lang;
   index?: number;
-  views?: number; // when set (/work), a small reach line is added to the meta
 }
 
-const { show, lang = "en", index = 0, views } = Astro.props;
-
+const { show, lang = "en", index = 0 } = Astro.props;
 const href = localizedPath(`/shows/${show.slug}`, lang);
 const title = L(show.title, lang);
 const tagline = L(show.tagline, lang);
 const delay = ["", "fade-in-delay-1", "fade-in-delay-2", "fade-in-delay-3"][index % 4];
 const turkishAudio = lang === "en" && show.primaryLang === "tr";
-const langTag = show.languages.join(" · ");
+const languageLabel = turkishAudio ? t(lang, "shows.turkishAudio") : show.languages.join(" / ");
 
-// Hover teaser: the sizzle reel when the show has one, else episode 1.
 const preview =
   show.reel?.[lang] ??
   show.reel?.en ??
@@ -27,89 +23,90 @@ const preview =
   show.episodes[0]?.video.en ??
   show.episodes[0]?.video.tr;
 
-const fmtViews = (n: number) =>
-  new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n);
 ---
 
 <a
   href={href}
+  data-tilt
   data-genre={show.genre}
   data-format={show.format}
   data-langs={show.languages.join(" ")}
   class:list={[
-    "group fade-in relative block aspect-[9/16] w-full overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:border-accent/40 hover:shadow-glow focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60",
+    "tilt-card group fade-in block min-w-0 focus:outline-none",
     delay,
   ]}
   aria-label={`${t(lang, "shows.viewShow")}: ${title}`}
 >
-  <img
-    src={show.poster}
-    alt=""
-    loading="lazy"
-    class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-  />
-  {
-    preview && (
-      <video
-        data-preview={preview}
-        muted
-        loop
-        playsinline
-        preload="none"
-        class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500"
-      />
-    )
-  }
-  <div class="poster-vignette"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent"></div>
-
-  <div class="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
-    <GenreBadge genre={show.genre} lang={lang} onDark />
-    <span class="hidden whitespace-nowrap rounded-full border border-accent/40 bg-[#0a0a0a]/70 px-2 py-0.5 font-mono text-[11px] text-accent backdrop-blur sm:inline-flex">
-      {turkishAudio ? t(lang, "shows.turkishAudio") : langTag}
+  <div class="relative aspect-[9/16] overflow-hidden border border-border bg-surface transition-colors duration-300 group-hover:border-accent">
+    <img
+      src={show.poster}
+      alt={`${title} poster`}
+      loading="lazy"
+      class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.035]"
+    />
+    {
+      preview && (
+        <video
+          data-preview={preview}
+          muted
+          loop
+          playsinline
+          preload="none"
+          class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500"
+        />
+      )
+    }
+    <div class="poster-vignette"></div>
+    <div data-card-glare class="pointer-events-none absolute inset-0 z-[1]"></div>
+    <div class="absolute inset-x-3 top-3 flex items-center justify-between gap-2 font-mono text-[9px] uppercase text-media-ink">
+      <span class="bg-bg/80 px-2 py-1 backdrop-blur">F_{String(index + 1).padStart(3, "0")}</span>
+      <span class="bg-bg/80 px-2 py-1 text-accent backdrop-blur">{languageLabel}</span>
+    </div>
+    <span class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <span class="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-bg shadow-glow-md">
+        <span class="ml-1 h-0 w-0 border-b-[9px] border-l-[15px] border-t-[9px] border-b-transparent border-l-current border-t-transparent" aria-hidden="true"></span>
+      </span>
+    </span>
+    <span class="absolute bottom-3 right-3 bg-bg px-2 py-1 font-mono text-[9px] uppercase text-accent">
+      {show.episodeCount} {t(lang, "shows.episodesLabel")}
     </span>
   </div>
 
-  <div class="absolute inset-x-0 bottom-0 p-4">
-    <h3 class="font-display text-lg font-extrabold leading-tight text-media-ink sm:text-xl">{title}</h3>
-    <p class="mt-1.5 line-clamp-2 text-sm leading-snug text-neutral-300">{tagline}</p>
-    <p class="mt-2.5 font-mono text-[11px] uppercase tracking-wider text-neutral-400">
-      {formatLabel(lang, show.format)} · {show.episodeCount} {t(lang, "shows.episodesLabel")}{
-        views !== undefined && (
-          <> · <span class="text-accent">{
-            views >= 1000 ? `${fmtViews(views)} ${t(lang, "traction.reachUnit")}` : t(lang, "shows.earlyRollout")
-          }</span></>
-        )
-      }
-    </p>
+  <div class="mt-3 min-w-0">
+    <div class="flex min-w-0 items-start justify-between gap-3">
+      <h3 class="min-w-0 font-display text-xl uppercase leading-tight text-ink transition-colors group-hover:text-accent sm:text-2xl">{title}</h3>
+      <span class="mt-1 min-w-0 max-w-[46%] text-right font-mono text-[9px] uppercase leading-tight text-ink-faint">{genreLabel(lang, show.genre)}</span>
+    </div>
+    <p class="mt-1 line-clamp-2 text-sm leading-snug text-ink-faint">{tagline}</p>
+    <p class="mt-2 font-mono text-[9px] uppercase text-ink-faint">{formatLabel(lang, show.format)}</p>
   </div>
 </a>
 
 <script>
-  // Hover-to-play teasers — desktop pointers only, lazy src, respects reduced-motion
   const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (fine && !reduce) {
-    document.querySelectorAll<HTMLVideoElement>("video[data-preview]").forEach((v) => {
-      const card = v.closest("a");
-      if (!card) return;
+    document.querySelectorAll<HTMLVideoElement>("video[data-preview]").forEach((video) => {
+      const card = video.closest("a");
+      if (!card || video.dataset.bound === "true") return;
+      video.dataset.bound = "true";
       let timer = 0;
       card.addEventListener("mouseenter", () => {
         timer = window.setTimeout(() => {
-          if (!v.src) {
-            v.src = v.dataset.preview!;
-            v.addEventListener("playing", () => v.classList.add("opacity-100"), { once: true });
+          if (!video.src) {
+            video.src = video.dataset.preview!;
+            video.addEventListener("playing", () => video.classList.add("opacity-100"), { once: true });
           } else {
-            v.classList.add("opacity-100");
+            video.classList.add("opacity-100");
           }
-          v.play().catch(() => {});
-        }, 250);
+          video.play().catch(() => {});
+        }, 220);
       });
       card.addEventListener("mouseleave", () => {
         window.clearTimeout(timer);
-        v.pause();
-        v.currentTime = 0;
-        v.classList.remove("opacity-100");
+        video.pause();
+        video.currentTime = 0;
+        video.classList.remove("opacity-100");
       });
     });
   }

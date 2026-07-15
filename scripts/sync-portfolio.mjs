@@ -101,7 +101,7 @@ async function episodesFor(show) {
   const capped = rows.slice(0, show.epCap ?? rows.length);
   return capped.map(([title, durSec, url], i) => ({
     number: i + 1,
-    title: { en: title }, // Turkish shows keep their native title for both langs
+    title: typeof title === "string" ? { en: title } : title,
     synopsis: { en: "" },
     duration: fmtDur(durSec),
     poster: `/posters/${show.slug}/ep-${pad(i + 1)}.jpg`,

@@ -1,6 +1,6 @@
 ---
 // One locked rhythm for section openers: eyebrow → h2 → subtitle.
-// `align="center"` for banded sections (Traction), default left elsewhere.
+// `align="center"` for banded sections, default left elsewhere.
 interface Props {
   eyebrow?: string;
   title: string;
@@ -14,8 +14,8 @@ const centered = align === "center";
 
 <div class:list={[centered && "mx-auto max-w-2xl text-center"]}>
   {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
-  <h2 class:list={["font-display text-3xl font-extrabold text-ink sm:text-4xl", !centered && "max-w-2xl"]}>
+  <h2 class:list={["font-display text-5xl uppercase leading-none text-ink sm:text-7xl", !centered && "max-w-3xl"]}>
     {title}
   </h2>
-  {subtitle && <p class:list={["mt-3 text-ink-faint", !centered && "max-w-2xl"]}>{subtitle}</p>}
+  {subtitle && <p class:list={["mt-4 leading-relaxed text-ink-faint", !centered && "max-w-2xl"]}>{subtitle}</p>}
 </div>
