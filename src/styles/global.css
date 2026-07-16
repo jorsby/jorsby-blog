@@ -65,6 +65,15 @@
     box-shadow: 0 0 54px rgba(232, 255, 71, 0.08);
   }
 
+  /* Floating pill navigation + dropdown panels */
+  .glass-nav {
+    background: rgba(10, 10, 10, 0.72);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(242, 240, 235, 0.1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  }
+
   .aurora {
     @apply pointer-events-none absolute inset-0 overflow-hidden;
     z-index: 0;
@@ -212,6 +221,77 @@
 .hero-mosaic-stage {
   isolation: isolate;
   background: #050505;
+}
+
+body[data-reel-open="true"] {
+  overflow: hidden;
+}
+
+.hero-mosaic-dialog {
+  width: min(1600px, calc(100vw - 40px));
+  height: calc(100dvh - 40px);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.hero-mosaic-dialog[open] {
+  display: block;
+}
+
+.hero-mosaic-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.hero-mosaic-dialog-mount {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-mosaic-stage.is-expanded {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  transform: none;
+  border-color: rgba(232, 255, 71, 0.74);
+  box-shadow: 0 32px 120px rgba(0, 0, 0, 0.86);
+  transition: border-color 0.2s ease;
+  will-change: auto;
+}
+
+.hero-mosaic-close {
+  position: absolute;
+  top: 48px;
+  right: 12px;
+  z-index: 40;
+  display: none;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(7, 7, 7, 0.9);
+  color: #f2f0eb;
+  font-size: 26px;
+  line-height: 1;
+  transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.hero-mosaic-stage.is-expanded .hero-mosaic-close {
+  display: grid;
+}
+
+.hero-mosaic-close:hover,
+.hero-mosaic-close:focus-visible {
+  border-color: #e8ff47;
+  background: #e8ff47;
+  color: #070707;
+  outline: none;
 }
 
 .hero-mosaic-grid {
@@ -396,6 +476,16 @@
   animation: marquee 24s linear infinite;
 }
 
+/* Slow, quiet wordmark marquee (model names) */
+.marquee-slow {
+  animation-duration: 52s;
+}
+
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+}
+
 .film-column-up {
   animation: drift-up 36s linear infinite;
 }
@@ -479,6 +569,10 @@
   .hero-mosaic-item > video {
     transition: none;
   }
+  .hero-mosaic-dialog::backdrop,
+  .hero-mosaic-close {
+    transition: none;
+  }
   [data-film-wall],
   .tilt-card {
     transform: none !important;
@@ -542,7 +636,61 @@
   }
 }
 
+/* ── Live "now streaming" toast ─────────────────────────────────────────── */
+.live-toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 330px;
+  padding: 8px 8px 8px 9px;
+  border-radius: 14px;
+  background: rgba(10, 10, 10, 0.8);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(242, 240, 235, 0.12);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.live-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.live-toast [data-toast-link] {
+  transition: opacity 0.3s ease;
+}
+
+.live-toast.is-swapping [data-toast-link] {
+  opacity: 0;
+}
+
+@media (max-width: 639px), (prefers-reduced-motion: reduce) {
+  .live-toast {
+    display: none;
+  }
+}
+
 @media (max-width: 639px) {
+  .hero-mosaic-dialog {
+    width: calc(100vw - 16px);
+    height: calc(100dvh - 16px);
+  }
+
+  .hero-mosaic-close {
+    top: 42px;
+    width: 36px;
+    height: 36px;
+  }
+
   .hero-mosaic-shade {
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), transparent 62%, rgba(0, 0, 0, 0.2));
   }

@@ -3,7 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import ServicesSection from "../components/ServicesSection.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
+import PoweredBy from "../components/PoweredBy.astro";
 import CTABanner from "../components/CTABanner.astro";
+import LiveToast from "../components/LiveToast.astro";
 
 const lang = "en" as const;
 ---
@@ -12,5 +14,7 @@ const lang = "en" as const;
   <Hero lang={lang} />
   <ServicesSection lang={lang} />
   <ProcessSteps lang={lang} />
+  <PoweredBy lang={lang} />
   <CTABanner lang={lang} />
+  <LiveToast lang={lang} />
 </BaseLayout>

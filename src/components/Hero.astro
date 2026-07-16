@@ -1,5 +1,6 @@
 ---
-import { shows, portfolioStats } from "../data/shows";
+import { shows } from "../data/shows";
+import { stats as traction } from "../data/stats";
 import { siteMedia } from "../data/siteMedia";
 import { t, localizedPath, type Lang } from "../i18n/utils";
 
@@ -8,7 +9,6 @@ interface Props {
 }
 
 const { lang = "en" } = Astro.props;
-const ps = portfolioStats();
 const orderedShows = [...shows].sort((a, b) => {
   if (a.slug === "kara-sayfa") return -1;
   if (b.slug === "kara-sayfa") return 1;
@@ -35,6 +35,7 @@ const mosaicLabels = lang === "tr"
       clip: "Seçili yapay zeka video sahnesi",
       pause: "Video mozaiğini durdur",
       play: "Video mozaiğini oynat",
+      close: "Reeli kapat",
       projects: "PROJE DÜNYASI",
       formats: "FARKLI FORMAT",
       films: "SEÇİLİ SAHNE",
@@ -45,17 +46,18 @@ const mosaicLabels = lang === "tr"
       clip: "Selected AI video scene",
       pause: "Pause video mosaic",
       play: "Play video mosaic",
+      close: "Close reel",
       projects: "PROJECT WORLDS",
       formats: "DISTINCT FORMATS",
       films: "SELECTED SCENES",
       languages: "LANGUAGES",
     };
 
-const stats = [
-  { value: String(mosaic.length).padStart(2, "0"), label: mosaicLabels.formats },
-  { value: String(ps.shows).padStart(2, "0"), label: mosaicLabels.projects },
-  { value: String(ps.languages).padStart(2, "0"), label: mosaicLabels.languages },
-];
+// Martini-style social-proof badge: real production numbers, one quiet pill.
+const badgeStats =
+  lang === "tr"
+    ? `${String(traction.totals.shows).padStart(2, "0")} DİZİ · ${traction.totals.episodes}+ BÖLÜM · EN/TR`
+    : `${String(traction.totals.shows).padStart(2, "0")} SHOWS · ${traction.totals.episodes}+ EPISODES · EN/TR`;
 
 const wallColumns = [0, 1, 2, 3].map((offset) => {
   const sequence = orderedShows.map((_, i) => orderedShows[(i + offset) % orderedShows.length]);
@@ -93,19 +95,25 @@ const marquee = lang === "tr"
   >
   </div>
 
-  <div class="page-shell relative z-10 px-5 pb-12 pt-10 sm:px-8 sm:pb-16 sm:pt-14">
-    <div class="hero-kicker eyebrow flex items-center gap-3 text-ink-faint">
-      <span class="h-2 w-2 animate-pulse rounded-full bg-accent"></span>
-      <span>{t(lang, "hero.eyebrow")}</span>
+  <div class="page-shell relative z-10 px-5 pb-16 pt-12 sm:px-8 sm:pb-24 sm:pt-16">
+    <div class="hero-kicker">
+      <span
+        class="inline-flex max-w-full items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 backdrop-blur"
+      >
+        <span class="h-2 w-2 shrink-0 animate-pulse rounded-full bg-accent"></span>
+        <span class="truncate font-mono text-[10px] uppercase text-ink-soft">{t(lang, "hero.eyebrow")}</span>
+        <span class="hidden h-3 w-px shrink-0 bg-white/15 md:block" aria-hidden="true"></span>
+        <span class="hidden whitespace-nowrap font-mono text-[10px] uppercase text-ink-faint md:block">{badgeStats}</span>
+      </span>
     </div>
 
-    <h1 class="mt-5 max-w-[1120px] font-display text-[3.9rem] uppercase leading-[0.88] text-ink sm:text-[5.6rem] lg:text-[6.8rem]">
+    <h1 class="mt-7 max-w-[1120px] font-display text-[3.9rem] uppercase leading-[0.88] text-ink sm:text-[5.6rem] lg:text-[6.8rem]">
       <span class="hero-line-mask"><span class="hero-line hero-line-1 block">{t(lang, "hero.title1")}</span></span>
       <span class="hero-line-mask"><span class="hero-line hero-line-2 display-outline block">{t(lang, "hero.titleOutline")}</span></span>
       <span class="hero-line-mask"><span class="hero-line hero-line-3 block text-accent">{t(lang, "hero.title2")}</span></span>
     </h1>
 
-    <div class="hero-support mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <div class="hero-support mt-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
       <p class="max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
         {t(lang, "hero.subtitle")}
       </p>
@@ -114,93 +122,110 @@ const marquee = lang === "tr"
         <a href={localizedPath("/contact", lang)} class="button-primary" data-magnetic>
           {t(lang, "hero.ctaPrimary")}
         </a>
-        <a href="#hero-reel" class="button-secondary" data-magnetic>
-          <span class="mr-2 inline-block h-0 w-0 border-b-[5px] border-l-[8px] border-t-[5px] border-b-transparent border-l-current border-t-transparent" aria-hidden="true"></span>
-          {t(lang, "hero.ctaSecondary")}
-        </a>
-      </div>
-    </div>
-
-    <div
-      id="hero-reel"
-      data-reel-stage
-      data-mosaic-stage
-      data-mosaic-count={mosaic.length}
-      class="hero-reel-stage hero-mosaic-stage relative mx-auto mt-9 h-[620px] w-full max-w-[980px] scroll-mt-24 overflow-hidden border border-white/20 bg-surface shadow-[0_40px_120px_rgba(0,0,0,.62)] sm:h-[480px] lg:h-[620px]"
-      aria-label={mosaicLabels.gallery}
-    >
-      <div class="hero-mosaic-grid absolute inset-0">
-        {
-          mosaic.map((item, index) => (
-            <div
-              class="hero-mosaic-item"
-              data-mosaic-item
-              data-mosaic-live="true"
-              data-mosaic-ready="false"
-              data-index={index}
-              role="img"
-              aria-label={`${mosaicLabels.clip} ${index + 1}`}
-            >
-              <img
-                src={item.poster}
-                alt=""
-                class="absolute inset-0 h-full w-full object-cover"
-                loading={index < 6 ? "eager" : "lazy"}
-              />
-              <video
-                data-mosaic-src={item.source}
-                data-mosaic-start={item.startRatio}
-                muted
-                loop
-                playsinline
-                preload="none"
-                poster={item.poster}
-                class="absolute inset-0 h-full w-full object-cover"
-              />
-              <span class="hero-mosaic-shade pointer-events-none absolute inset-0"></span>
-            </div>
-          ))
-        }
-      </div>
-
-      <div data-reel-glare class="pointer-events-none absolute inset-0"></div>
-      <div class="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between bg-gradient-to-b from-black/90 to-transparent p-3 font-mono text-[8px] text-ink sm:p-4 sm:text-[10px]">
-        <span>JORSBY_SELECTED_WORK / {String(mosaic.length).padStart(2, "0")}</span>
-        <span class="flex items-center gap-2 text-accent"><span class="h-2 w-2 animate-pulse rounded-full bg-red-500"></span>REC</span>
-      </div>
-
-      <div class="pointer-events-none absolute bottom-3 left-3 z-20 bg-bg/85 px-2 py-1 font-mono text-[7px] uppercase text-ink-faint backdrop-blur sm:bottom-4 sm:left-4 sm:text-[8px]">
-        {String(mosaic.length).padStart(2, "0")} {mosaicLabels.films} / {String(mosaic.length).padStart(2, "0")} {mosaicLabels.formats}
-      </div>
-
-      <div class="absolute bottom-3 right-3 z-30 border border-white/20 bg-bg/85 backdrop-blur sm:bottom-4 sm:right-4">
         <button
           type="button"
-          class="hero-mosaic-control"
-          data-mosaic-toggle
-          data-pause-label={mosaicLabels.pause}
-          data-play-label={mosaicLabels.play}
-          aria-label={mosaicLabels.pause}
-          title={mosaicLabels.pause}
+          class="button-secondary"
+          data-magnetic
+          data-mosaic-open
+          aria-controls="hero-reel-dialog"
+          aria-expanded="false"
+          aria-haspopup="dialog"
         >
-          <span data-mosaic-toggle-icon aria-hidden="true">Ⅱ</span>
+          <span class="mr-2 inline-block h-0 w-0 border-b-[5px] border-l-[8px] border-t-[5px] border-b-transparent border-l-current border-t-transparent" aria-hidden="true"></span>
+          {t(lang, "hero.ctaSecondary")}
         </button>
       </div>
-      <p class="sr-only">{mosaicLabels.gallery}</p>
     </div>
 
-    <div class="hero-support mx-auto mt-5 grid max-w-[980px] grid-cols-3 border-y border-border bg-bg/50 backdrop-blur-sm">
-      {
-        stats.map((stat, index) => (
-          <div class:list={["px-3 py-3 sm:px-6", index > 0 && "border-l border-border"]}>
-            <span class="flex items-baseline gap-2">
-              <span class="font-display text-2xl text-ink sm:text-3xl">{stat.value}</span>
-              <span class="font-mono text-[8px] uppercase text-ink-faint sm:text-[10px]">{stat.label}</span>
-            </span>
-          </div>
-        ))
-      }
+    <div data-mosaic-slot class="relative mx-auto mt-12 h-[620px] w-full sm:mt-16 sm:h-[500px] lg:h-[640px]">
+      <div
+        id="hero-reel"
+        data-reel-stage
+        data-mosaic-stage
+        data-mosaic-count={mosaic.length}
+        class="hero-reel-stage hero-mosaic-stage relative h-full w-full overflow-hidden border border-white/20 bg-surface shadow-[0_40px_120px_rgba(0,0,0,.62)]"
+        aria-label={mosaicLabels.gallery}
+      >
+        <div class="hero-mosaic-grid absolute inset-0">
+          {
+            mosaic.map((item, index) => (
+              <div
+                class="hero-mosaic-item"
+                data-mosaic-item
+                data-mosaic-live="true"
+                data-mosaic-ready="false"
+                data-index={index}
+                role="img"
+                aria-label={`${mosaicLabels.clip} ${index + 1}`}
+              >
+                <img
+                  src={item.poster}
+                  alt=""
+                  class="absolute inset-0 h-full w-full object-cover"
+                  loading={index < 6 ? "eager" : "lazy"}
+                />
+                <video
+                  data-mosaic-src={item.source}
+                  data-mosaic-start={item.startRatio}
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                  poster={item.poster}
+                  class="absolute inset-0 h-full w-full object-cover"
+                />
+                <span class="hero-mosaic-shade pointer-events-none absolute inset-0"></span>
+              </div>
+            ))
+          }
+        </div>
+
+        <div data-reel-glare class="pointer-events-none absolute inset-0"></div>
+        <div class="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between bg-gradient-to-b from-black/90 to-transparent p-3 font-mono text-[8px] text-ink sm:p-4 sm:text-[10px]">
+          <span>JORSBY_SELECTED_WORK / {String(mosaic.length).padStart(2, "0")}</span>
+          <span class="flex items-center gap-2 text-accent"><span class="h-2 w-2 animate-pulse rounded-full bg-red-500"></span>REC</span>
+        </div>
+
+        <button
+          type="button"
+          class="hero-mosaic-close"
+          data-mosaic-close
+          aria-label={mosaicLabels.close}
+          title={mosaicLabels.close}
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+
+        <div class="pointer-events-none absolute bottom-3 left-3 z-20 bg-bg/85 px-2 py-1 font-mono text-[7px] uppercase text-ink-faint backdrop-blur sm:bottom-4 sm:left-4 sm:text-[8px]">
+          {String(mosaic.length).padStart(2, "0")} {mosaicLabels.films} / {String(mosaic.length).padStart(2, "0")} {mosaicLabels.formats}
+        </div>
+
+        <div class="absolute bottom-3 right-3 z-30 border border-white/20 bg-bg/85 backdrop-blur sm:bottom-4 sm:right-4">
+          <button
+            type="button"
+            class="hero-mosaic-control"
+            data-mosaic-toggle
+            data-pause-label={mosaicLabels.pause}
+            data-play-label={mosaicLabels.play}
+            aria-label={mosaicLabels.pause}
+            title={mosaicLabels.pause}
+          >
+            <span data-mosaic-toggle-icon aria-hidden="true">Ⅱ</span>
+          </button>
+        </div>
+        <p class="sr-only">{mosaicLabels.gallery}</p>
+      </div>
     </div>
+
+    <dialog
+      id="hero-reel-dialog"
+      class="hero-mosaic-dialog"
+      data-mosaic-dialog
+      aria-label={mosaicLabels.gallery}
+    >
+      <div class="hero-mosaic-dialog-mount" data-mosaic-dialog-mount></div>
+    </dialog>
+
   </div>
 </section>
 
@@ -216,18 +241,25 @@ const marquee = lang === "tr"
     const items = Array.from(stage.querySelectorAll<HTMLElement>("[data-mosaic-item]"));
     const toggle = stage.querySelector<HTMLButtonElement>("[data-mosaic-toggle]");
     const toggleIcon = stage.querySelector<HTMLElement>("[data-mosaic-toggle-icon]");
+    const closeButton = stage.querySelector<HTMLButtonElement>("[data-mosaic-close]");
+    const slot = stage.closest<HTMLElement>("[data-mosaic-slot]");
+    const dialog = document.querySelector<HTMLDialogElement>("[data-mosaic-dialog]");
+    const dialogMount = dialog?.querySelector<HTMLElement>("[data-mosaic-dialog-mount]");
+    const openButton = document.querySelector<HTMLButtonElement>("button[data-mosaic-open]");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (items.length === 0 || !toggle) return;
+    if (items.length === 0 || !toggle || !closeButton || !slot || !dialog || !dialogMount || !openButton) return;
 
     let inView = false;
     let userPaused = reduceMotion;
+    let modalOpen = false;
+    let lastFocused: HTMLElement | null = null;
 
     if (reduceMotion) stage.dataset.reducedMotion = "true";
 
     const shouldPlay = (item: HTMLElement) =>
       item.dataset.mosaicLive === "true" &&
-      inView &&
+      (inView || modalOpen) &&
       !userPaused &&
       !reduceMotion &&
       !document.hidden;
@@ -297,6 +329,54 @@ const marquee = lang === "tr"
       toggle.title = label || "";
       if (toggleIcon) toggleIcon.textContent = userPaused ? "▶" : "Ⅱ";
     };
+
+    const restoreInlineMosaic = () => {
+      if (!modalOpen) return;
+
+      modalOpen = false;
+      stage.classList.remove("is-expanded");
+      slot.append(stage);
+      delete document.body.dataset.reelOpen;
+      openButton.setAttribute("aria-expanded", "false");
+      syncPlayback();
+      lastFocused?.focus();
+    };
+
+    const openMosaic = () => {
+      if (dialog.open) return;
+
+      modalOpen = true;
+      lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : openButton;
+      stage.style.setProperty("--reel-rx", "0deg");
+      stage.style.setProperty("--reel-ry", "0deg");
+      stage.classList.add("is-expanded");
+      dialogMount.append(stage);
+      document.body.dataset.reelOpen = "true";
+      openButton.setAttribute("aria-expanded", "true");
+      dialog.showModal();
+      syncPlayback();
+      window.requestAnimationFrame(() => closeButton.focus());
+    };
+
+    openButton.addEventListener("click", openMosaic);
+    closeButton.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      dialog.close();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && dialog.open) {
+        event.preventDefault();
+        dialog.close();
+      }
+    });
+    dialog.addEventListener("close", restoreInlineMosaic);
+    new MutationObserver(() => {
+      if (!dialog.open) restoreInlineMosaic();
+    }).observe(dialog, { attributes: true, attributeFilter: ["open"] });
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
 
     toggle.addEventListener("click", () => {
       userPaused = !userPaused;

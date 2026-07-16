@@ -1,0 +1,44 @@
+---
+import type { Lang } from "../i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+
+const title =
+  lang === "tr"
+    ? "SEKTÖRÜN EN İYİ YAPAY ZEKA MODELLERİYLE ÜRETİYORUZ"
+    : "POWERED BY THE BEST AI VIDEO MODELS";
+
+// Quiet, Martini-style wordmark band. Text-only on purpose — no logo assets
+// to fetch, nothing to break, and it stays on-brand in Space Mono grey.
+const models = ["Veo", "Kling", "Sora", "Runway", "Minimax", "Seedance", "Flux", "ElevenLabs"];
+---
+
+<section class="fade-in overflow-hidden border-b border-border py-14 sm:py-20" aria-label={title}>
+  <p class="px-5 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-ink-faint">
+    {title}
+  </p>
+  <div class="marquee-mask relative mt-8 sm:mt-10">
+    <div class="marquee-track marquee-slow flex w-max items-center whitespace-nowrap">
+      {
+        [0, 1].map((duplicate) => (
+          <div class="flex items-center" aria-hidden={duplicate === 1 ? "true" : undefined}>
+            {models.map((model) => (
+              <span class="flex items-center">
+                <span class="font-display text-2xl uppercase text-ink-faint/70 transition-colors hover:text-ink sm:text-3xl">
+                  {model}
+                </span>
+                <span class="mx-7 text-sm text-ink-faint/30 sm:mx-10" aria-hidden="true">
+                  ✦
+                </span>
+              </span>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

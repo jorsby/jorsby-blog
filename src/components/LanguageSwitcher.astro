@@ -10,12 +10,12 @@ const { lang } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
-<div class="inline-flex items-center border border-border bg-surface p-0.5">
+<div class="inline-flex items-center rounded-full border border-border bg-surface p-0.5">
   {Object.entries(languages).map(([code, label]) => (
     <a
       href={getAlternateLangPath(currentPath, code as Lang)}
       class:list={[
-        "px-2.5 py-1.5 font-mono text-[10px] transition-colors",
+        "rounded-full px-2.5 py-1.5 font-mono text-[10px] transition-colors",
         code === lang
           ? "bg-accent text-bg"
           : "text-ink-faint hover:text-ink",

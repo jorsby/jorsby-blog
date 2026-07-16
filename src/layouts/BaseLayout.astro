@@ -260,6 +260,7 @@ const orgSchema = {
           const glare = stage.querySelector<HTMLElement>("[data-reel-glare]");
           const coordinates = stage.querySelector<HTMLElement>("[data-reel-coordinates]");
           stage.addEventListener("pointermove", (event) => {
+            if (stage.classList.contains("is-expanded")) return;
             const rect = stage.getBoundingClientRect();
             const px = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
             const py = Math.min(1, Math.max(0, (event.clientY - rect.top) / rect.height));

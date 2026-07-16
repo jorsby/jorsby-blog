@@ -1,0 +1,125 @@
+---
+import { shows, L } from "../data/shows";
+import { localizedPath, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+
+// Martini-style corner notification: cycles through real shows as quiet
+// social proof. Hidden on small screens and under prefers-reduced-motion (CSS).
+const items = [...shows]
+  .sort((a, b) => a.order - b.order)
+  .slice(0, 6)
+  .map((show) => ({
+    href: localizedPath(`/shows/${show.slug}`, lang),
+    title: L(show.title, lang),
+    poster: show.poster,
+  }));
+
+const label = lang === "tr" ? "ŞİMDİ YAYINDA" : "NOW STREAMING";
+const close = lang === "tr" ? "Bildirimi kapat" : "Dismiss notification";
+---
+
+<div class="live-toast" data-live-toast hidden>
+  <a data-toast-link href="#" class="flex min-w-0 items-center gap-3 pr-1">
+    <img
+      data-toast-poster
+      src=""
+      alt=""
+      width="32"
+      height="48"
+      class="h-12 w-8 shrink-0 rounded-md border border-white/10 object-cover"
+      loading="lazy"
+    />
+    <span class="min-w-0">
+      <span class="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-wide text-accent">
+        <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" aria-hidden="true"></span>
+        {label}
+      </span>
+      <span data-toast-title class="mt-0.5 block max-w-[210px] truncate text-[13px] font-semibold text-ink"></span>
+    </span>
+  </a>
+  <button
+    type="button"
+    data-toast-close
+    class="grid h-7 w-7 shrink-0 place-items-center rounded-full text-base leading-none text-ink-faint transition-colors hover:bg-white/10 hover:text-ink"
+    aria-label={close}
+    title={close}
+  >
+    <span aria-hidden="true">×</span>
+  </button>
+</div>
+<script type="application/json" data-toast-data set:html={JSON.stringify(items)} is:inline />
+
+<script>
+  const toast = document.querySelector<HTMLElement>("[data-live-toast]");
+  const dataElement = document.querySelector("[data-toast-data]");
+
+  if (toast && dataElement) {
+    interface ToastItem {
+      href: string;
+      title: string;
+      poster: string;
+    }
+
+    let items: ToastItem[] = [];
+    try {
+      items = JSON.parse(dataElement.textContent || "[]");
+    } catch {}
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let dismissed = false;
+    try {
+      dismissed = sessionStorage.getItem("jorsby-toast-dismissed") === "1";
+    } catch {}
+
+    const link = toast.querySelector<HTMLAnchorElement>("[data-toast-link]");
+    const poster = toast.querySelector<HTMLImageElement>("[data-toast-poster]");
+    const title = toast.querySelector<HTMLElement>("[data-toast-title]");
+    const closeButton = toast.querySelector<HTMLButtonElement>("[data-toast-close]");
+
+    if (items.length > 0 && !dismissed && !reduceMotion && link && poster && title && closeButton) {
+      let index = 0;
+      let cycleTimer = 0;
+
+      const render = () => {
+        const item = items[index % items.length];
+        link.href = item.href;
+        poster.src = item.poster;
+        title.textContent = item.title;
+      };
+
+      const swap = () => {
+        toast.classList.add("is-swapping");
+        window.setTimeout(() => {
+          index += 1;
+          render();
+          toast.classList.remove("is-swapping");
+        }, 320);
+      };
+
+      const dismiss = () => {
+        window.clearInterval(cycleTimer);
+        toast.classList.remove("is-visible");
+        window.setTimeout(() => {
+          toast.hidden = true;
+        }, 520);
+        try {
+          sessionStorage.setItem("jorsby-toast-dismissed", "1");
+        } catch {}
+      };
+
+      window.setTimeout(() => {
+        render();
+        toast.hidden = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add("is-visible")));
+        cycleTimer = window.setInterval(swap, 7000);
+      }, 3600);
+
+      closeButton.addEventListener("click", dismiss);
+    }
+  }
+</script>
